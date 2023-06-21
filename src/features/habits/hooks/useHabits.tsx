@@ -24,12 +24,14 @@ export const useHabits = () => {
     const addHabit = async (
         name: string,
         color: string,
-        description: string = ""
+        description: string = "",
+        days: number[]
     ) => {
         await addDoc(collection(db, `users/${user?.uid}/habits`), {
             name,
             color,
             description,
+            days,
         });
     };
 

@@ -8,7 +8,7 @@ type Props = {
 const FormLabel = ({ children, caption }: Props) => {
     return (
         <label className="flex flex-col my-6">
-            <span className="text-sm mb-1 text-slate-500">{caption}</span>
+            <span className="text-sm mb-2 text-slate-500">{caption}</span>
             {children}
         </label>
     );

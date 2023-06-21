@@ -50,7 +50,7 @@ const Dialog = ({
                             leaveTo="opacity-0 scale-95"
                         >
                             <HeadlessDialog.Panel
-                                className={`bg-white px-12 py-10 rounded-xl ${
+                                className={`bg-white px-8 py-7 sm:px-12 sm:py-10 rounded-xl ${
                                     maxWidth ? `w-full max-w-${maxWidth}` : ""
                                 }`}
                             >

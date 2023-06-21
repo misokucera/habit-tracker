@@ -10,7 +10,8 @@ const HabitList = () => {
     const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(true);
 
     const handleFormSubmit = async (data: CreateHabitFormInput) => {
-        await addHabit(data.name, data.description, data.color);
+        setIsCreateDialogOpen(false);
+        await addHabit(data.name, data.description, data.color, data.days);
     };
 
     return (

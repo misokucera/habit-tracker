@@ -4,11 +4,13 @@ import { FormProvider, useForm } from "react-hook-form";
 import FormLabel from "../../../components/ui/FormLabel";
 import { useState } from "react";
 import ColorRadioGroup from "./ColorRadioGroup";
+import DaysSelector from "./DaysSelector";
 
 export type CreateHabitFormInput = {
     name: string;
     description: string;
     color: string;
+    days: number[];
 };
 
 type Props = {
@@ -45,14 +47,20 @@ const CreateHabitForm = ({ onSubmit }: Props) => {
                         {...register("description")}
                     ></textarea>
                 </FormLabel>
-                <ColorRadioGroup />
+                <div className="mb-5">
+                    <p className="text-sm mb-2 text-slate-500">Days</p>
+                    <DaysSelector />
+                </div>
+                <div className="mb-5">
+                    <ColorRadioGroup />
+                </div>
+
                 <div className="mt-10">
-                    {loading && <div>Loading...</div>}
                     <button
                         className="px-4 py-3 rounded-md font-semibold text-sm bg-sky-200 hover:bg-sky-300 hover:text-sky-700 text-sky-600 transition-colors focus:outline-none focus:ring-2 focus:ring-sky-200 focus:ring-offset-2"
                         type="submit"
                     >
-                        Add habit
+                        Create
                     </button>
                 </div>
             </form>

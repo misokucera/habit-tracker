@@ -17,7 +17,6 @@ const colors: Color[] = [
 ];
 
 const ColorRadioGroup = () => {
-    // const [selectedColor, setSelectedColor] = useState(colors[0]);
     const { field } = useController({
         name: "color",
         defaultValue: colors[0].value,

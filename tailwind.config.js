@@ -15,5 +15,6 @@ module.exports = {
             },
         },
     },
+    safelist: ["max-w-xs", "max-w-sm", "max-w-md", "max-w-lg", "max-w-xl"],
     plugins: [],
 };

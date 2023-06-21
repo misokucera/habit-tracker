@@ -15,7 +15,7 @@ const CreateHabitDialog = ({ open, onClose, onFormSubmit }: Props) => {
             open={open}
             onClose={onClose}
             title="Create new habit"
-            description="What would you like to improve on?"
+            description="What would you like to improve in?"
             maxWidth="lg"
         >
             <CreateHabitForm onSubmit={onFormSubmit} />
