@@ -4,7 +4,6 @@ import { useState } from "react";
 import CreateHabitDialog from "./CreateHabitDialog";
 import { useHabits } from "../hooks/useHabits";
 import { CreateHabitFormInput } from "./CreateHabitForm";
-import { HiXMark, HiCheckCircle } from "react-icons/hi2";
 import dayjs from "dayjs";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import { addStatus, removeStatus } from "../../statuses/services/statuses";
@@ -88,7 +87,7 @@ const HabitList = () => {
                             {days.map((day) => (
                                 <th
                                     key={day}
-                                    className="p-3 text-sm font-normal whitespace-nowrap"
+                                    className="p-3 text-sm text-slate-700 font-normal whitespace-nowrap"
                                 >
                                     {formatDateInPast(day, locale)}
                                 </th>
@@ -104,12 +103,6 @@ const HabitList = () => {
                                         {habit.description}
                                     </p>
                                 </td>
-                                {/* <td
-                                    className="p-3 text-center"
-                                    style={{ color: habit.color }}
-                                >
-                                    <HiCheckCircle className="w-7 h-7 inline-block" />
-                                </td> */}
                                 {days.map((day) => (
                                     <td
                                         key={day}
@@ -122,6 +115,7 @@ const HabitList = () => {
                                         }`}
                                     >
                                         <ChangeStatusButton
+                                            color={habit.color}
                                             status={findStatus(habit.id, day)}
                                             onAdded={() =>
                                                 handleStatusAdd(
@@ -133,17 +127,6 @@ const HabitList = () => {
                                                 handleStatusRemoved(statusId)
                                             }
                                         />
-                                        {/* <button
-                                            onClick={() =>
-                                                handleStatusAdd(
-                                                    habit.id,
-                                                    getDateInPast(day)
-                                                )
-                                            }
-                                            className="rounded-full p-2 transition-colors text-slate-500 hover:bg-slate-200 hover:text-slate-600 focus:outline-slate-400 focus:outline-2"
-                                        >
-                                            <HiXMark />
-                                        </button> */}
                                     </td>
                                 ))}
                             </tr>
