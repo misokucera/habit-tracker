@@ -1,7 +1,6 @@
 import { Switch } from "@headlessui/react";
 import dayjs from "dayjs";
 import localeData from "dayjs/plugin/localeData";
-import { useEffect, useState } from "react";
 import { useController } from "react-hook-form";
 
 dayjs.extend(localeData);

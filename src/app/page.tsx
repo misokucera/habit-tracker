@@ -1,6 +1,8 @@
 import SignInForm from "@/features/auth/components/SignInForm";
 import UserProvider from "@/features/auth/components/UserProvider";
 import HabitList from "@/features/habits/components/HabitList";
+import HabitsProvider from "@/features/habits/components/HabitsProvider";
+import StatusesProvider from "@/features/statuses/components/StatusesProvider";
 
 export default function Home() {
     return (
@@ -9,7 +11,12 @@ export default function Home() {
                 <div className="border rounded p-5 mb-10">
                     <SignInForm />
                 </div>
-                <HabitList />
+
+                <HabitsProvider>
+                    <StatusesProvider>
+                        <HabitList />
+                    </StatusesProvider>
+                </HabitsProvider>
             </main>
         </UserProvider>
     );
