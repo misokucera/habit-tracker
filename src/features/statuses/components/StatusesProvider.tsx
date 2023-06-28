@@ -2,11 +2,18 @@
 
 import { useUser } from "@/features/auth/hooks/useUser";
 import { db } from "@/services/firebase";
-import { query, collection, onSnapshot, Timestamp } from "firebase/firestore";
+import {
+    query,
+    collection,
+    onSnapshot,
+    Timestamp,
+    where,
+} from "firebase/firestore";
 import { useState, useEffect } from "react";
 import { Status, StatusesContext } from "../contexts/StatusesContexts";
-import { normalizeDate } from "@/utils/day";
 import dayjs from "dayjs";
+
+const selectDays = 7;
 
 type Props = {
     children: React.ReactNode;
@@ -16,16 +23,19 @@ const StatusesProvider = ({ children }: Props) => {
     const [statuses, setStatuses] = useState<Status[]>([]);
     const { user } = useUser();
 
-    console.log("statuses", statuses);
-
     useEffect(() => {
-        const q = query(collection(db, `users/${user?.uid}/statuses`));
+        const dayInPast = dayjs().subtract(selectDays, "days").toDate();
+
+        const q = query(
+            collection(db, `users/${user?.uid}/statuses`),
+            where("date", ">", Timestamp.fromDate(dayInPast))
+        );
         const unsubscribe = onSnapshot(q, (querySnapshot) => {
             const statusesFromSnapshot: Status[] = [];
 
             querySnapshot.forEach((doc) => {
                 const { date, habitId } = doc.data();
-                console.log(date);
+
                 statusesFromSnapshot.push({
                     id: doc.id,
                     habitId,
