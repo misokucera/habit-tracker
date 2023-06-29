@@ -6,7 +6,7 @@ import {
     GoogleAuthProvider,
     signInWithPopup,
 } from "firebase/auth";
-import { useAuth } from "../hooks/useAuth";
+import { FcGoogle } from "react-icons/fc";
 
 const provider = new GoogleAuthProvider();
 
@@ -18,9 +18,10 @@ const SignInForm = () => {
     return (
         <div>
             <button
-                className="bg-white px-4 py-2 rounded-md border"
+                className="inline-flex items-center gap-3 px-4 py-2 rounded-md border"
                 onClick={() => singIn(provider)}
             >
+                <FcGoogle />
                 Sign in with Google
             </button>
         </div>
