@@ -7,7 +7,7 @@ import { CreateHabitFormInput } from "./CreateHabitForm";
 import dayjs from "dayjs";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import { addStatus, removeStatus } from "../../statuses/services/statuses";
-import { useUser } from "@/features/auth/hooks/useUser";
+import { useAuth } from "@/features/auth/hooks/useAuth";
 import { addHabit } from "../services/habits";
 import {
     formatDateInPast,
@@ -17,6 +17,7 @@ import {
 } from "@/utils/day";
 import { useStatuses } from "@/features/statuses/hooks/useStatuses";
 import ChangeStatusButton from "@/features/statuses/components/ChangeStatusButton";
+import { auth } from "@/services/firebase";
 
 dayjs.extend(localizedFormat);
 
@@ -28,7 +29,7 @@ const HabitList = () => {
     const { habits } = useHabits();
     const { statuses } = useStatuses();
     const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
-    const { user } = useUser();
+    const { user } = useAuth();
 
     const handleFormSubmit = async (data: CreateHabitFormInput) => {
         if (user) {
@@ -64,6 +65,10 @@ const HabitList = () => {
         }
     };
 
+    const signOut = () => {
+        auth.signOut();
+    };
+
     return (
         <div>
             <div className="mb-5">
@@ -79,6 +84,7 @@ const HabitList = () => {
                 onClose={() => setIsCreateDialogOpen(false)}
                 onFormSubmit={handleFormSubmit}
             />
+            <button onClick={signOut}>Log out</button>
             <div>
                 <table className="">
                     <thead>

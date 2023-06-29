@@ -1,6 +1,6 @@
 "use client";
 
-import { useUser } from "@/features/auth/hooks/useUser";
+import { useAuth } from "@/features/auth/hooks/useAuth";
 import { db } from "@/services/firebase";
 import {
     query,
@@ -21,7 +21,7 @@ type Props = {
 
 const StatusesProvider = ({ children }: Props) => {
     const [statuses, setStatuses] = useState<Status[]>([]);
-    const { user } = useUser();
+    const { user } = useAuth();
 
     useEffect(() => {
         const dayInPast = dayjs().subtract(selectDays, "days").toDate();

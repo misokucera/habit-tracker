@@ -1,15 +1,16 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { UserContext } from "../contexts/UserContext";
+import { AuthContext } from "../contexts/AuthContext";
 import { User, onAuthStateChanged } from "firebase/auth";
 import { auth } from "@/services/firebase";
 
 type Props = {
     children: React.ReactNode;
+    fallback?: React.ReactNode;
 };
 
-const UserProvider = ({ children }: Props) => {
+const AuthProvider = ({ children, fallback }: Props) => {
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
 
@@ -23,11 +24,17 @@ const UserProvider = ({ children }: Props) => {
         return () => unsubscribe();
     }, []);
 
+    if (loading && fallback) {
+        return <>{fallback}</>;
+    }
+
     return (
-        <UserContext.Provider value={{ user, loading }}>
-            {children}
-        </UserContext.Provider>
+        <>
+            <AuthContext.Provider value={{ user }}>
+                {children}
+            </AuthContext.Provider>
+        </>
     );
 };
 
-export default UserProvider;
+export default AuthProvider;
