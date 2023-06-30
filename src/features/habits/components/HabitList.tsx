@@ -65,16 +65,12 @@ const HabitList = () => {
         }
     };
 
-    const signOut = () => {
-        auth.signOut();
-    };
-
     return (
         <div>
             <div className="mb-5">
                 <button
                     onClick={() => setIsCreateDialogOpen(true)}
-                    className="px-4 py-2 text-sm bg-blue-100 hover:bg-blue-200 text-blue-800 font-semibold rounded transition-colors"
+                    className="px-4 py-2 text-sm text-white bg-sky-400 hover:bg-sky-500 font-semibold rounded transition-colors"
                 >
                     Add new habit
                 </button>
@@ -84,7 +80,6 @@ const HabitList = () => {
                 onClose={() => setIsCreateDialogOpen(false)}
                 onFormSubmit={handleFormSubmit}
             />
-            <button onClick={signOut}>Log out</button>
             <div>
                 <table className="">
                     <thead>
