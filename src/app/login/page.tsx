@@ -1,19 +1,19 @@
 "use client";
 
+import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import SignInForm from "@/features/auth/components/SignInForm";
 import WithoutAuthentication from "@/features/auth/components/WithoutAuthentication";
-import { GiAbstract107 } from "react-icons/gi";
+import ContentBox from "@/components/ui/ContentBox";
 
 export default function Login() {
     return (
         <WithoutAuthentication>
-            <main className="flex min-h-screen justify-center p-8 md:p-24 bg-gradient-to-b from-sky-400 to-purple-400">
-                <div className="text-center ">
-                    <p className="inline-flex gap-1 items-center font-bold text-white mb-8">
-                        <GiAbstract107 className="w-6 h-6" />
-                        HabitTracker
-                    </p>
-                    <div className="bg-white py-14 px-10 rounded-lg">
+            <div className="text-center ">
+                <div className="mb-5">
+                    <Breadcrumbs segments={["welcome"]} />
+                </div>
+                <ContentBox>
+                    <div className="py-5">
                         <h1 className="inline-block font-bold text-3xl bg-clip-text text-transparent bg-gradient-to-r from-sky-400 to-purple-400 mb-5">
                             Welcome
                         </h1>
@@ -23,8 +23,8 @@ export default function Login() {
                         </p>
                         <SignInForm />
                     </div>
-                </div>
-            </main>
+                </ContentBox>
+            </div>
         </WithoutAuthentication>
     );
 }

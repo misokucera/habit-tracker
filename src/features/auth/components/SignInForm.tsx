@@ -18,7 +18,7 @@ const SignInForm = () => {
     return (
         <div>
             <button
-                className="inline-flex items-center gap-3 px-4 py-2 rounded-md border"
+                className="inline-flex items-center gap-3 px-4 py-2 rounded-md border text-sm whitespace-nowrap"
                 onClick={() => singIn(provider)}
             >
                 <FcGoogle />

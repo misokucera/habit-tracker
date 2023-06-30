@@ -1,6 +1,7 @@
 import AuthProvider from "@/features/auth/components/AuthProvider";
 import "./globals.css";
 import { Inter } from "next/font/google";
+import Breadcrumbs from "@/components/ui/Breadcrumbs";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,9 +18,20 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body className={inter.className}>
-                <AuthProvider fallback={<div>loading...</div>}>
-                    {children}
-                </AuthProvider>
+                <main className="flex min-h-screen justify-center p-8 md:p-16 bg-gradient-to-b from-sky-400 to-purple-400">
+                    <AuthProvider
+                        fallback={
+                            <div className="w-full max-w-5xl">
+                                <div className="mb-5">
+                                    <Breadcrumbs segments={["loading..."]} />
+                                </div>
+                                <div className="rounded-lg bg-sky-200 p-6 h-56 max-h-screen"></div>
+                            </div>
+                        }
+                    >
+                        {children}
+                    </AuthProvider>
+                </main>
             </body>
         </html>
     );

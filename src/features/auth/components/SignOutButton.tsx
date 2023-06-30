@@ -8,7 +8,7 @@ const SignOutButton = () => {
     };
 
     return (
-        <button onClick={signOut} className="border rounded px-4 py-2 text-sm">
+        <button onClick={signOut} className="text-sm font-semibold text-white">
             Sign out
         </button>
     );
