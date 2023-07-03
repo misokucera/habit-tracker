@@ -2,9 +2,9 @@
 
 import { FormProvider, useForm } from "react-hook-form";
 import FormLabel from "../../../components/ui/FormLabel";
-import { useState } from "react";
 import ColorRadioGroup from "./ColorRadioGroup";
 import DaysSelector from "./DaysSelector";
+import Button from "@/components/ui/Button";
 
 export type CreateHabitFormInput = {
     name: string;
@@ -19,15 +19,11 @@ type Props = {
 
 const CreateHabitForm = ({ onSubmit }: Props) => {
     const formMethods = useForm<CreateHabitFormInput>();
-    const [loading, setLoading] = useState<boolean>(false);
 
     const { handleSubmit, register } = formMethods;
 
     const onValid = async (data: CreateHabitFormInput) => {
-        console.log(data);
-        setLoading(true);
         await onSubmit(data);
-        setLoading(false);
     };
 
     return (
@@ -56,12 +52,7 @@ const CreateHabitForm = ({ onSubmit }: Props) => {
                 </div>
 
                 <div className="mt-10">
-                    <button
-                        className="px-4 py-3 rounded-md font-semibold text-sm bg-sky-200 hover:bg-sky-300 hover:text-sky-700 text-sky-600 transition-colors focus:outline-none focus:ring-2 focus:ring-sky-200 focus:ring-offset-2"
-                        type="submit"
-                    >
-                        Create
-                    </button>
+                    <Button type="submit">Create</Button>
                 </div>
             </form>
         </FormProvider>

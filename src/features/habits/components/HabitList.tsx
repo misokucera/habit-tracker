@@ -20,6 +20,7 @@ import ChangeStatusButton from "@/features/statuses/components/ChangeStatusButto
 import Link from "next/link";
 import Headline from "@/components/ui/Headline";
 import { useElementWidthOnViewportChange } from "../hooks/useElementWidthOnViewportChange";
+import Button from "@/components/ui/Button";
 
 dayjs.extend(localizedFormat);
 
@@ -86,12 +87,12 @@ const HabitList = () => {
 
             <div className="flex gap-3 justify-between items-center mb-10">
                 <Headline>Habits</Headline>
-                <button
+                <Button
                     onClick={() => setIsCreateDialogOpen(true)}
-                    className="px-4 py-2 text-sm text-white bg-sky-400 hover:bg-sky-500 font-semibold rounded transition-colors"
+                    variant="primary"
                 >
                     Add new
-                </button>
+                </Button>
             </div>
             <div className="overflow-auto" ref={tableParentRef}>
                 <table className="w-full">
@@ -110,7 +111,10 @@ const HabitList = () => {
                     </thead>
                     <tbody>
                         {habits.map((habit) => (
-                            <tr key={habit.id} className="border-b">
+                            <tr
+                                key={habit.id}
+                                className="border-b last:border-none"
+                            >
                                 <td className="p-3 align-middle">
                                     <Link href={`/detail/${habit.id}`}>
                                         {habit.name}

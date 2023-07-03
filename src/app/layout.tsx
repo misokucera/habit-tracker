@@ -2,6 +2,7 @@ import AuthProvider from "@/features/auth/components/AuthProvider";
 import "./globals.css";
 import { Inter } from "next/font/google";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
+import Skeleton from "@/components/ui/Skeleton";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,7 +26,7 @@ export default function RootLayout({
                                 <div className="mb-5">
                                     <Breadcrumbs segments={["loading..."]} />
                                 </div>
-                                <div className="rounded-lg bg-sky-200 p-6 h-56 max-h-screen"></div>
+                                <Skeleton />
                             </div>
                         }
                     >

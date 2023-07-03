@@ -1,5 +1,6 @@
 import { Fragment, ReactNode } from "react";
 import { Dialog as HeadlessDialog, Transition } from "@headlessui/react";
+import Headline from "./Headline";
 
 type Props = {
     open: boolean;

@@ -1,13 +1,8 @@
-"use client";
-
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import ContentBox from "@/components/ui/ContentBox";
-import { useAuth } from "@/features/auth/hooks/useAuth";
 import HabitDetail from "@/features/habits/components/HabitDetail";
 
 const Detail = ({ params }: { params: { id: string } }) => {
-    const { user } = useAuth();
-
     const { id: habitId } = params;
 
     return (
@@ -16,9 +11,7 @@ const Detail = ({ params }: { params: { id: string } }) => {
                 <Breadcrumbs segments={["habit-detail"]} />
             </div>
             <ContentBox>
-                <div className="h-56">
-                    <HabitDetail userId={user?.uid || ""} habitId={habitId} />
-                </div>
+                <HabitDetail habitId={habitId} />
             </ContentBox>
         </div>
     );

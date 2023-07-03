@@ -1,26 +1,27 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { getHabit } from "../services/habits";
 import Headline from "@/components/ui/Headline";
-import { Habit } from "../contexts/HabitsContexts";
+import { useHabit } from "../hooks/useHabit";
+import Button from "@/components/ui/Button";
 
 type Props = {
-    userId: string;
     habitId: string;
 };
 
-const HabitDetail = ({ userId, habitId }: Props) => {
-    useEffect(() => {
-        getHabit(userId, habitId);
-    }, [userId, habitId]);
+const HabitDetail = ({ habitId }: Props) => {
+    const { habit, loading } = useHabit(habitId);
+
+    if (loading || habit === null) {
+        return null;
+    }
 
     return (
         <div>
-            <div className="mb-5">
-                <Headline>Detail</Headline>
+            <div className="flex items-center justify-between gap-5 mb-5">
+                <Headline>{habit.name}</Headline>
+                <Button variant="secondary">Remove</Button>
             </div>
-            <p>{habitId}</p>
+            {habit.description && <p>{habit.description}</p>}
         </div>
     );
 };

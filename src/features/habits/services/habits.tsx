@@ -1,6 +1,7 @@
 import { db } from "@/services/firebase";
 import { addDoc, collection, doc, getDoc } from "firebase/firestore";
 import { CreateHabitFormInput } from "../components/CreateHabitForm";
+import { Habit } from "../contexts/HabitsContexts";
 
 export const addHabit = async (
     userId: string,
@@ -16,13 +17,22 @@ export const addHabit = async (
     });
 };
 
-export const getHabit = async (userId: string, habitId: string) => {
+export const getHabit = async (
+    userId: string,
+    habitId: string
+): Promise<Habit | null> => {
     const snapshot = await getDoc(doc(db, `users/${userId}/habits/${habitId}`));
 
     if (snapshot.exists()) {
-        console.log(snapshot.data());
-        return snapshot.data();
-    } else {
-        console.log("document not found");
+        const { name, color, days, description } = snapshot.data();
+        return {
+            id: habitId,
+            name,
+            color,
+            days,
+            description,
+        };
     }
+
+    return null;
 };
