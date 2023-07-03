@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import CreateHabitDialog from "./CreateHabitDialog";
 import { useHabits } from "../hooks/useHabits";
 import { CreateHabitFormInput } from "./CreateHabitForm";
@@ -17,22 +17,24 @@ import {
 } from "@/utils/day";
 import { useStatuses } from "@/features/statuses/hooks/useStatuses";
 import ChangeStatusButton from "@/features/statuses/components/ChangeStatusButton";
-import { auth } from "@/services/firebase";
-import SignOutButton from "@/features/auth/components/SignOutButton";
 import Link from "next/link";
 import Headline from "@/components/ui/Headline";
+import { useElementWidthOnViewportChange } from "../hooks/useElementWidthOnViewportChange";
 
 dayjs.extend(localizedFormat);
 
 const locale = "en";
-
-const numberOfDaysToShow = 7;
+const expectedCellWidth = 100;
+const minCellCount = 3;
 
 const HabitList = () => {
     const { habits } = useHabits();
     const { statuses } = useStatuses();
     const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
     const { user } = useAuth();
+    const tableParentRef = useRef<HTMLDivElement>(null);
+    const [numberOfDaysToShow, setNumberOfDaysToShow] = useState(4);
+    const tableWidth = useElementWidthOnViewportChange(tableParentRef);
 
     const handleFormSubmit = async (data: CreateHabitFormInput) => {
         if (user) {
@@ -40,6 +42,12 @@ const HabitList = () => {
             await addHabit(user.uid, data);
         }
     };
+
+    useEffect(() => {
+        setNumberOfDaysToShow(
+            Math.max(Math.floor(tableWidth / expectedCellWidth), minCellCount)
+        );
+    }, [tableWidth]);
 
     const findStatus = (habitId: string, day: number) => {
         const dateInPast = getDateInPast(day);
@@ -85,15 +93,15 @@ const HabitList = () => {
                     Add new
                 </button>
             </div>
-            <div className="overflow-auto">
-                <table className="">
+            <div className="overflow-auto" ref={tableParentRef}>
+                <table className="w-full">
                     <thead>
                         <tr className="border-b">
                             <th></th>
                             {days.map((day) => (
                                 <th
                                     key={day}
-                                    className="p-3 text-sm text-slate-700 font-normal whitespace-nowrap"
+                                    className="p-2 text-xs text-slate-700 font-normal whitespace-nowrap"
                                 >
                                     {formatDateInPast(day, locale)}
                                 </th>
