@@ -13,7 +13,7 @@ const Detail = ({ params }: { params: { id: string } }) => {
     return (
         <div className="w-full max-w-5xl">
             <div className="mb-5">
-                <Breadcrumbs segments={["detail"]} />
+                <Breadcrumbs segments={["habit-detail"]} />
             </div>
             <ContentBox>
                 <div className="h-56">

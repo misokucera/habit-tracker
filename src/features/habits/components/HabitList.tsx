@@ -20,6 +20,7 @@ import ChangeStatusButton from "@/features/statuses/components/ChangeStatusButto
 import { auth } from "@/services/firebase";
 import SignOutButton from "@/features/auth/components/SignOutButton";
 import Link from "next/link";
+import Headline from "@/components/ui/Headline";
 
 dayjs.extend(localizedFormat);
 
@@ -76,9 +77,7 @@ const HabitList = () => {
             />
 
             <div className="flex gap-3 justify-between items-center mb-10">
-                <h1 className="text-2xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-sky-400 to-purple-400">
-                    Habits
-                </h1>
+                <Headline>Habits</Headline>
                 <button
                     onClick={() => setIsCreateDialogOpen(true)}
                     className="px-4 py-2 text-sm text-white bg-sky-400 hover:bg-sky-500 font-semibold rounded transition-colors"

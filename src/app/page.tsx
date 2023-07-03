@@ -15,7 +15,7 @@ export default function Home() {
                 <StatusesProvider>
                     <div className="w-full max-w-5xl">
                         <div className="flex items-center justify-between gap-3 mb-5">
-                            <Breadcrumbs segments={["list"]} />
+                            <Breadcrumbs />
                             <SignOutButton />
                         </div>
                         <ContentBox>
