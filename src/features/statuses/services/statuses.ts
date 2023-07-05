@@ -6,6 +6,9 @@ import {
     collection,
     deleteDoc,
     doc,
+    getDocs,
+    query,
+    where,
 } from "firebase/firestore";
 
 export const addStatus = async (
@@ -21,4 +24,20 @@ export const addStatus = async (
 
 export const removeStatus = async (userId: string, statusId: string) => {
     return await deleteDoc(doc(db, `users/${userId}/statuses`, statusId));
+};
+
+export const removeStatusesByHabit = async (
+    userId: string,
+    habitId: string
+) => {
+    const q = query(
+        collection(db, `users/${userId}/statuses`),
+        where("habitId", "==", habitId)
+    );
+
+    const statuses = await getDocs(q);
+
+    statuses.forEach(async (snapshot) => {
+        await deleteDoc(snapshot.ref);
+    });
 };

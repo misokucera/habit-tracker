@@ -30,6 +30,7 @@ const StatusesProvider = ({ children }: Props) => {
             collection(db, `users/${user?.uid}/statuses`),
             where("date", ">", Timestamp.fromDate(dayInPast))
         );
+        
         const unsubscribe = onSnapshot(q, (querySnapshot) => {
             const statusesFromSnapshot: Status[] = [];
 

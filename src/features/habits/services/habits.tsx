@@ -2,6 +2,7 @@ import { db } from "@/services/firebase";
 import { addDoc, collection, deleteDoc, doc, getDoc } from "firebase/firestore";
 import { CreateHabitFormInput } from "../components/CreateHabitForm";
 import { Habit } from "../contexts/HabitsContexts";
+import { removeStatusesByHabit } from "@/features/statuses/services/statuses";
 
 const getHabitsCollectionPath = (userId: string) => `users/${userId}/habits`;
 const getHabitDocumentPath = (userId: string, habitId: string) =>
@@ -44,5 +45,8 @@ export const getHabit = async (
 };
 
 export const removeHabit = (userId: string, habitId: string) => {
-    return deleteDoc(doc(db, getHabitDocumentPath(userId, habitId)));
+    return Promise.all([
+        removeStatusesByHabit(userId, habitId),
+        deleteDoc(doc(db, getHabitDocumentPath(userId, habitId))),
+    ]);
 };
