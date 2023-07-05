@@ -1,7 +1,11 @@
 import { db } from "@/services/firebase";
-import { addDoc, collection, doc, getDoc } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDoc } from "firebase/firestore";
 import { CreateHabitFormInput } from "../components/CreateHabitForm";
 import { Habit } from "../contexts/HabitsContexts";
+
+const getHabitsCollectionPath = (userId: string) => `users/${userId}/habits`;
+const getHabitDocumentPath = (userId: string, habitId: string) =>
+    `users/${userId}/habits/${habitId}`;
 
 export const addHabit = async (
     userId: string,
@@ -9,7 +13,7 @@ export const addHabit = async (
 ) => {
     const { name, color, description, days } = habitInput;
 
-    await addDoc(collection(db, `users/${userId}/habits`), {
+    await addDoc(collection(db, getHabitsCollectionPath(userId)), {
         name,
         color,
         description,
@@ -21,7 +25,9 @@ export const getHabit = async (
     userId: string,
     habitId: string
 ): Promise<Habit | null> => {
-    const snapshot = await getDoc(doc(db, `users/${userId}/habits/${habitId}`));
+    const snapshot = await getDoc(
+        doc(db, getHabitDocumentPath(userId, habitId))
+    );
 
     if (snapshot.exists()) {
         const { name, color, days, description } = snapshot.data();
@@ -35,4 +41,8 @@ export const getHabit = async (
     }
 
     return null;
+};
+
+export const removeHabit = (userId: string, habitId: string) => {
+    return deleteDoc(doc(db, getHabitDocumentPath(userId, habitId)));
 };

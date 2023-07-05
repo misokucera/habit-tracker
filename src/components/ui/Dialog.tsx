@@ -61,7 +61,7 @@ const Dialog = ({
                                     </HeadlessDialog.Title>
                                 )}
                                 {description !== "" && (
-                                    <HeadlessDialog.Description className="text-slate-500">
+                                    <HeadlessDialog.Description className="text-slate-500 mb-5">
                                         {description}
                                     </HeadlessDialog.Description>
                                 )}
