@@ -6,7 +6,7 @@ import { useHabits } from "../hooks/useHabits";
 import { CreateHabitFormInput } from "./CreateHabitForm";
 import dayjs from "dayjs";
 import localizedFormat from "dayjs/plugin/localizedFormat";
-import { addStatus, removeStatus } from "../../statuses/services/statuses";
+import { addStatus, removeStatus } from "../services/statuses";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import { addHabit } from "../services/habits";
 import {
@@ -15,8 +15,8 @@ import {
     getWeekdayInPast,
     normalizeDate,
 } from "@/utils/day";
-import { useStatuses } from "@/features/statuses/hooks/useStatuses";
-import ChangeStatusButton from "@/features/statuses/components/ChangeStatusButton";
+import { useStatuses } from "@/features/habits/hooks/useStatuses";
+import ChangeStatusButton from "@/features/habits/components/ChangeStatusButton";
 import Link from "next/link";
 import Headline from "@/components/ui/Headline";
 import { useElementWidthOnViewportChange } from "../hooks/useElementWidthOnViewportChange";

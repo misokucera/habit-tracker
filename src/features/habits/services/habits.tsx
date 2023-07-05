@@ -2,7 +2,7 @@ import { db } from "@/services/firebase";
 import { addDoc, collection, deleteDoc, doc, getDoc } from "firebase/firestore";
 import { CreateHabitFormInput } from "../components/CreateHabitForm";
 import { Habit } from "../contexts/HabitsContexts";
-import { removeStatusesByHabit } from "@/features/statuses/services/statuses";
+import { removeStatusesByHabit } from "./statuses";
 
 const getHabitsCollectionPath = (userId: string) => `users/${userId}/habits`;
 const getHabitDocumentPath = (userId: string, habitId: string) =>
