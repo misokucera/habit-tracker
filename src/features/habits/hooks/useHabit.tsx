@@ -17,5 +17,13 @@ export const useHabit = (id: string) => {
         }
     }, [user, id]);
 
-    return { habit, loading };
+    const refetch = () => {
+        if (user) {
+            getHabit(user.uid, id).then((data) => {
+                setHabit(data);
+            });
+        }
+    };
+
+    return { habit, loading, refetch };
 };

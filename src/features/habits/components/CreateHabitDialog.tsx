@@ -1,12 +1,12 @@
 "use client";
 
-import CreateHabitForm, { CreateHabitFormInput } from "./CreateHabitForm";
+import HabitForm, { HabitFormValues } from "./HabitForm";
 import Dialog from "@/components/ui/Dialog";
 
 type Props = {
     open: boolean;
     onClose: () => void;
-    onFormSubmit: (data: CreateHabitFormInput) => Promise<void>;
+    onFormSubmit: (data: HabitFormValues) => Promise<void>;
 };
 
 const CreateHabitDialog = ({ open, onClose, onFormSubmit }: Props) => {
@@ -18,7 +18,7 @@ const CreateHabitDialog = ({ open, onClose, onFormSubmit }: Props) => {
             description="What would you like to improve in?"
             maxWidth="lg"
         >
-            <CreateHabitForm onSubmit={onFormSubmit} />
+            <HabitForm onSubmit={onFormSubmit} />
         </Dialog>
     );
 };

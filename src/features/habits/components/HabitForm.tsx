@@ -6,7 +6,7 @@ import ColorRadioGroup from "./ColorRadioGroup";
 import DaysSelector from "./DaysSelector";
 import Button from "@/components/ui/Button";
 
-export type CreateHabitFormInput = {
+export type HabitFormValues = {
     name: string;
     description: string;
     color: string;
@@ -14,15 +14,18 @@ export type CreateHabitFormInput = {
 };
 
 type Props = {
-    onSubmit: (data: CreateHabitFormInput) => Promise<void>;
+    onSubmit: (data: HabitFormValues) => Promise<void>;
+    defaultValues?: HabitFormValues;
 };
 
-const CreateHabitForm = ({ onSubmit }: Props) => {
-    const formMethods = useForm<CreateHabitFormInput>();
+const HabitForm = ({ onSubmit, defaultValues }: Props) => {
+    const formMethods = useForm<HabitFormValues>({
+        defaultValues,
+    });
 
     const { handleSubmit, register } = formMethods;
 
-    const onValid = async (data: CreateHabitFormInput) => {
+    const onValid = async (data: HabitFormValues) => {
         await onSubmit(data);
     };
 
@@ -52,11 +55,13 @@ const CreateHabitForm = ({ onSubmit }: Props) => {
                 </div>
 
                 <div className="mt-10">
-                    <Button type="submit">Create</Button>
+                    <Button type="submit">
+                        {defaultValues ? "Edit" : "Create"}
+                    </Button>
                 </div>
             </form>
         </FormProvider>
     );
 };
 
-export default CreateHabitForm;
+export default HabitForm;

@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import CreateHabitDialog from "./CreateHabitDialog";
 import { useHabits } from "../hooks/useHabits";
-import { CreateHabitFormInput } from "./CreateHabitForm";
+import { HabitFormValues } from "./HabitForm";
 import dayjs from "dayjs";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import { addStatus, removeStatus } from "../services/statuses";
@@ -37,7 +37,7 @@ const HabitList = () => {
     const [numberOfDaysToShow, setNumberOfDaysToShow] = useState(4);
     const tableWidth = useElementWidthOnViewportChange(tableParentRef);
 
-    const handleFormSubmit = async (data: CreateHabitFormInput) => {
+    const handleFormSubmit = async (data: HabitFormValues) => {
         if (user) {
             setIsCreateDialogOpen(false);
             await addHabit(user.uid, data);

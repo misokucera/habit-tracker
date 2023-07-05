@@ -3,26 +3,28 @@
 import Headline from "@/components/ui/Headline";
 import { useHabit } from "../hooks/useHabit";
 import Button from "@/components/ui/Button";
-import { removeHabit } from "../services/habits";
+import { editHabit, removeHabit } from "../services/habits";
 import { useAuth } from "@/features/auth/hooks/useAuth";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Dialog from "@/components/ui/Dialog";
+import HabitForm, { HabitFormValues } from "./HabitForm";
 
 type Props = {
     habitId: string;
 };
 
 const HabitDetail = ({ habitId }: Props) => {
-    const { habit, loading } = useHabit(habitId);
+    const { habit, loading, refetch } = useHabit(habitId);
     const { user } = useAuth();
-    const { push } = useRouter();
+    const { replace } = useRouter();
     const [openRemoveDialog, setOpenRemoveDialog] = useState(false);
+    const [openEditDialog, setOpenEditDialog] = useState(false);
 
     const handleRemove = async () => {
         if (user) {
             await removeHabit(user?.uid, habitId);
-            push("/");
+            replace("/");
         }
     };
 
@@ -34,11 +36,25 @@ const HabitDetail = ({ habitId }: Props) => {
         setOpenRemoveDialog(false);
     };
 
+    const handleEdit = async (data: HabitFormValues) => {
+        if (user) {
+            setOpenEditDialog(false);
+            await editHabit(user?.uid, habitId, data);
+            refetch();
+        }
+    };
+
     return (
         <div>
             <div className="flex items-center justify-between gap-5 mb-5">
                 <Headline>{habit.name}</Headline>
-                <div>
+                <div className="flex gap-3">
+                    <Button
+                        variant="primary"
+                        onClick={() => setOpenEditDialog(true)}
+                    >
+                        Edit
+                    </Button>
                     <Button
                         variant="secondary"
                         onClick={() => setOpenRemoveDialog(true)}
@@ -65,6 +81,21 @@ const HabitDetail = ({ habitId }: Props) => {
                         Cancel
                     </Button>
                 </div>
+            </Dialog>
+            <Dialog
+                open={openEditDialog}
+                onClose={() => setOpenEditDialog(false)}
+                title="Edit"
+            >
+                <HabitForm
+                    onSubmit={handleEdit}
+                    defaultValues={{
+                        name: habit.name,
+                        description: habit.description || "",
+                        days: habit.days,
+                        color: habit.color,
+                    }}
+                />
             </Dialog>
         </div>
     );
