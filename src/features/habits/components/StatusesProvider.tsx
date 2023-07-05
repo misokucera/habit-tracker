@@ -13,18 +13,19 @@ import { useState, useEffect } from "react";
 import { Status, StatusesContext } from "../contexts/StatusesContexts";
 import dayjs from "dayjs";
 
-const selectDays = 7;
-
 type Props = {
+    selectedDays: number;
     children: React.ReactNode;
 };
 
-const StatusesProvider = ({ children }: Props) => {
+const StatusesProvider = ({ children, selectedDays }: Props) => {
     const [statuses, setStatuses] = useState<Status[]>([]);
     const { user } = useAuth();
 
     useEffect(() => {
-        const dayInPast = dayjs().subtract(selectDays, "days").toDate();
+        const dayInPast = dayjs().subtract(selectedDays, "days").toDate();
+
+        console.log("statuses query fired", selectedDays);
 
         const q = query(
             collection(db, `users/${user?.uid}/statuses`),
@@ -48,7 +49,7 @@ const StatusesProvider = ({ children }: Props) => {
         });
 
         return () => unsubscribe();
-    }, [user]);
+    }, [user, selectedDays]);
 
     return (
         <StatusesContext.Provider value={{ statuses }}>

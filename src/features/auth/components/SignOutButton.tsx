@@ -8,7 +8,10 @@ const SignOutButton = () => {
     };
 
     return (
-        <button onClick={signOut} className="text-sm font-semibold text-white">
+        <button
+            onClick={signOut}
+            className="text-sm font-semibold text-sky-100 hover:text-sky-700"
+        >
             Sign out
         </button>
     );

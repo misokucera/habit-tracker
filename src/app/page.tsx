@@ -11,19 +11,17 @@ import StatusesProvider from "@/features/habits/components/StatusesProvider";
 export default function Home() {
     return (
         <WithAuthentication>
-            <HabitsProvider>
-                <StatusesProvider>
-                    <div className="w-full max-w-5xl">
-                        <div className="flex items-center justify-between gap-3 mb-5">
-                            <Breadcrumbs />
-                            <SignOutButton />
-                        </div>
-                        <ContentBox>
-                            <HabitList />
-                        </ContentBox>
-                    </div>
-                </StatusesProvider>
-            </HabitsProvider>
+            <div className="w-full max-w-5xl">
+                <div className="flex items-center justify-between gap-3 mb-5">
+                    <Breadcrumbs />
+                    <SignOutButton />
+                </div>
+                <ContentBox>
+                    <HabitsProvider>
+                        <HabitList />
+                    </HabitsProvider>
+                </ContentBox>
+            </div>
         </WithAuthentication>
     );
 }
