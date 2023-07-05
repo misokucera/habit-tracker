@@ -88,9 +88,11 @@ const HabitList = () => {
                                     <td className="p-3 align-middle">
                                         <Link href={`/detail/${habit.id}`}>
                                             {habit.name}
-                                            <p className="text-sm text-slate-400">
-                                                {habit.description}
-                                            </p>
+                                            {habit.description !== "" && (
+                                                <p className="text-sm text-slate-400 mt-1">
+                                                    {habit.description}
+                                                </p>
+                                            )}
                                         </Link>
                                     </td>
 

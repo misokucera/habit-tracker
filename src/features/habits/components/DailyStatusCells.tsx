@@ -45,11 +45,11 @@ const DailyStatusCells = ({ habit, daysInPast }: Props) => {
             {days.map((day) => (
                 <td
                     key={day}
-                    className={`p-3 text-center ${
+                    className={`p-3 text-center transition-colors ${
                         habit.days.includes(getWeekdayInPast(day))
                             ? ""
                             : "bg-slate-100"
-                    }`}
+                    } ${findStatus(habit.id, day) ? "bg-lime-100" : ""}`}
                 >
                     <ChangeStatusButton
                         color={habit.color}
