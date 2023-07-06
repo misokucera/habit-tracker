@@ -9,6 +9,11 @@ import { useState } from "react";
 import Dialog from "@/components/ui/Dialog";
 import HabitForm, { HabitFormValues } from "./HabitForm";
 import { useUserId } from "@/features/auth/hooks/useUserId";
+import StatusesProvider from "./StatusesProvider";
+import StatusList from "./StatusList";
+import { RadioGroup } from "@headlessui/react";
+import classNames from "classnames";
+import StatusPeriodOption from "./StatusPeriodOption";
 
 type Props = {
     habitId: string;
@@ -20,6 +25,7 @@ const HabitDetail = ({ habitId }: Props) => {
     const { replace } = useRouter();
     const [openRemoveDialog, setOpenRemoveDialog] = useState(false);
     const [openEditDialog, setOpenEditDialog] = useState(false);
+    const [selectedDays, setSelectedDays] = useState(7);
 
     const handleRemove = async () => {
         await removeHabit(userId, habitId);
@@ -60,6 +66,37 @@ const HabitDetail = ({ habitId }: Props) => {
                 </div>
             </div>
             {habit.description && <p>{habit.description}</p>}
+            <RadioGroup value={selectedDays} onChange={setSelectedDays}>
+                <RadioGroup.Label className="block mb-3">
+                    Period
+                </RadioGroup.Label>
+                <div className="inline-flex mb-5 rounded-md overflow-hidden">
+                    <RadioGroup.Option value={7}>
+                        {({ checked }) => (
+                            <StatusPeriodOption checked={checked}>
+                                7 days
+                            </StatusPeriodOption>
+                        )}
+                    </RadioGroup.Option>
+                    <RadioGroup.Option value={30}>
+                        {({ checked }) => (
+                            <StatusPeriodOption checked={checked}>
+                                30 days
+                            </StatusPeriodOption>
+                        )}
+                    </RadioGroup.Option>
+                    <RadioGroup.Option value={100}>
+                        {({ checked }) => (
+                            <StatusPeriodOption checked={checked}>
+                                100 days
+                            </StatusPeriodOption>
+                        )}
+                    </RadioGroup.Option>
+                </div>
+            </RadioGroup>
+            <StatusesProvider selectedDays={selectedDays}>
+                <StatusList habitId={habitId} selectedDays={selectedDays} />
+            </StatusesProvider>
             <Dialog
                 open={openRemoveDialog}
                 onClose={handleRemoveDialogClose}

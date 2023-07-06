@@ -20,7 +20,7 @@ const DailyStatusCells = ({ habit, daysInPast }: Props) => {
         await addStatus(userId, habitId, date);
     };
 
-    const handleStatusRemoved = async (statusId: string) => {
+    const handleStatusRemove = async (statusId: string) => {
         await removeStatus(userId, statusId);
     };
 
@@ -54,7 +54,7 @@ const DailyStatusCells = ({ habit, daysInPast }: Props) => {
                         onAdded={() =>
                             handleStatusAdd(habit.id, getDateInPast(day))
                         }
-                        onRemoved={(statusId) => handleStatusRemoved(statusId)}
+                        onRemoved={(statusId) => handleStatusRemove(statusId)}
                     />
                 </td>
             ))}
