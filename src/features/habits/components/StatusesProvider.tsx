@@ -1,6 +1,5 @@
 "use client";
 
-import { useAuth } from "@/features/auth/hooks/useAuth";
 import { db } from "@/services/firebase";
 import {
     query,
@@ -12,6 +11,7 @@ import {
 import { useState, useEffect } from "react";
 import { Status, StatusesContext } from "../contexts/StatusesContexts";
 import dayjs from "dayjs";
+import { useUserId } from "@/features/auth/hooks/useUserId";
 
 type Props = {
     selectedDays: number;
@@ -20,15 +20,13 @@ type Props = {
 
 const StatusesProvider = ({ children, selectedDays }: Props) => {
     const [statuses, setStatuses] = useState<Status[]>([]);
-    const { user } = useAuth();
+    const userId = useUserId();
 
     useEffect(() => {
         const dayInPast = dayjs().subtract(selectedDays, "days").toDate();
 
-        console.log("statuses query fired", selectedDays);
-
         const q = query(
-            collection(db, `users/${user?.uid}/statuses`),
+            collection(db, `users/${userId}/statuses`),
             where("date", ">", Timestamp.fromDate(dayInPast))
         );
 
@@ -49,7 +47,7 @@ const StatusesProvider = ({ children, selectedDays }: Props) => {
         });
 
         return () => unsubscribe();
-    }, [user, selectedDays]);
+    }, [userId, selectedDays]);
 
     return (
         <StatusesContext.Provider value={{ statuses }}>

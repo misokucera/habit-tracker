@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { Habit, HabitsContext } from "../contexts/HabitsContexts";
 import { db } from "@/services/firebase";
 import { query, collection, onSnapshot } from "firebase/firestore";
-import { useAuth } from "@/features/auth/hooks/useAuth";
+import { useUserId } from "@/features/auth/hooks/useUserId";
 
 type Props = {
     children: React.ReactNode;
@@ -12,10 +12,10 @@ type Props = {
 
 const HabitsProvider = ({ children }: Props) => {
     const [habits, setHabits] = useState<Habit[]>([]);
-    const { user } = useAuth();
+    const userId = useUserId();
 
     useEffect(() => {
-        const q = query(collection(db, `users/${user?.uid}/habits`));
+        const q = query(collection(db, `users/${userId}/habits`));
         const unsubscribe = onSnapshot(q, (querySnapshot) => {
             const habitsFromSnapshot: Habit[] = [];
 
@@ -33,7 +33,7 @@ const HabitsProvider = ({ children }: Props) => {
         });
 
         return () => unsubscribe();
-    }, [user]);
+    }, [userId]);
 
     return (
         <HabitsContext.Provider value={{ habits }}>

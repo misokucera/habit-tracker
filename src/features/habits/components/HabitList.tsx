@@ -6,16 +6,15 @@ import { useHabits } from "../hooks/useHabits";
 import { HabitFormValues } from "./HabitForm";
 import dayjs from "dayjs";
 import localizedFormat from "dayjs/plugin/localizedFormat";
-import { useAuth } from "@/features/auth/hooks/useAuth";
 import { addHabit } from "../services/habits";
 import { formatDateInPast } from "@/utils/day";
-import { useStatuses } from "@/features/habits/hooks/useStatuses";
 import Link from "next/link";
 import Headline from "@/components/ui/Headline";
 import { useElementWidthOnViewportChange } from "../hooks/useElementWidthOnViewportChange";
 import Button from "@/components/ui/Button";
 import DailyStatusCells from "./DailyStatusCells";
 import StatusesProvider from "./StatusesProvider";
+import { useUserId } from "@/features/auth/hooks/useUserId";
 
 dayjs.extend(localizedFormat);
 
@@ -26,16 +25,14 @@ const minCellCount = 3;
 const HabitList = () => {
     const { habits } = useHabits();
     const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
-    const { user } = useAuth();
+    const userId = useUserId();
     const tableParentRef = useRef<HTMLDivElement>(null);
     const [numberOfDaysToShow, setNumberOfDaysToShow] = useState(4);
     const tableWidth = useElementWidthOnViewportChange(tableParentRef);
 
     const handleFormSubmit = async (data: HabitFormValues) => {
-        if (user) {
-            setIsCreateDialogOpen(false);
-            await addHabit(user.uid, data);
-        }
+        setIsCreateDialogOpen(false);
+        await addHabit(userId, data);
     };
 
     useEffect(() => {

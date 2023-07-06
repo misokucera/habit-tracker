@@ -16,7 +16,6 @@ const AuthProvider = ({ children, fallback }: Props) => {
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
-            console.log("user from provider", user);
             setUser(user);
             setLoading(false);
         });

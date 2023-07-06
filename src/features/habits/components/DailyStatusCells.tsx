@@ -3,8 +3,8 @@ import ChangeStatusButton from "./ChangeStatusButton";
 import { Habit } from "../contexts/HabitsContexts";
 import { addStatus, removeStatus } from "../services/statuses";
 import { useStatuses } from "../hooks/useStatuses";
-import { useAuth } from "@/features/auth/hooks/useAuth";
 import classNames from "classnames";
+import { useUserId } from "@/features/auth/hooks/useUserId";
 
 type Props = {
     habit: Habit;
@@ -13,19 +13,15 @@ type Props = {
 
 const DailyStatusCells = ({ habit, daysInPast }: Props) => {
     const { statuses } = useStatuses();
-    const { user } = useAuth();
+    const userId = useUserId();
     const days = Array.from(Array(daysInPast).keys());
 
     const handleStatusAdd = async (habitId: string, date: Date) => {
-        if (user) {
-            await addStatus(user.uid, habitId, date);
-        }
+        await addStatus(userId, habitId, date);
     };
 
     const handleStatusRemoved = async (statusId: string) => {
-        if (user) {
-            await removeStatus(user.uid, statusId);
-        }
+        await removeStatus(userId, statusId);
     };
 
     const findStatus = (habitId: string, day: number) => {

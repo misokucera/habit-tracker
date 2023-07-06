@@ -1,28 +1,23 @@
 import { useState, useEffect } from "react";
 import { Habit } from "../contexts/HabitsContexts";
 import { getHabit } from "../services/habits";
-import { useAuth } from "@/features/auth/hooks/useAuth";
+import { useUserId } from "@/features/auth/hooks/useUserId";
 
 export const useHabit = (id: string) => {
     const [habit, setHabit] = useState<Habit | null>(null);
     const [loading, setLoading] = useState(true);
-    const { user } = useAuth();
+    const userId = useUserId();
 
     useEffect(() => {
-        if (user) {
-            getHabit(user.uid, id).then((data) => {
-                setHabit(data);
-                setLoading(false);
-            });
-        }
-    }, [user, id]);
+        getHabit(userId, id).then((data) => {
+            setHabit(data);
+            setLoading(false);
+        });
+    }, [userId, id]);
 
-    const refetch = () => {
-        if (user) {
-            getHabit(user.uid, id).then((data) => {
-                setHabit(data);
-            });
-        }
+    const refetch = async () => {
+        const data = await getHabit(userId, id);
+        setHabit(data);
     };
 
     return { habit, loading, refetch };

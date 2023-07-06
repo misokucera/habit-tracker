@@ -4,11 +4,11 @@ import Headline from "@/components/ui/Headline";
 import { useHabit } from "../hooks/useHabit";
 import Button from "@/components/ui/Button";
 import { editHabit, removeHabit } from "../services/habits";
-import { useAuth } from "@/features/auth/hooks/useAuth";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Dialog from "@/components/ui/Dialog";
 import HabitForm, { HabitFormValues } from "./HabitForm";
+import { useUserId } from "@/features/auth/hooks/useUserId";
 
 type Props = {
     habitId: string;
@@ -16,16 +16,14 @@ type Props = {
 
 const HabitDetail = ({ habitId }: Props) => {
     const { habit, loading, refetch } = useHabit(habitId);
-    const { user } = useAuth();
+    const userId = useUserId();
     const { replace } = useRouter();
     const [openRemoveDialog, setOpenRemoveDialog] = useState(false);
     const [openEditDialog, setOpenEditDialog] = useState(false);
 
     const handleRemove = async () => {
-        if (user) {
-            await removeHabit(user?.uid, habitId);
-            replace("/");
-        }
+        await removeHabit(userId, habitId);
+        replace("/");
     };
 
     if (loading || habit === null) {
@@ -37,11 +35,9 @@ const HabitDetail = ({ habitId }: Props) => {
     };
 
     const handleEdit = async (data: HabitFormValues) => {
-        if (user) {
-            setOpenEditDialog(false);
-            await editHabit(user?.uid, habitId, data);
-            refetch();
-        }
+        setOpenEditDialog(false);
+        await editHabit(userId, habitId, data);
+        refetch();
     };
 
     return (
