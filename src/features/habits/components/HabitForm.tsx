@@ -32,14 +32,14 @@ const HabitForm = ({ onSubmit, defaultValues }: Props) => {
             <form onSubmit={handleSubmit(onValid)}>
                 <FormLabel caption="Name">
                     <input
-                        className="p-3 max-w-xs rounded-md focus:outline-none focus:border-slate-500  border-2 border-slate-200"
+                        className="p-3 max-w-xs rounded-md focus:outline-none focus-visible:border-slate-500 border-2 border-slate-200"
                         placeholder="What you want to do?"
                         {...register("name")}
                     />
                 </FormLabel>
                 <FormLabel caption="Description">
                     <textarea
-                        className="p-3 rounded-md focus:outline-none focus:border-slate-500  border-2 border-slate-200"
+                        className="p-3 rounded-md focus:outline-none focus-visible:border-slate-500  border-2 border-slate-200"
                         placeholder="Why do you want to do it?"
                         {...register("description")}
                     ></textarea>

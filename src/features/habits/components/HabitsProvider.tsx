@@ -20,7 +20,7 @@ const HabitsProvider = ({ children }: Props) => {
             const habitsFromSnapshot: Habit[] = [];
 
             querySnapshot.forEach((doc) => {
-                const { name, description, days, color } = doc.data();
+                const { name, description, days } = doc.data();
                 habitsFromSnapshot.push({
                     id: doc.id,
                     name,

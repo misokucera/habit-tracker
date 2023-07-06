@@ -32,10 +32,10 @@ const DaysSelector = () => {
                     key={index}
                     checked={field.value.includes(day)}
                     onChange={() => handleChange(day)}
-                    className={`w-10 h-10 rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500 ${
+                    className={`w-10 h-10 font-semibold rounded-md transition-colors focus:outline-none focus-visible:ring-2 ${
                         field.value.includes(day)
-                            ? "bg-slate-500 text-white"
-                            : "bg-slate-200 text-slate-400"
+                            ? "bg-purple-200 text-purple-600 focus-visible:ring-purple-400"
+                            : "bg-slate-100 text-slate-400 focus-visible:ring-slate-400"
                     }`}
                 >
                     <span className="sr-only">Enable {weekdays[day]}</span>

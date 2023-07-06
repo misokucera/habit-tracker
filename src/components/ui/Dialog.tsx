@@ -56,7 +56,7 @@ const Dialog = ({
                                 }`}
                             >
                                 {title !== "" && (
-                                    <HeadlessDialog.Title className="text-2xl text-slate-800 font-semibold mb-3">
+                                    <HeadlessDialog.Title className="text-2xl text-slate-600 font-semibold mb-3">
                                         {title}
                                     </HeadlessDialog.Title>
                                 )}

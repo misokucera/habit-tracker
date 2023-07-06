@@ -48,7 +48,7 @@ export const getHabit = async (
     );
 
     if (snapshot.exists()) {
-        const { name, color, days, description } = snapshot.data();
+        const { name, days, description } = snapshot.data();
         return {
             id: habitId,
             name,
