@@ -2,14 +2,12 @@
 
 import { FormProvider, useForm } from "react-hook-form";
 import FormLabel from "../../../components/ui/FormLabel";
-import ColorRadioGroup from "./ColorRadioGroup";
 import DaysSelector from "./DaysSelector";
 import Button from "@/components/ui/Button";
 
 export type HabitFormValues = {
     name: string;
     description: string;
-    color: string;
     days: number[];
 };
 
@@ -50,10 +48,6 @@ const HabitForm = ({ onSubmit, defaultValues }: Props) => {
                     <p className="text-sm mb-2 text-slate-500">Days</p>
                     <DaysSelector />
                 </div>
-                <div className="mb-5">
-                    <ColorRadioGroup />
-                </div>
-
                 <div className="mt-10">
                     <Button type="submit">
                         {defaultValues ? "Edit" : "Create"}

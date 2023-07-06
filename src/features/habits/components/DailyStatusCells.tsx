@@ -52,7 +52,6 @@ const DailyStatusCells = ({ habit, daysInPast }: Props) => {
                     } ${findStatus(habit.id, day) ? "bg-lime-100" : ""}`}
                 >
                     <ChangeStatusButton
-                        color={habit.color}
                         status={findStatus(habit.id, day)}
                         onAdded={() =>
                             handleStatusAdd(habit.id, getDateInPast(day))

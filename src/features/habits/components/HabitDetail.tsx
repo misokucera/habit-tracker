@@ -93,7 +93,6 @@ const HabitDetail = ({ habitId }: Props) => {
                         name: habit.name,
                         description: habit.description || "",
                         days: habit.days,
-                        color: habit.color,
                     }}
                 />
             </Dialog>

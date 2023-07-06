@@ -26,7 +26,6 @@ const HabitsProvider = ({ children }: Props) => {
                     name,
                     description,
                     days,
-                    color,
                 });
             });
 

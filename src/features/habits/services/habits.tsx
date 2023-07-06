@@ -16,11 +16,10 @@ const getHabitDocumentPath = (userId: string, habitId: string) =>
     `users/${userId}/habits/${habitId}`;
 
 export const addHabit = async (userId: string, habitInput: HabitFormValues) => {
-    const { name, color, description, days } = habitInput;
+    const { name, description, days } = habitInput;
 
     await addDoc(collection(db, getHabitsCollectionPath(userId)), {
         name,
-        color,
         description,
         days,
     });
@@ -31,11 +30,10 @@ export const editHabit = async (
     habitId: string,
     habitInput: HabitFormValues
 ) => {
-    const { name, color, description, days } = habitInput;
+    const { name, description, days } = habitInput;
 
     await setDoc(doc(db, getHabitDocumentPath(userId, habitId)), {
         name,
-        color,
         description,
         days,
     });
@@ -54,7 +52,6 @@ export const getHabit = async (
         return {
             id: habitId,
             name,
-            color,
             days,
             description,
         };
