@@ -4,6 +4,7 @@ import { Habit } from "../contexts/HabitsContexts";
 import { addStatus, removeStatus } from "../services/statuses";
 import { useStatuses } from "../hooks/useStatuses";
 import { useAuth } from "@/features/auth/hooks/useAuth";
+import classNames from "classnames";
 
 type Props = {
     habit: Habit;
@@ -45,11 +46,12 @@ const DailyStatusCells = ({ habit, daysInPast }: Props) => {
             {days.map((day) => (
                 <td
                     key={day}
-                    className={`p-3 text-center transition-colors ${
-                        habit.days.includes(getWeekdayInPast(day))
-                            ? ""
-                            : "bg-slate-100"
-                    } ${findStatus(habit.id, day) ? "bg-lime-100" : ""}`}
+                    className={classNames("p-3 text-center transition-colors", {
+                        "bg-lime-100": findStatus(habit.id, day),
+                        "bg-slate-100": !habit.days.includes(
+                            getWeekdayInPast(day)
+                        ),
+                    })}
                 >
                     <ChangeStatusButton
                         status={findStatus(habit.id, day)}

@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import { Status } from "../contexts/StatusesContexts";
 
 type Props = {
@@ -15,35 +16,22 @@ const ChangeStatusButton = ({ status, onAdded, onRemoved }: Props) => {
         }
     };
 
-    const dotClasses = [];
-
-    if (status) {
-        dotClasses.push("bg-lime-500");
-    } else {
-        dotClasses.push("bg-slate-300");
-    }
-
-    const buttonClasses = [];
-
-    if (status) {
-        buttonClasses.push(
-            "hover:bg-lime-200 focus:outline-none focus-visible:ring-lime-300 focus-visible:ring-2"
-        );
-    } else {
-        buttonClasses.push(
-            "hover:bg-slate-100 focus:outline-none focus-visible:ring-slate-300 focus-visible:ring-2"
-        );
-    }
-
     return (
         <button
             onClick={handleClick}
-            className={`${buttonClasses.join(
-                " "
-            )} p-3 rounded-full transition-colors`}
+            className={classNames(
+                "p-3 rounded-full transition-colors focus:outline-none focus-visible:ring-2",
+                {
+                    "hover:bg-lime-200  focus-visible:ring-lime-300": status,
+                    "hover:bg-slate-100  focus-visible:ring-slate-300": !status,
+                }
+            )}
         >
             <div
-                className={`${dotClasses.join(" ")} w-3 h-3 rounded-full`}
+                className={classNames("w-3 h-3 rounded-full", {
+                    "bg-lime-500": status,
+                    "bg-slate-300": !status,
+                })}
             ></div>
         </button>
     );

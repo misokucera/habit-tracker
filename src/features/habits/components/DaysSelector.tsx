@@ -1,4 +1,5 @@
 import { Switch } from "@headlessui/react";
+import classNames from "classnames";
 import dayjs from "dayjs";
 import localeData from "dayjs/plugin/localeData";
 import { useController } from "react-hook-form";
@@ -32,11 +33,15 @@ const DaysSelector = () => {
                     key={index}
                     checked={field.value.includes(day)}
                     onChange={() => handleChange(day)}
-                    className={`w-10 h-10 font-semibold rounded-md transition-colors focus:outline-none focus-visible:ring-2 ${
-                        field.value.includes(day)
-                            ? "bg-purple-200 text-purple-600 focus-visible:ring-purple-400"
-                            : "bg-slate-100 text-slate-400 focus-visible:ring-slate-400"
-                    }`}
+                    className={classNames(
+                        "w-10 h-10 font-semibold rounded-md transition-colors focus:outline-none focus-visible:ring-2",
+                        {
+                            "bg-purple-200 text-purple-600 focus-visible:ring-purple-400":
+                                field.value.includes(day),
+                            "bg-slate-100 text-slate-400 focus-visible:ring-slate-400":
+                                !field.value.includes(day),
+                        }
+                    )}
                 >
                     <span className="sr-only">Enable {weekdays[day]}</span>
                     <span className="text-sm">{weekdaysShort[day]}</span>
