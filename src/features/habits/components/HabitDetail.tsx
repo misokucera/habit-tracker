@@ -1,7 +1,6 @@
 "use client";
 
 import Headline from "@/components/ui/Headline";
-import { useHabit } from "../hooks/useHabit";
 import Button from "@/components/ui/Button";
 import { editHabit, removeHabit } from "../services/habits";
 import { useRouter } from "next/navigation";
@@ -12,29 +11,27 @@ import { useUserId } from "@/features/auth/hooks/useUserId";
 import StatusesProvider from "./StatusesProvider";
 import StatusList from "./StatusList";
 import { RadioGroup } from "@headlessui/react";
-import classNames from "classnames";
 import StatusPeriodOption from "./StatusPeriodOption";
+import { useHabits } from "../hooks/useHabits";
 
 type Props = {
     habitId: string;
 };
 
 const HabitDetail = ({ habitId }: Props) => {
-    const { habit, loading, refetch } = useHabit(habitId);
+    const { habits } = useHabits();
     const userId = useUserId();
     const { replace } = useRouter();
     const [openRemoveDialog, setOpenRemoveDialog] = useState(false);
     const [openEditDialog, setOpenEditDialog] = useState(false);
     const [selectedDays, setSelectedDays] = useState(7);
 
+    const habit = habits.find((item) => item.id === habitId);
+
     const handleRemove = async () => {
-        await removeHabit(userId, habitId);
+        removeHabit(userId, habitId);
         replace("/");
     };
-
-    if (loading || habit === null) {
-        return null;
-    }
 
     const handleRemoveDialogClose = () => {
         setOpenRemoveDialog(false);
@@ -43,8 +40,11 @@ const HabitDetail = ({ habitId }: Props) => {
     const handleEdit = async (data: HabitFormValues) => {
         setOpenEditDialog(false);
         await editHabit(userId, habitId, data);
-        refetch();
     };
+
+    if (!habit) {
+        return null;
+    }
 
     return (
         <div>

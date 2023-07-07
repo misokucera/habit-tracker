@@ -17,9 +17,7 @@ export default function Home() {
                     <SignOutButton />
                 </div>
                 <ContentBox>
-                    <HabitsProvider>
-                        <HabitList />
-                    </HabitsProvider>
+                    <HabitList />
                 </ContentBox>
             </div>
         </WithAuthentication>

@@ -3,8 +3,9 @@
 import React, { useEffect, useState } from "react";
 import { Habit, HabitsContext } from "../contexts/HabitsContexts";
 import { db } from "@/services/firebase";
-import { query, collection, onSnapshot } from "firebase/firestore";
+import { query, collection, onSnapshot, Unsubscribe } from "firebase/firestore";
 import { useUserId } from "@/features/auth/hooks/useUserId";
+import { useAuth } from "@/features/auth/hooks/useAuth";
 
 type Props = {
     children: React.ReactNode;
@@ -12,28 +13,38 @@ type Props = {
 
 const HabitsProvider = ({ children }: Props) => {
     const [habits, setHabits] = useState<Habit[]>([]);
-    const userId = useUserId();
+    const { user } = useAuth();
 
     useEffect(() => {
-        const q = query(collection(db, `users/${userId}/habits`));
-        const unsubscribe = onSnapshot(q, (querySnapshot) => {
-            const habitsFromSnapshot: Habit[] = [];
+        let unsubscribe: Unsubscribe;
 
-            querySnapshot.forEach((doc) => {
-                const { name, description, days } = doc.data();
-                habitsFromSnapshot.push({
-                    id: doc.id,
-                    name,
-                    description,
-                    days,
+        if (user) {
+            const q = query(collection(db, `users/${user.uid}/habits`));
+            unsubscribe = onSnapshot(q, (querySnapshot) => {
+                const habitsFromSnapshot: Habit[] = [];
+
+                querySnapshot.forEach((doc) => {
+                    const { name, description, days } = doc.data();
+                    habitsFromSnapshot.push({
+                        id: doc.id,
+                        name,
+                        description,
+                        days,
+                    });
                 });
+
+                setHabits(habitsFromSnapshot);
             });
+        } else {
+            setHabits([]);
+        }
 
-            setHabits(habitsFromSnapshot);
-        });
-
-        return () => unsubscribe();
-    }, [userId]);
+        return () => {
+            if (unsubscribe) {
+                unsubscribe();
+            }
+        };
+    }, [user]);
 
     return (
         <HabitsContext.Provider value={{ habits }}>

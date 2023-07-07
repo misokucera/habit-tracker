@@ -3,6 +3,7 @@ import "./globals.css";
 import { Inter } from "next/font/google";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import Skeleton from "@/components/ui/Skeleton";
+import HabitsProvider from "@/features/habits/components/HabitsProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -30,7 +31,7 @@ export default function RootLayout({
                             </div>
                         }
                     >
-                        {children}
+                        <HabitsProvider>{children}</HabitsProvider>
                     </AuthProvider>
                 </main>
             </body>
