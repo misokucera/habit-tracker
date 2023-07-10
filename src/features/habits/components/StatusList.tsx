@@ -1,9 +1,9 @@
-import { Fragment } from "react";
 import ChangeStatusButton from "./ChangeStatusButton";
 import { useStatuses } from "../hooks/useStatuses";
 import { getDateInPast, normalizeDate } from "@/utils/day";
 import { addStatus, removeStatus } from "../services/statuses";
 import { useUserId } from "@/features/auth/hooks/useUserId";
+import classNames from "classnames";
 
 type Props = {
     habitId: string;
@@ -11,7 +11,7 @@ type Props = {
 };
 
 const StatusList = ({ selectedDays, habitId }: Props) => {
-    const { statuses } = useStatuses();
+    const { statuses, lastSelectedDays } = useStatuses();
     const userId = useUserId();
 
     const days = Array.from(Array(selectedDays).keys());
@@ -38,9 +38,15 @@ const StatusList = ({ selectedDays, habitId }: Props) => {
     };
 
     return (
-        <div>
+        <div className="flex flex-wrap">
             {days.map((day) => (
-                <Fragment key={day}>
+                <div
+                    className={classNames("p-2 transition-all", {
+                        "bg-lime-100": findStatus(habitId, day),
+                        "opacity-30": day >= lastSelectedDays,
+                    })}
+                    key={day}
+                >
                     <ChangeStatusButton
                         status={findStatus(habitId, day)}
                         onAdded={() =>
@@ -48,7 +54,7 @@ const StatusList = ({ selectedDays, habitId }: Props) => {
                         }
                         onRemoved={(statusId) => handleStatusRemove(statusId)}
                     />
-                </Fragment>
+                </div>
             ))}
         </div>
     );

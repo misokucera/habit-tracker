@@ -8,8 +8,10 @@ export type Status = {
 
 type StatusesContext = {
     statuses: Status[];
+    lastSelectedDays: number;
 };
 
 export const StatusesContext = createContext<StatusesContext>({
     statuses: [],
+    lastSelectedDays: 0,
 });

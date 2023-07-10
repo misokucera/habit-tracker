@@ -12,7 +12,7 @@ type Props = {
 };
 
 const DailyStatusCells = ({ habit, daysInPast }: Props) => {
-    const { statuses } = useStatuses();
+    const { statuses, lastSelectedDays } = useStatuses();
     const userId = useUserId();
     const days = Array.from(Array(daysInPast).keys());
 
@@ -42,11 +42,12 @@ const DailyStatusCells = ({ habit, daysInPast }: Props) => {
             {days.map((day) => (
                 <td
                     key={day}
-                    className={classNames("p-3 text-center transition-colors", {
+                    className={classNames("p-3 text-center transition-all", {
                         "bg-lime-100": findStatus(habit.id, day),
                         "bg-slate-100": !habit.days.includes(
                             getWeekdayInPast(day)
                         ),
+                        "opacity-30": day >= lastSelectedDays,
                     })}
                 >
                     <ChangeStatusButton

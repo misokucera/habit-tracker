@@ -15,19 +15,27 @@ import { useUserId } from "@/features/auth/hooks/useUserId";
 
 type Props = {
     selectedDays: number;
+    habitId?: string;
     children: React.ReactNode;
 };
 
-const StatusesProvider = ({ children, selectedDays }: Props) => {
+const StatusesProvider = ({ children, selectedDays, habitId }: Props) => {
     const [statuses, setStatuses] = useState<Status[]>([]);
+    const [lastSelectedDays, setLastSelectedDays] = useState<number>(0);
     const userId = useUserId();
 
     useEffect(() => {
         const dayInPast = dayjs().subtract(selectedDays, "days").toDate();
 
+        const conditions = [where("date", ">", Timestamp.fromDate(dayInPast))];
+
+        if (habitId) {
+            conditions.push(where("habitId", "==", habitId));
+        }
+
         const q = query(
             collection(db, `users/${userId}/statuses`),
-            where("date", ">", Timestamp.fromDate(dayInPast))
+            ...conditions
         );
 
         const unsubscribe = onSnapshot(q, (querySnapshot) => {
@@ -44,13 +52,14 @@ const StatusesProvider = ({ children, selectedDays }: Props) => {
             });
 
             setStatuses(statusesFromSnapshot);
+            setLastSelectedDays(selectedDays);
         });
 
         return () => unsubscribe();
     }, [userId, selectedDays]);
 
     return (
-        <StatusesContext.Provider value={{ statuses }}>
+        <StatusesContext.Provider value={{ statuses, lastSelectedDays }}>
             {children}
         </StatusesContext.Provider>
     );

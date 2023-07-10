@@ -94,7 +94,7 @@ const HabitDetail = ({ habitId }: Props) => {
                     </RadioGroup.Option>
                 </div>
             </RadioGroup>
-            <StatusesProvider selectedDays={selectedDays}>
+            <StatusesProvider selectedDays={selectedDays} habitId={habitId}>
                 <StatusList habitId={habitId} selectedDays={selectedDays} />
             </StatusesProvider>
             <Dialog
