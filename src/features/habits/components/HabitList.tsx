@@ -15,6 +15,23 @@ import Button from "@/components/ui/Button";
 import DailyStatusCells from "./DailyStatusCells";
 import StatusesProvider from "./StatusesProvider";
 import { useUserId } from "@/features/auth/hooks/useUserId";
+import {
+    DndContext,
+    DragEndEvent,
+    KeyboardSensor,
+    MouseSensor,
+    TouchSensor,
+    closestCenter,
+    useSensor,
+    useSensors,
+} from "@dnd-kit/core";
+import {
+    SortableContext,
+    arrayMove,
+    sortableKeyboardCoordinates,
+    verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+import SortableTableRow from "./SortableTableRow";
 
 dayjs.extend(localizedFormat);
 
@@ -23,23 +40,42 @@ const expectedCellWidth = 100;
 const minCellCount = 3;
 
 const HabitList = () => {
-    const { habits } = useHabits();
+    const { habits, reorder } = useHabits();
     const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
     const userId = useUserId();
     const tableParentRef = useRef<HTMLDivElement>(null);
     const [numberOfDaysToShow, setNumberOfDaysToShow] = useState(4);
     const tableWidth = useElementWidthOnViewportChange(tableParentRef);
 
-    const handleFormSubmit = async (data: HabitFormValues) => {
-        setIsCreateDialogOpen(false);
-        await addHabit(userId, data);
-    };
+    const sensors = useSensors(
+        useSensor(MouseSensor),
+        useSensor(TouchSensor),
+        useSensor(KeyboardSensor, {
+            coordinateGetter: sortableKeyboardCoordinates,
+        })
+    );
 
     useEffect(() => {
         setNumberOfDaysToShow(
             Math.max(Math.floor(tableWidth / expectedCellWidth), minCellCount)
         );
     }, [tableWidth]);
+
+    const handleFormSubmit = async (data: HabitFormValues) => {
+        setIsCreateDialogOpen(false);
+        await addHabit(userId, data);
+    };
+
+    const handleDragEnd = (event: DragEndEvent) => {
+        const { active, over } = event;
+
+        const oldIndex = habits.findIndex((habit) => habit.id === active.id);
+        const newIndex = habits.findIndex((habit) => habit.id === over?.id);
+
+        const reorderedHabits = arrayMove(habits, oldIndex, newIndex);
+
+        reorder(reorderedHabits);
+    };
 
     const days = Array.from(Array(numberOfDaysToShow).keys());
 
@@ -77,28 +113,42 @@ const HabitList = () => {
                     </thead>
                     <tbody>
                         <StatusesProvider selectedDays={numberOfDaysToShow}>
-                            {habits.map((habit) => (
-                                <tr
-                                    key={habit.id}
-                                    className="border-b last:border-none"
+                            <DndContext
+                                onDragEnd={handleDragEnd}
+                                collisionDetection={closestCenter}
+                                sensors={sensors}
+                            >
+                                <SortableContext
+                                    items={habits}
+                                    strategy={verticalListSortingStrategy}
                                 >
-                                    <td className="p-3 align-middle">
-                                        <Link href={`/detail/${habit.id}`}>
-                                            {habit.name}
-                                            {habit.description !== "" && (
-                                                <p className="text-sm text-slate-400 mt-1">
-                                                    {habit.description}
-                                                </p>
-                                            )}
-                                        </Link>
-                                    </td>
+                                    {habits.map((habit) => (
+                                        <SortableTableRow
+                                            key={habit.id}
+                                            id={habit.id}
+                                        >
+                                            <td className="p-3 align-middle">
+                                                <Link
+                                                    href={`/detail/${habit.id}`}
+                                                >
+                                                    {habit.name}
+                                                    {habit.description !==
+                                                        "" && (
+                                                        <p className="text-sm text-slate-400 mt-1">
+                                                            {habit.description}
+                                                        </p>
+                                                    )}
+                                                </Link>
+                                            </td>
 
-                                    <DailyStatusCells
-                                        habit={habit}
-                                        daysInPast={numberOfDaysToShow}
-                                    />
-                                </tr>
-                            ))}
+                                            <DailyStatusCells
+                                                habit={habit}
+                                                daysInPast={numberOfDaysToShow}
+                                            />
+                                        </SortableTableRow>
+                                    ))}
+                                </SortableContext>
+                            </DndContext>
                         </StatusesProvider>
                     </tbody>
                 </table>

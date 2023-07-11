@@ -6,6 +6,7 @@ import {
     doc,
     getDoc,
     setDoc,
+    updateDoc,
 } from "firebase/firestore";
 import { HabitFormValues } from "../components/HabitForm";
 import { Habit } from "../contexts/HabitsContexts";
@@ -22,6 +23,7 @@ export const addHabit = async (userId: string, habitInput: HabitFormValues) => {
         name,
         description,
         days,
+        order: -1,
     });
 };
 
@@ -32,7 +34,7 @@ export const editHabit = async (
 ) => {
     const { name, description, days } = habitInput;
 
-    await setDoc(doc(db, getHabitDocumentPath(userId, habitId)), {
+    await updateDoc(doc(db, getHabitDocumentPath(userId, habitId)), {
         name,
         description,
         days,
@@ -48,12 +50,13 @@ export const getHabit = async (
     );
 
     if (snapshot.exists()) {
-        const { name, days, description } = snapshot.data();
+        const { name, days, description, order } = snapshot.data();
         return {
             id: habitId,
             name,
             days,
             description,
+            order,
         };
     }
 
@@ -65,4 +68,14 @@ export const removeHabit = (userId: string, habitId: string) => {
         removeStatusesByHabit(userId, habitId),
         deleteDoc(doc(db, getHabitDocumentPath(userId, habitId))),
     ]);
+};
+
+export const reorderHabits = (userId: string, habits: Habit[]) => {
+    const promises = habits.map((habit, index) => {
+        updateDoc(doc(db, getHabitDocumentPath(userId, habit.id)), {
+            order: index,
+        });
+    });
+
+    return Promise.all(promises);
 };

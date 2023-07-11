@@ -3,9 +3,16 @@
 import React, { useEffect, useState } from "react";
 import { Habit, HabitsContext } from "../contexts/HabitsContexts";
 import { db } from "@/services/firebase";
-import { query, collection, onSnapshot, Unsubscribe } from "firebase/firestore";
+import {
+    query,
+    collection,
+    onSnapshot,
+    Unsubscribe,
+    orderBy,
+} from "firebase/firestore";
 import { useUserId } from "@/features/auth/hooks/useUserId";
 import { useAuth } from "@/features/auth/hooks/useAuth";
+import { reorderHabits } from "../services/habits";
 
 type Props = {
     children: React.ReactNode;
@@ -19,17 +26,22 @@ const HabitsProvider = ({ children }: Props) => {
         let unsubscribe: Unsubscribe;
 
         if (user) {
-            const q = query(collection(db, `users/${user.uid}/habits`));
+            const q = query(
+                collection(db, `users/${user.uid}/habits`),
+                orderBy("order")
+            );
             unsubscribe = onSnapshot(q, (querySnapshot) => {
                 const habitsFromSnapshot: Habit[] = [];
 
                 querySnapshot.forEach((doc) => {
-                    const { name, description, days } = doc.data();
+                    const { name, description, days, order } = doc.data();
+
                     habitsFromSnapshot.push({
                         id: doc.id,
                         name,
                         description,
                         days,
+                        order,
                     });
                 });
 
@@ -46,8 +58,15 @@ const HabitsProvider = ({ children }: Props) => {
         };
     }, [user]);
 
+    const reorder = (reorderedHabits: Habit[]) => {
+        if (user) {
+            setHabits(reorderedHabits);
+            reorderHabits(user.uid, reorderedHabits);
+        }
+    };
+
     return (
-        <HabitsContext.Provider value={{ habits }}>
+        <HabitsContext.Provider value={{ habits, reorder }}>
             {children}
         </HabitsContext.Provider>
     );
