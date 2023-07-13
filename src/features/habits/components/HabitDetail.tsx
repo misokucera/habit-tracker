@@ -13,6 +13,8 @@ import StatusList from "./StatusList";
 import { RadioGroup } from "@headlessui/react";
 import StatusPeriodOption from "./StatusPeriodOption";
 import { useHabits } from "../hooks/useHabits";
+import { HiArrowLeft } from "react-icons/hi";
+import Link from "next/link";
 
 type Props = {
     habitId: string;
@@ -48,8 +50,12 @@ const HabitDetail = ({ habitId }: Props) => {
 
     return (
         <div>
-            <div className="flex items-center justify-between gap-5 mb-5">
-                <Headline>{habit.name}</Headline>
+            <div className="flex items-center justify-between gap-3 mb-2">
+                <Link href="/">
+                    <button className="text-sm inline-flex gap-2 items-center text-slate-400">
+                        <HiArrowLeft /> Back to list
+                    </button>
+                </Link>
                 <div className="flex gap-3">
                     <Button
                         variant="primary"
@@ -63,6 +69,11 @@ const HabitDetail = ({ habitId }: Props) => {
                     >
                         Remove
                     </Button>
+                </div>
+            </div>
+            <div className="flex items-center justify-between gap-3 mb-5">
+                <div className="flex-1">
+                    <Headline>{habit.name}</Headline>
                 </div>
             </div>
             {habit.description && <p>{habit.description}</p>}
