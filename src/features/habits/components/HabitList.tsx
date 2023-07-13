@@ -18,9 +18,11 @@ import { useUserId } from "@/features/auth/hooks/useUserId";
 import {
     DndContext,
     DragEndEvent,
+    DragStartEvent,
     KeyboardSensor,
     MouseSensor,
     TouchSensor,
+    UniqueIdentifier,
     closestCenter,
     useSensor,
     useSensors,
@@ -32,6 +34,10 @@ import {
     verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import SortableTableRow from "./SortableTableRow";
+import {
+    restrictToParentElement,
+    restrictToVerticalAxis,
+} from "@dnd-kit/modifiers";
 
 dayjs.extend(localizedFormat);
 
@@ -41,6 +47,9 @@ const minCellCount = 3;
 
 const HabitList = () => {
     const { habits, reorder } = useHabits();
+    const [draggedItem, setDraggedItem] = useState<UniqueIdentifier | null>(
+        null
+    );
     const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
     const userId = useUserId();
     const tableParentRef = useRef<HTMLDivElement>(null);
@@ -66,6 +75,10 @@ const HabitList = () => {
         await addHabit(userId, data);
     };
 
+    const handleDragStart = (event: DragStartEvent) => {
+        setDraggedItem(event.active.id);
+    };
+
     const handleDragEnd = (event: DragEndEvent) => {
         const { active, over } = event;
 
@@ -75,9 +88,14 @@ const HabitList = () => {
         const reorderedHabits = arrayMove(habits, oldIndex, newIndex);
 
         reorder(reorderedHabits);
+
+        setDraggedItem(null);
     };
 
     const days = Array.from(Array(numberOfDaysToShow).keys());
+
+    // TODO: Add DragOverlay
+    const draggedHabit = habits.find((habit) => habit.id === draggedItem);
 
     return (
         <div className="">
@@ -101,6 +119,7 @@ const HabitList = () => {
                     <thead>
                         <tr className="border-b">
                             <th></th>
+                            <th></th>
                             {days.map((day) => (
                                 <th
                                     key={day}
@@ -115,8 +134,13 @@ const HabitList = () => {
                         <StatusesProvider selectedDays={numberOfDaysToShow}>
                             <DndContext
                                 onDragEnd={handleDragEnd}
+                                onDragStart={handleDragStart}
                                 collisionDetection={closestCenter}
                                 sensors={sensors}
+                                modifiers={[
+                                    restrictToVerticalAxis,
+                                    restrictToParentElement,
+                                ]}
                             >
                                 <SortableContext
                                     items={habits}

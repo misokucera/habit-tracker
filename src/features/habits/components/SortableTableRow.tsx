@@ -2,6 +2,7 @@ import { useSortable } from "@dnd-kit/sortable";
 import React from "react";
 import { CSS } from "@dnd-kit/utilities";
 import { MdDragIndicator } from "react-icons/md";
+import classNames from "classnames";
 
 type Props = {
     id: string;
@@ -10,6 +11,7 @@ type Props = {
 
 const SortableTableRow = ({ id, children }: Props) => {
     const {
+        isDragging,
         attributes,
         listeners,
         setNodeRef,
@@ -19,7 +21,7 @@ const SortableTableRow = ({ id, children }: Props) => {
     } = useSortable({ id });
 
     const style = {
-        transform: CSS.Transform.toString(transform),
+        transform: CSS.Translate.toString(transform),
         transition,
     };
 
@@ -28,9 +30,11 @@ const SortableTableRow = ({ id, children }: Props) => {
             ref={setNodeRef}
             style={style}
             {...attributes}
-            className="border-b last-of-type:border-none"
+            className={classNames("group", {
+                "opacity-70": isDragging,
+            })}
         >
-            <td>
+            <td className="opacity-0 group-hover:opacity-100 transition-opacity">
                 <button {...listeners} ref={setActivatorNodeRef}>
                     <MdDragIndicator className="text-slate-400" />
                 </button>
