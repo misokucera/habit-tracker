@@ -1,4 +1,9 @@
-import { getWeekdayInPast, getDateInPast, normalizeDate } from "@/utils/day";
+import {
+    getWeekdayInPast,
+    getDateInPast,
+    normalizeDate,
+    formatDateInPast,
+} from "@/utils/day";
 import ChangeStatusButton from "./ChangeStatusButton";
 import { Habit } from "../contexts/HabitsContexts";
 import { addStatus, removeStatus } from "../services/statuses";
@@ -49,6 +54,7 @@ const DailyStatusCells = ({ habit, daysInPast }: Props) => {
                         ),
                         "opacity-30": day >= lastSelectedDays,
                     })}
+                    title={formatDateInPast(day)}
                 >
                     <ChangeStatusButton
                         status={findStatus(habit.id, day)}

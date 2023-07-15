@@ -41,7 +41,6 @@ import {
 
 dayjs.extend(localizedFormat);
 
-const locale = "en";
 const expectedCellWidth = 100;
 const minCellCount = 3;
 
@@ -125,7 +124,7 @@ const HabitList = () => {
                                     key={day}
                                     className="p-2 text-xs text-slate-700 font-normal whitespace-nowrap"
                                 >
-                                    {formatDateInPast(day, locale)}
+                                    {formatDateInPast(day)}
                                 </th>
                             ))}
                         </tr>
