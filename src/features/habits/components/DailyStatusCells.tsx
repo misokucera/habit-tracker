@@ -62,7 +62,7 @@ const DailyStatusCells = ({ habit, daysInPast }: Props) => {
                 <td
                     key={day}
                     className={classNames(
-                        "p-3 text-center transition-all",
+                        "p-2 sm:p-3 text-center transition-all",
                         getBackgroundClass(day),
                         { "opacity-30": day >= lastSelectedDays }
                     )}

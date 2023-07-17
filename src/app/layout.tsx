@@ -18,9 +18,9 @@ export default function RootLayout({
     children: React.ReactNode;
 }) {
     return (
-        <html lang="en">
+        <html lang="en" className="text-sm sm:text-base">
             <body className={inter.className}>
-                <main className="flex min-h-screen justify-center p-8 md:p-16 bg-gradient-to-b from-sky-400 to-purple-400">
+                <main className="flex min-h-screen justify-center px-3 py-6 sm:p-8 md:p-16 bg-gradient-to-b from-sky-400 to-purple-400">
                     <AuthProvider
                         fallback={
                             <div className="w-full max-w-5xl">

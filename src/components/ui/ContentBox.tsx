@@ -5,7 +5,9 @@ type Props = {
 };
 
 const ContentBox = ({ children }: Props) => {
-    return <div className="rounded-lg bg-white p-6 sm:p-8">{children}</div>;
+    return (
+        <div className="rounded-lg bg-white p-4 sm:p-6 sm:p-8">{children}</div>
+    );
 };
 
 export default ContentBox;
