@@ -10,6 +10,7 @@ import { addStatus, removeStatus } from "../services/statuses";
 import { useStatuses } from "../hooks/useStatuses";
 import classNames from "classnames";
 import { useUserId } from "@/features/auth/hooks/useUserId";
+import { Status } from "../contexts/StatusesContexts";
 
 type Props = {
     habit: Habit;
@@ -42,18 +43,30 @@ const DailyStatusCells = ({ habit, daysInPast }: Props) => {
         );
     };
 
+    const getBackgroundClass = (day: number) => {
+        const status = findStatus(habit.id, day);
+
+        if (status) {
+            return "bg-lime-100";
+        }
+
+        if (!habit.days.includes(getWeekdayInPast(day))) {
+            return "bg-slate-100";
+        }
+
+        return "";
+    };
+
     return (
         <>
             {days.map((day) => (
                 <td
                     key={day}
-                    className={classNames("p-3 text-center transition-all", {
-                        "bg-lime-100": findStatus(habit.id, day),
-                        "bg-slate-100": !habit.days.includes(
-                            getWeekdayInPast(day)
-                        ),
-                        "opacity-30": day >= lastSelectedDays,
-                    })}
+                    className={classNames(
+                        "p-3 text-center transition-all",
+                        getBackgroundClass(day),
+                        { "opacity-30": day >= lastSelectedDays }
+                    )}
                     title={formatDateInPast(day)}
                 >
                     <ChangeStatusButton
