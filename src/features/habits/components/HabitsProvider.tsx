@@ -10,7 +10,6 @@ import {
     Unsubscribe,
     orderBy,
 } from "firebase/firestore";
-import { useUserId } from "@/features/auth/hooks/useUserId";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import { reorderHabits } from "../services/habits";
 

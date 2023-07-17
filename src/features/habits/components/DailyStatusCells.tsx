@@ -10,7 +10,6 @@ import { addStatus, removeStatus } from "../services/statuses";
 import { useStatuses } from "../hooks/useStatuses";
 import classNames from "classnames";
 import { useUserId } from "@/features/auth/hooks/useUserId";
-import { Status } from "../contexts/StatusesContexts";
 
 type Props = {
     habit: Habit;
