@@ -56,7 +56,7 @@ const StatusesProvider = ({ children, selectedDays, habitId }: Props) => {
         });
 
         return () => unsubscribe();
-    }, [userId, selectedDays]);
+    }, [userId, selectedDays, habitId]);
 
     return (
         <StatusesContext.Provider value={{ statuses, lastSelectedDays }}>
