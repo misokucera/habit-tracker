@@ -19,6 +19,7 @@ type Props = {
 
 const HabitsProvider = ({ children }: Props) => {
     const [habits, setHabits] = useState<Habit[]>([]);
+    const [loading, setLoading] = useState<boolean>(true);
     const { user } = useAuth();
 
     useEffect(() => {
@@ -45,6 +46,7 @@ const HabitsProvider = ({ children }: Props) => {
                 });
 
                 setHabits(habitsFromSnapshot);
+                setLoading(false);
             });
         } else {
             setHabits([]);
@@ -65,7 +67,7 @@ const HabitsProvider = ({ children }: Props) => {
     };
 
     return (
-        <HabitsContext.Provider value={{ habits, reorder }}>
+        <HabitsContext.Provider value={{ habits, reorder, loading }}>
             {children}
         </HabitsContext.Provider>
     );

@@ -45,7 +45,7 @@ const expectedCellWidth = 100;
 const minCellCount = 3;
 
 const HabitList = () => {
-    const { habits, reorder } = useHabits();
+    const { habits, loading, reorder } = useHabits();
     const [draggedItem, setDraggedItem] = useState<UniqueIdentifier | null>(
         null
     );
@@ -96,6 +96,11 @@ const HabitList = () => {
     // TODO: Add DragOverlay
     const draggedHabit = habits.find((habit) => habit.id === draggedItem);
 
+    if (loading) {
+        // TODO: Add something better
+        return null;
+    }
+
     return (
         <div className="">
             <CreateHabitDialog
@@ -106,76 +111,96 @@ const HabitList = () => {
 
             <div className="flex gap-3 justify-between items-center mb-10">
                 <Headline>Habits</Headline>
-                <Button
-                    onClick={() => setIsCreateDialogOpen(true)}
-                    variant="primary"
-                >
-                    Add new
-                </Button>
+                {habits.length > 0 && (
+                    <Button
+                        onClick={() => setIsCreateDialogOpen(true)}
+                        variant="primary"
+                    >
+                        Add new
+                    </Button>
+                )}
             </div>
-            <div className="overflow-auto" ref={tableParentRef}>
-                <table className="w-full">
-                    <thead>
-                        <tr className="border-b">
-                            <th></th>
-                            <th></th>
-                            {days.map((day) => (
-                                <th
-                                    key={day}
-                                    className="p-2 text-xs text-slate-700 font-normal whitespace-nowrap"
+            {habits.length > 0 ? (
+                <div className="overflow-auto" ref={tableParentRef}>
+                    <table className="w-full">
+                        <thead>
+                            <tr className="border-b">
+                                <th></th>
+                                <th></th>
+                                {days.map((day) => (
+                                    <th
+                                        key={day}
+                                        className="p-2 text-xs text-slate-700 font-normal whitespace-nowrap"
+                                    >
+                                        {formatDateInPast(day)}
+                                    </th>
+                                ))}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <StatusesProvider selectedDays={numberOfDaysToShow}>
+                                <DndContext
+                                    onDragEnd={handleDragEnd}
+                                    onDragStart={handleDragStart}
+                                    collisionDetection={closestCenter}
+                                    sensors={sensors}
+                                    modifiers={[
+                                        restrictToVerticalAxis,
+                                        restrictToParentElement,
+                                    ]}
                                 >
-                                    {formatDateInPast(day)}
-                                </th>
-                            ))}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <StatusesProvider selectedDays={numberOfDaysToShow}>
-                            <DndContext
-                                onDragEnd={handleDragEnd}
-                                onDragStart={handleDragStart}
-                                collisionDetection={closestCenter}
-                                sensors={sensors}
-                                modifiers={[
-                                    restrictToVerticalAxis,
-                                    restrictToParentElement,
-                                ]}
-                            >
-                                <SortableContext
-                                    items={habits}
-                                    strategy={verticalListSortingStrategy}
-                                >
-                                    {habits.map((habit) => (
-                                        <SortableTableRow
-                                            key={habit.id}
-                                            id={habit.id}
-                                        >
-                                            <td className="px-2 py-3 sm:p-3 align-middle">
-                                                <Link
-                                                    href={`/detail/${habit.id}`}
-                                                >
-                                                    {habit.name}
-                                                    {habit.description !==
-                                                        "" && (
-                                                        <p className="hidden sm:block text-sm text-slate-400 mt-1">
-                                                            {habit.description}
-                                                        </p>
-                                                    )}
-                                                </Link>
-                                            </td>
+                                    <SortableContext
+                                        items={habits}
+                                        strategy={verticalListSortingStrategy}
+                                    >
+                                        {habits.map((habit) => (
+                                            <SortableTableRow
+                                                key={habit.id}
+                                                id={habit.id}
+                                            >
+                                                <td className="px-2 py-3 sm:p-3 align-middle">
+                                                    <Link
+                                                        href={`/detail/${habit.id}`}
+                                                    >
+                                                        {habit.name}
+                                                        {habit.description !==
+                                                            "" && (
+                                                            <p className="hidden sm:block text-sm text-slate-400 mt-1">
+                                                                {
+                                                                    habit.description
+                                                                }
+                                                            </p>
+                                                        )}
+                                                    </Link>
+                                                </td>
 
-                                            <DailyStatusCells
-                                                habit={habit}
-                                                daysInPast={numberOfDaysToShow}
-                                            />
-                                        </SortableTableRow>
-                                    ))}
-                                </SortableContext>
-                            </DndContext>
-                        </StatusesProvider>
-                    </tbody>
-                </table>
-            </div>
+                                                <DailyStatusCells
+                                                    habit={habit}
+                                                    daysInPast={
+                                                        numberOfDaysToShow
+                                                    }
+                                                />
+                                            </SortableTableRow>
+                                        ))}
+                                    </SortableContext>
+                                </DndContext>
+                            </StatusesProvider>
+                        </tbody>
+                    </table>
+                </div>
+            ) : (
+                <div className="text-center mb-10">
+                    <p className="font-bold text-lg text-slate-700 mb-1">
+                        No habits are tracked yet
+                    </p>
+                    <p className="text-sm text-slate-500 mb-4">
+                        Your habits will be listed here
+                    </p>
+                    <Button onClick={() => setIsCreateDialogOpen(true)}>
+                        Add habit
+                    </Button>
+                </div>
+            )}
         </div>
     );
 };
