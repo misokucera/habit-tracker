@@ -1,21 +1,25 @@
 import { Fragment, ReactNode } from "react";
 import { Dialog as HeadlessDialog, Transition } from "@headlessui/react";
+import IconButton from "./IconButton";
+import { HiXMark } from "react-icons/hi2";
 
 type Props = {
     open: boolean;
-    title?: string;
+    title: string;
     description?: string;
     onClose: () => void;
     children: ReactNode;
+    showCloseButton?: boolean;
     maxWidth?: "xs" | "sm" | "md" | "lg" | "xl";
 };
 
 const Dialog = ({
     open,
-    title = "",
+    title,
     description = "",
     onClose,
     children,
+    showCloseButton = false,
     maxWidth,
 }: Props) => {
     return (
@@ -54,11 +58,20 @@ const Dialog = ({
                                     maxWidth ? `w-full max-w-${maxWidth}` : ""
                                 }`}
                             >
+                                {showCloseButton && (
+                                    <div className="absolute top-3 right-3 sm:top-4 sm:right-4">
+                                        <IconButton onClick={onClose}>
+                                            <HiXMark />
+                                        </IconButton>
+                                    </div>
+                                )}
+
                                 {title !== "" && (
-                                    <HeadlessDialog.Title className="text-2xl text-slate-600 font-semibold mb-3">
+                                    <HeadlessDialog.Title className="text-2xl text-slate-600 font-semibold mb-3 mr-6">
                                         {title}
                                     </HeadlessDialog.Title>
                                 )}
+
                                 {description !== "" && (
                                     <HeadlessDialog.Description className="text-slate-500 mb-5">
                                         {description}

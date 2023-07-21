@@ -36,7 +36,11 @@ const SortableTableRow = ({ id, children }: Props) => {
             })}
         >
             <td>
-                <IconButton {...listeners} ref={setActivatorNodeRef}>
+                <IconButton
+                    variant="light"
+                    {...listeners}
+                    ref={setActivatorNodeRef}
+                >
                     <MdDragIndicator />
                 </IconButton>
             </td>

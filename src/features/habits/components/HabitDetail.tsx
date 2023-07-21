@@ -129,7 +129,9 @@ const HabitDetail = ({ habitId }: Props) => {
             <Dialog
                 open={openEditDialog}
                 onClose={() => setOpenEditDialog(false)}
-                title="Edit"
+                title="Edit habit"
+                maxWidth="lg"
+                showCloseButton
             >
                 <HabitForm
                     onSubmit={handleEdit}
