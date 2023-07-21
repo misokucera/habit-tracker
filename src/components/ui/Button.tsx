@@ -4,7 +4,7 @@ type Props = {
     children: React.ReactNode;
     type?: "submit" | "button";
     variant?: "primary" | "secondary";
-    onClick?: () => void;
+    onClick?: React.MouseEventHandler<HTMLButtonElement>;
 };
 
 const Button = ({

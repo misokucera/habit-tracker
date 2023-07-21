@@ -18,6 +18,4 @@ const DragOverlayItem = forwardRef<HTMLDivElement, Props>(
     }
 );
 
-DragOverlayItem.displayName = "DragOverlayItem";
-
 export default DragOverlayItem;

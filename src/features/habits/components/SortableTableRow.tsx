@@ -3,6 +3,7 @@ import React from "react";
 import { CSS } from "@dnd-kit/utilities";
 import { MdDragIndicator } from "react-icons/md";
 import classNames from "classnames";
+import IconButton from "@/components/ui/IconButton";
 
 type Props = {
     id: string;
@@ -30,14 +31,14 @@ const SortableTableRow = ({ id, children }: Props) => {
             ref={setNodeRef}
             style={style}
             {...attributes}
-            className={classNames("group", {
+            className={classNames({
                 "opacity-70": isDragging,
             })}
         >
-            <td className="opacity-40 group-hover:opacity-100 transition-opacity">
-                <button {...listeners} ref={setActivatorNodeRef}>
-                    <MdDragIndicator className="text-slate-500" />
-                </button>
+            <td>
+                <IconButton {...listeners} ref={setActivatorNodeRef}>
+                    <MdDragIndicator />
+                </IconButton>
             </td>
             {children}
         </tr>
