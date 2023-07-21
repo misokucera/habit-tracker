@@ -38,6 +38,7 @@ import {
     restrictToParentElement,
     restrictToVerticalAxis,
 } from "@dnd-kit/modifiers";
+import Skeleton from "@/components/ui/Skeleton";
 
 dayjs.extend(localizedFormat);
 
@@ -45,7 +46,7 @@ const expectedCellWidth = 100;
 const minCellCount = 3;
 
 const HabitList = () => {
-    const { habits, loading, reorder } = useHabits();
+    const { habits, fetching, reorder } = useHabits();
     const [draggedItem, setDraggedItem] = useState<UniqueIdentifier | null>(
         null
     );
@@ -96,11 +97,6 @@ const HabitList = () => {
     // TODO: Add DragOverlay
     const draggedHabit = habits.find((habit) => habit.id === draggedItem);
 
-    if (loading) {
-        // TODO: Add something better
-        return null;
-    }
-
     return (
         <div className="">
             <CreateHabitDialog
@@ -120,7 +116,8 @@ const HabitList = () => {
                     </Button>
                 )}
             </div>
-            {habits.length > 0 ? (
+            {fetching && <Skeleton />}
+            {!fetching && habits.length > 0 && (
                 <div className="overflow-auto" ref={tableParentRef}>
                     <table className="w-full">
                         <thead>
@@ -188,7 +185,8 @@ const HabitList = () => {
                         </tbody>
                     </table>
                 </div>
-            ) : (
+            )}
+            {!fetching && habits.length === 0 && (
                 <div className="text-center mb-10">
                     <p className="font-bold text-lg text-slate-700 mb-1">
                         No habits are tracked yet

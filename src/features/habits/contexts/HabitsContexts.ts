@@ -10,12 +10,12 @@ export type Habit = {
 
 type HabitsContext = {
     habits: Habit[];
-    loading: boolean;
+    fetching: boolean;
     reorder: (reorderedHabits: Habit[]) => void;
 };
 
 export const HabitsContext = createContext<HabitsContext>({
     habits: [],
     reorder: () => {},
-    loading: true,
+    fetching: true,
 });

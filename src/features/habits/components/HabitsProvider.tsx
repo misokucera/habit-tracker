@@ -19,7 +19,7 @@ type Props = {
 
 const HabitsProvider = ({ children }: Props) => {
     const [habits, setHabits] = useState<Habit[]>([]);
-    const [loading, setLoading] = useState<boolean>(true);
+    const [fetching, setFetching] = useState<boolean>(true);
     const { user } = useAuth();
 
     useEffect(() => {
@@ -30,6 +30,7 @@ const HabitsProvider = ({ children }: Props) => {
                 collection(db, `users/${user.uid}/habits`),
                 orderBy("order")
             );
+            setFetching(true);
             unsubscribe = onSnapshot(q, (querySnapshot) => {
                 const habitsFromSnapshot: Habit[] = [];
 
@@ -46,7 +47,7 @@ const HabitsProvider = ({ children }: Props) => {
                 });
 
                 setHabits(habitsFromSnapshot);
-                setLoading(false);
+                setFetching(false);
             });
         } else {
             setHabits([]);
@@ -67,7 +68,7 @@ const HabitsProvider = ({ children }: Props) => {
     };
 
     return (
-        <HabitsContext.Provider value={{ habits, reorder, loading }}>
+        <HabitsContext.Provider value={{ habits, reorder, fetching }}>
             {children}
         </HabitsContext.Provider>
     );

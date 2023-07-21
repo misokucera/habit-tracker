@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import Skeleton from "@/components/ui/Skeleton";
 import HabitsProvider from "@/features/habits/components/HabitsProvider";
+import { CgSpinner } from "react-icons/cg";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,11 +24,13 @@ export default function RootLayout({
                 <main className="flex min-h-screen justify-center px-3 py-6 sm:p-8 md:p-16 bg-gradient-to-b from-sky-400 to-purple-400">
                     <AuthProvider
                         fallback={
-                            <div className="w-full max-w-5xl">
-                                <div className="mb-5">
+                            <div className="text-center">
+                                <div>
                                     <Breadcrumbs segments={["loading..."]} />
                                 </div>
-                                <Skeleton />
+                                <div className="mt-10 text-center">
+                                    <CgSpinner className="w-10 h-10 inline text-sky-200 animate-spin" />
+                                </div>
                             </div>
                         }
                     >

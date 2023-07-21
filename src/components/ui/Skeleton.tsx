@@ -1,5 +1,7 @@
 const Skeleton = () => {
-    return <div className="rounded-lg bg-sky-200 p-6 h-56 max-h-screen"></div>;
+    return (
+        <div className="rounded-lg bg-slate-100 p-6 h-40 animate-pulse"></div>
+    );
 };
 
 export default Skeleton;
