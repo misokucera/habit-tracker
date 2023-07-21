@@ -158,11 +158,14 @@ const HabitList = () => {
                                                 <td className="px-2 py-3 sm:p-3 align-middle">
                                                     <Link
                                                         href={`/detail/${habit.id}`}
+                                                        className="group/link"
                                                     >
-                                                        {habit.name}
+                                                        <p className="font-medium text-slate-700 group-hover/link:text-sky-400">
+                                                            {habit.name}
+                                                        </p>
                                                         {habit.description !==
                                                             "" && (
-                                                            <p className="hidden sm:block text-sm text-slate-400 mt-1">
+                                                            <p className="text-sm text-slate-400 mt-1">
                                                                 {
                                                                     habit.description
                                                                 }

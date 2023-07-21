@@ -34,9 +34,9 @@ const SortableTableRow = ({ id, children }: Props) => {
                 "opacity-70": isDragging,
             })}
         >
-            <td className="opacity-50 group-hover:opacity-100 transition-opacity">
+            <td className="opacity-40 group-hover:opacity-100 transition-opacity">
                 <button {...listeners} ref={setActivatorNodeRef}>
-                    <MdDragIndicator className="text-slate-400" />
+                    <MdDragIndicator className="text-slate-500" />
                 </button>
             </td>
             {children}
