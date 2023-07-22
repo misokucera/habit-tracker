@@ -52,7 +52,7 @@ const HabitDetail = ({ habitId }: Props) => {
         <div>
             <div className="flex items-center justify-between gap-3 mb-2">
                 <Link href="/">
-                    <button className="text-sm inline-flex gap-2 items-center text-slate-400">
+                    <button className="text-sm inline-flex gap-2 items-center text-slate-400 hover:text-sky-400">
                         <HiArrowLeft /> Back to list
                     </button>
                 </Link>
