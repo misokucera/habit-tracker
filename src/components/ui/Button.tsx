@@ -1,4 +1,4 @@
-import React from "react";
+import classNames from "classnames";
 
 type Props = {
     children: React.ReactNode;
@@ -13,32 +13,17 @@ const Button = ({
     type = "button",
     variant = "primary",
 }: Props) => {
-    const variantClasses = [];
-
-    if (variant === "primary") {
-        variantClasses.push(
-            "bg-sky-400",
-            "hover:bg-sky-500",
-            "text-white",
-            "focus-visible:ring-sky-200",
-        );
-    }
-
-    if (variant === "secondary") {
-        variantClasses.push(
-            "bg-slate-200",
-            "hover:bg-slate-300",
-            "text-slate-500",
-            "hover:text-slate-600",
-            "focus-visible:ring-slate-100",
-        );
-    }
-
     return (
         <button
-            className={`rounded px-4 py-2 text-sm font-semibold ${variantClasses.join(
-                " ",
-            )}  transition-colors focus:outline-none focus-visible:ring-4`}
+            className={classNames(
+                "rounded px-4 py-2 text-sm font-semibold transition-colors focus:outline-none focus-visible:ring-4",
+                {
+                    "bg-sky-400 text-white hover:bg-sky-500 focus-visible:ring-sky-200":
+                        variant === "primary",
+                    "bg-slate-200 text-slate-500 hover:bg-slate-300 hover:text-slate-600 focus-visible:ring-slate-100":
+                        variant === "secondary",
+                },
+            )}
             onClick={onClick}
             type={type}
         >
