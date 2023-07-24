@@ -30,7 +30,6 @@ const SortableTableRow = ({ id, children }: Props) => {
         <tr
             ref={setNodeRef}
             style={style}
-            {...attributes}
             className={classNames({
                 "opacity-70": isDragging,
             })}
@@ -38,6 +37,7 @@ const SortableTableRow = ({ id, children }: Props) => {
             <td>
                 <IconButton
                     variant="light"
+                    {...attributes}
                     {...listeners}
                     ref={setActivatorNodeRef}
                 >
