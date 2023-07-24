@@ -14,7 +14,7 @@ import {
 export const addStatus = async (
     userId: string,
     habitId: string,
-    date: Date
+    date: Date,
 ) => {
     return await addDoc(collection(db, `users/${userId}/statuses`), {
         date: Timestamp.fromDate(normalizeDate(date)),
@@ -28,11 +28,11 @@ export const removeStatus = async (userId: string, statusId: string) => {
 
 export const removeStatusesByHabit = async (
     userId: string,
-    habitId: string
+    habitId: string,
 ) => {
     const q = query(
         collection(db, `users/${userId}/statuses`),
-        where("habitId", "==", habitId)
+        where("habitId", "==", habitId),
     );
 
     const statuses = await getDocs(q);

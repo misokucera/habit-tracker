@@ -54,12 +54,12 @@ const Dialog = ({
                             leaveTo="opacity-0 scale-95"
                         >
                             <HeadlessDialog.Panel
-                                className={`bg-white px-8 py-7 sm:px-12 sm:py-10 rounded-xl ${
+                                className={`rounded-xl bg-white px-8 py-7 sm:px-12 sm:py-10 ${
                                     maxWidth ? `w-full max-w-${maxWidth}` : ""
                                 }`}
                             >
                                 {showCloseButton && (
-                                    <div className="absolute top-3 right-3 sm:top-4 sm:right-4">
+                                    <div className="absolute right-3 top-3 sm:right-4 sm:top-4">
                                         <IconButton onClick={onClose}>
                                             <HiXMark />
                                         </IconButton>
@@ -67,13 +67,13 @@ const Dialog = ({
                                 )}
 
                                 {title !== "" && (
-                                    <HeadlessDialog.Title className="text-2xl text-slate-600 font-semibold mb-3 mr-6">
+                                    <HeadlessDialog.Title className="mb-3 mr-6 text-2xl font-semibold text-slate-600">
                                         {title}
                                     </HeadlessDialog.Title>
                                 )}
 
                                 {description !== "" && (
-                                    <HeadlessDialog.Description className="text-slate-500 mb-5">
+                                    <HeadlessDialog.Description className="mb-5 text-slate-500">
                                         {description}
                                     </HeadlessDialog.Description>
                                 )}

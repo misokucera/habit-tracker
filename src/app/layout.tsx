@@ -21,7 +21,7 @@ export default function RootLayout({
     return (
         <html lang="en" className="text-sm sm:text-base">
             <body className={inter.className}>
-                <main className="flex min-h-screen justify-center px-3 py-6 sm:p-8 md:p-16 bg-gradient-to-b from-sky-400 to-purple-400">
+                <main className="flex min-h-screen justify-center bg-gradient-to-b from-sky-400 to-purple-400 px-3 py-6 sm:p-8 md:p-16">
                     <AuthProvider
                         fallback={
                             <div className="text-center">
@@ -29,7 +29,7 @@ export default function RootLayout({
                                     <Breadcrumbs segments={["loading..."]} />
                                 </div>
                                 <div className="mt-10 text-center">
-                                    <CgSpinner className="w-10 h-10 inline text-sky-200 animate-spin" />
+                                    <CgSpinner className="inline h-10 w-10 animate-spin text-sky-200" />
                                 </div>
                             </div>
                         }

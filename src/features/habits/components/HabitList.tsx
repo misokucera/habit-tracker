@@ -48,7 +48,7 @@ const minCellCount = 3;
 const HabitList = () => {
     const { habits, fetching, reorder } = useHabits();
     const [draggedItem, setDraggedItem] = useState<UniqueIdentifier | null>(
-        null
+        null,
     );
     const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
     const userId = useUserId();
@@ -61,12 +61,12 @@ const HabitList = () => {
         useSensor(TouchSensor),
         useSensor(KeyboardSensor, {
             coordinateGetter: sortableKeyboardCoordinates,
-        })
+        }),
     );
 
     useEffect(() => {
         setNumberOfDaysToShow(
-            Math.max(Math.floor(tableWidth / expectedCellWidth), minCellCount)
+            Math.max(Math.floor(tableWidth / expectedCellWidth), minCellCount),
         );
     }, [tableWidth]);
 
@@ -105,7 +105,7 @@ const HabitList = () => {
                 onFormSubmit={handleFormSubmit}
             />
 
-            <div className="flex gap-3 justify-between items-center mb-10">
+            <div className="mb-10 flex items-center justify-between gap-3">
                 <Headline>Habits</Headline>
                 {habits.length > 0 && (
                     <Button
@@ -127,7 +127,7 @@ const HabitList = () => {
                                 {days.map((day) => (
                                     <th
                                         key={day}
-                                        className="p-2 text-xs text-slate-700 font-normal whitespace-nowrap"
+                                        className="whitespace-nowrap p-2 text-xs font-normal text-slate-700"
                                     >
                                         {formatDateInPast(day)}
                                     </th>
@@ -155,17 +155,17 @@ const HabitList = () => {
                                                 key={habit.id}
                                                 id={habit.id}
                                             >
-                                                <td className="px-2 py-3 sm:p-3 md:pr-6 align-middle">
+                                                <td className="px-2 py-3 align-middle sm:p-3 md:pr-6">
                                                     <Link
                                                         href={`/detail/${habit.id}`}
                                                         className="group/link"
                                                     >
-                                                        <p className="font-medium text-slate-700 group-hover/link:text-sky-400 line-clamp-2">
+                                                        <p className="line-clamp-2 font-medium text-slate-700 group-hover/link:text-sky-400">
                                                             {habit.name}
                                                         </p>
                                                         {habit.description !==
                                                             "" && (
-                                                            <p className="text-sm text-slate-400 mt-1 line-clamp-2">
+                                                            <p className="mt-1 line-clamp-2 text-sm text-slate-400">
                                                                 {
                                                                     habit.description
                                                                 }
@@ -190,11 +190,11 @@ const HabitList = () => {
                 </div>
             )}
             {!fetching && habits.length === 0 && (
-                <div className="text-center mb-10">
-                    <p className="font-bold text-lg text-slate-700 mb-1">
+                <div className="mb-10 text-center">
+                    <p className="mb-1 text-lg font-bold text-slate-700">
                         No habits are tracked yet
                     </p>
-                    <p className="text-sm text-slate-500 mb-4">
+                    <p className="mb-4 text-sm text-slate-500">
                         Your habits will be listed here
                     </p>
                     <Button onClick={() => setIsCreateDialogOpen(true)}>

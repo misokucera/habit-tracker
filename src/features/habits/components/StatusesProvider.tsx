@@ -35,7 +35,7 @@ const StatusesProvider = ({ children, selectedDays, habitId }: Props) => {
 
         const q = query(
             collection(db, `users/${userId}/statuses`),
-            ...conditions
+            ...conditions,
         );
 
         const unsubscribe = onSnapshot(q, (querySnapshot) => {

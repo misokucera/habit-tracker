@@ -19,20 +19,20 @@ const SignInForm = () => {
     return (
         <div className="">
             <button
-                className="inline-flex items-center gap-3 px-4 py-2 rounded-md border text-sm whitespace-nowrap"
+                className="inline-flex items-center gap-3 whitespace-nowrap rounded-md border px-4 py-2 text-sm"
                 onClick={() => singIn(provider)}
             >
                 <FcGoogle />
                 Sign in with Google
             </button>
-            <div className="relative mt-10 mb-5">
+            <div className="relative mb-5 mt-10">
                 <hr />
-                <span className="relative -top-3 bg-white text-xs text-slate-500 px-4">
+                <span className="relative -top-3 bg-white px-4 text-xs text-slate-500">
                     OR
                 </span>
             </div>
             <button
-                className="inline-flex items-center gap-3 px-4 py-2 rounded-md border text-sm whitespace-nowrap"
+                className="inline-flex items-center gap-3 whitespace-nowrap rounded-md border px-4 py-2 text-sm"
                 onClick={() => signInAnonymously(auth)}
             >
                 Sign in Anonymously

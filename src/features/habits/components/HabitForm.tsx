@@ -40,7 +40,7 @@ const HabitForm = ({ onSubmit, defaultValues }: Props) => {
             <form onSubmit={handleSubmit(onValid)}>
                 <FormLabel caption="Name">
                     <input
-                        className="p-3 max-w-xs rounded-md focus:outline-none focus-visible:border-slate-500 border-2 border-slate-200"
+                        className="max-w-xs rounded-md border-2 border-slate-200 p-3 focus:outline-none focus-visible:border-slate-500"
                         placeholder="What you want to do?"
                         {...register("name", {
                             required: true,
@@ -62,7 +62,7 @@ const HabitForm = ({ onSubmit, defaultValues }: Props) => {
                 </FormLabel>
                 <FormLabel caption="Description">
                     <textarea
-                        className="p-3 rounded-md focus:outline-none focus-visible:border-slate-500  border-2 border-slate-200"
+                        className="rounded-md border-2 border-slate-200 p-3  focus:outline-none focus-visible:border-slate-500"
                         placeholder="Why do you want to do it?"
                         {...register("description", { maxLength: 200 })}
                         aria-invalid={errors.description ? "true" : "false"}
@@ -75,7 +75,7 @@ const HabitForm = ({ onSubmit, defaultValues }: Props) => {
                     )}
                 </FormLabel>
                 <div className="mb-5">
-                    <p className="text-sm mb-2 text-slate-500">Days</p>
+                    <p className="mb-2 text-sm text-slate-500">Days</p>
                     <DaysSelector />
                 </div>
                 <div className="mt-10">

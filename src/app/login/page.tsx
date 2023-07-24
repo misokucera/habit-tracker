@@ -18,7 +18,7 @@ export default function Login() {
                         <div className="mb-5">
                             <Headline>Welcome</Headline>
                         </div>
-                        <p className="max-w-xs text-sm text-slate-500 mb-10">
+                        <p className="mb-10 max-w-xs text-sm text-slate-500">
                             Start tracking your habits after sign in with
                             options below
                         </p>

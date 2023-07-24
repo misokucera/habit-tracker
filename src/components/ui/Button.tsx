@@ -20,7 +20,7 @@ const Button = ({
             "bg-sky-400",
             "hover:bg-sky-500",
             "text-white",
-            "focus-visible:ring-sky-200"
+            "focus-visible:ring-sky-200",
         );
     }
 
@@ -30,14 +30,14 @@ const Button = ({
             "hover:bg-slate-300",
             "text-slate-500",
             "hover:text-slate-600",
-            "focus-visible:ring-slate-100"
+            "focus-visible:ring-slate-100",
         );
     }
 
     return (
         <button
-            className={`px-4 py-2 rounded font-semibold text-sm ${variantClasses.join(
-                " "
+            className={`rounded px-4 py-2 text-sm font-semibold ${variantClasses.join(
+                " ",
             )}  transition-colors focus:outline-none focus-visible:ring-4`}
             onClick={onClick}
             type={type}

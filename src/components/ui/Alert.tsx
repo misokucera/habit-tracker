@@ -6,7 +6,7 @@ const Alert = ({ children }: Props) => {
     return (
         <p
             role="alert"
-            className="px-2 w-max py-1 inline-block rounded text-sm text-red-800 bg-red-100"
+            className="inline-block w-max rounded bg-red-100 px-2 py-1 text-sm text-red-800"
         >
             {children}
         </p>

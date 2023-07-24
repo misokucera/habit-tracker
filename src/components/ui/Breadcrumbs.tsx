@@ -6,7 +6,7 @@ type Props = {
 
 const Breadcrumbs = ({ segments = [] }: Props) => {
     return (
-        <p className="font-mono font-bold text-sky-100 whitespace-nowrap">
+        <p className="whitespace-nowrap font-mono font-bold text-sky-100">
             <Link href="/" className="hover:text-sky-700">
                 /habit-tracker
             </Link>

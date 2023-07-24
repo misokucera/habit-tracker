@@ -30,7 +30,7 @@ export const addHabit = async (userId: string, habitInput: HabitFormValues) => {
 export const editHabit = async (
     userId: string,
     habitId: string,
-    habitInput: HabitFormValues
+    habitInput: HabitFormValues,
 ) => {
     const { name, description, days } = habitInput;
 
@@ -43,10 +43,10 @@ export const editHabit = async (
 
 export const getHabit = async (
     userId: string,
-    habitId: string
+    habitId: string,
 ): Promise<Habit | null> => {
     const snapshot = await getDoc(
-        doc(db, getHabitDocumentPath(userId, habitId))
+        doc(db, getHabitDocumentPath(userId, habitId)),
     );
 
     if (snapshot.exists()) {

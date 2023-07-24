@@ -16,18 +16,18 @@ const IconButton = forwardRef<HTMLButtonElement, Props>(
                 onClick={onClick}
                 ref={ref}
                 className={classNames(
-                    "inline-flex items-center justify-center w-10 h-10 rounded-full  hover:bg-slate-100 transition-colors",
+                    "inline-flex h-10 w-10 items-center justify-center rounded-full  transition-colors hover:bg-slate-100",
                     {
                         "text-slate-300 hover:text-slate-500":
                             variant === "light",
                         "text-slate-500": variant === "normal",
-                    }
+                    },
                 )}
             >
                 {children}
             </button>
         );
-    }
+    },
 );
 
 IconButton.displayName = "IconButton";

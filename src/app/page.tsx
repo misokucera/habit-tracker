@@ -10,7 +10,7 @@ export default function Home() {
     return (
         <WithAuthentication>
             <div className="w-full max-w-5xl">
-                <div className="flex items-center justify-between gap-3 mb-5">
+                <div className="mb-5 flex items-center justify-between gap-3">
                     <Breadcrumbs />
                     <SignOutButton />
                 </div>

@@ -6,10 +6,10 @@ const subscribe = (onStoreChange: () => void) => {
 };
 
 export const useElementWidthOnViewportChange = (
-    elementRef: React.RefObject<HTMLElement>
+    elementRef: React.RefObject<HTMLElement>,
 ) => {
     return useSyncExternalStore(
         subscribe,
-        () => elementRef?.current?.clientWidth || 0
+        () => elementRef?.current?.clientWidth || 0,
     );
 };

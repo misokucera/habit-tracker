@@ -24,7 +24,7 @@ const StatusList = ({ selectedDays, habitId }: Props) => {
             statuses.find(
                 (status) =>
                     status.habitId === habitId &&
-                    status.date.getTime() === normalizedDate.getTime()
+                    status.date.getTime() === normalizedDate.getTime(),
             ) || null
         );
     };

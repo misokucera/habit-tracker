@@ -28,7 +28,7 @@ const HabitsProvider = ({ children }: Props) => {
         if (user) {
             const q = query(
                 collection(db, `users/${user.uid}/habits`),
-                orderBy("order")
+                orderBy("order"),
             );
             setFetching(true);
             unsubscribe = onSnapshot(q, (querySnapshot) => {

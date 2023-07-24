@@ -50,9 +50,9 @@ const HabitDetail = ({ habitId }: Props) => {
 
     return (
         <div>
-            <div className="flex items-center justify-between gap-3 mb-2">
+            <div className="mb-2 flex items-center justify-between gap-3">
                 <Link href="/">
-                    <button className="text-sm inline-flex gap-2 items-center text-slate-400 hover:text-sky-400">
+                    <button className="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-sky-400">
                         <HiArrowLeft /> Back to list
                     </button>
                 </Link>
@@ -71,17 +71,17 @@ const HabitDetail = ({ habitId }: Props) => {
                     </Button>
                 </div>
             </div>
-            <div className="flex items-center justify-between gap-3 mb-5">
+            <div className="mb-5 flex items-center justify-between gap-3">
                 <div className="flex-1">
                     <Headline>{habit.name}</Headline>
                 </div>
             </div>
             {habit.description && <p>{habit.description}</p>}
             <RadioGroup value={selectedDays} onChange={setSelectedDays}>
-                <RadioGroup.Label className="block mb-3">
+                <RadioGroup.Label className="mb-3 block">
                     Period
                 </RadioGroup.Label>
-                <div className="inline-flex mb-5 rounded-md overflow-hidden">
+                <div className="mb-5 inline-flex overflow-hidden rounded-md">
                     <RadioGroup.Option value={7}>
                         {({ checked }) => (
                             <StatusPeriodOption checked={checked}>

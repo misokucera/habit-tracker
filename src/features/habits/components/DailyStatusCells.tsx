@@ -37,7 +37,7 @@ const DailyStatusCells = ({ habit, daysInPast }: Props) => {
             statuses.find(
                 (status) =>
                     status.habitId === habitId &&
-                    status.date.getTime() === normalizedDate.getTime()
+                    status.date.getTime() === normalizedDate.getTime(),
             ) || null
         );
     };
@@ -62,9 +62,9 @@ const DailyStatusCells = ({ habit, daysInPast }: Props) => {
                 <td
                     key={day}
                     className={classNames(
-                        "p-2 sm:p-3 text-center transition-all",
+                        "p-2 text-center transition-all sm:p-3",
                         getBackgroundClass(day),
-                        { "opacity-30": day >= lastSelectedDays }
+                        { "opacity-30": day >= lastSelectedDays },
                     )}
                     title={formatDateInPast(day)}
                 >
