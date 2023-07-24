@@ -1,7 +1,12 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Habit, HabitsContext } from "../contexts/HabitsContexts";
+import {
+    Habit,
+    HabitsContext,
+    createHabitFromDocument,
+    habitSchema,
+} from "../contexts/HabitsContexts";
 import { db } from "@/services/firebase";
 import {
     query,
@@ -9,9 +14,15 @@ import {
     onSnapshot,
     Unsubscribe,
     orderBy,
+    DocumentSnapshot,
+    QuerySnapshot,
+    Query,
+    DocumentData,
 } from "firebase/firestore";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import { reorderHabits } from "../services/habits";
+
+type HabitData = Omit<Habit, "id">;
 
 type Props = {
     children: React.ReactNode;
@@ -30,23 +41,11 @@ const HabitsProvider = ({ children }: Props) => {
                 collection(db, `users/${user.uid}/habits`),
                 orderBy("order"),
             );
+
             setFetching(true);
+
             unsubscribe = onSnapshot(q, (querySnapshot) => {
-                const habitsFromSnapshot: Habit[] = [];
-
-                querySnapshot.forEach((doc) => {
-                    const { name, description, days, order } = doc.data();
-
-                    habitsFromSnapshot.push({
-                        id: doc.id,
-                        name,
-                        description,
-                        days,
-                        order,
-                    });
-                });
-
-                setHabits(habitsFromSnapshot);
+                setHabits(querySnapshot.docs.map(createHabitFromDocument));
                 setFetching(false);
             });
         } else {

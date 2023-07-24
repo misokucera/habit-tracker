@@ -9,7 +9,11 @@ import {
     where,
 } from "firebase/firestore";
 import { useState, useEffect } from "react";
-import { Status, StatusesContext } from "../contexts/StatusesContexts";
+import {
+    Status,
+    StatusesContext,
+    createStatusFromDocument,
+} from "../contexts/StatusesContexts";
 import dayjs from "dayjs";
 import { useUserId } from "@/features/auth/hooks/useUserId";
 
@@ -39,19 +43,7 @@ const StatusesProvider = ({ children, selectedDays, habitId }: Props) => {
         );
 
         const unsubscribe = onSnapshot(q, (querySnapshot) => {
-            const statusesFromSnapshot: Status[] = [];
-
-            querySnapshot.forEach((doc) => {
-                const { date, habitId } = doc.data();
-
-                statusesFromSnapshot.push({
-                    id: doc.id,
-                    habitId,
-                    date: date.toDate(),
-                });
-            });
-
-            setStatuses(statusesFromSnapshot);
+            setStatuses(querySnapshot.docs.map(createStatusFromDocument));
             setLastSelectedDays(selectedDays);
         });
 
