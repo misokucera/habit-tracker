@@ -8,22 +8,32 @@ import {
     doc,
     getDocs,
     query,
+    updateDoc,
     where,
 } from "firebase/firestore";
+import { StatusType } from "../contexts/StatusesContexts";
 
 export const addStatus = async (
     userId: string,
     habitId: string,
+    type: StatusType,
     date: Date,
 ) => {
     return await addDoc(collection(db, `users/${userId}/statuses`), {
         date: Timestamp.fromDate(normalizeDate(date)),
+        type,
         habitId,
     });
 };
 
-export const removeStatus = async (userId: string, statusId: string) => {
-    return await deleteDoc(doc(db, `users/${userId}/statuses`, statusId));
+export const changeStatus = async (
+    userId: string,
+    statusId: string,
+    type: StatusType,
+) => {
+    return await updateDoc(doc(db, `users/${userId}/statuses/${statusId}`), {
+        type,
+    });
 };
 
 export const removeStatusesByHabit = async (

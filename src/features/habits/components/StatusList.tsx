@@ -1,16 +1,18 @@
 import ChangeStatusButton from "./ChangeStatusButton";
 import { formatDateInPast, getDateInPast, normalizeDate } from "@/utils/day";
-import { addStatus, removeStatus } from "../services/statuses";
+import { addStatus, changeStatus } from "../services/statuses";
 import { useUserId } from "@/features/auth/hooks/useUserId";
 import classNames from "classnames";
-import { useStatusesContext } from "../contexts/StatusesContexts";
+import { StatusType, useStatusesContext } from "../contexts/StatusesContexts";
+import { getStatusBackgroundClass } from "../services/statusTypes";
+import { Habit } from "../contexts/HabitsContexts";
 
 type Props = {
-    habitId: string;
+    habit: Habit;
     selectedDays: number;
 };
 
-const StatusList = ({ selectedDays, habitId }: Props) => {
+const StatusList = ({ selectedDays, habit }: Props) => {
     const { statuses, lastSelectedDays } = useStatusesContext();
     const userId = useUserId();
 
@@ -29,31 +31,44 @@ const StatusList = ({ selectedDays, habitId }: Props) => {
         );
     };
 
-    const handleStatusAdd = async (habitId: string, date: Date) => {
-        await addStatus(userId, habitId, date);
+    const handleStatusAdd = async (
+        habitId: string,
+        type: StatusType,
+        date: Date,
+    ) => {
+        await addStatus(userId, habitId, type, date);
     };
 
-    const handleStatusRemove = async (statusId: string) => {
-        await removeStatus(userId, statusId);
+    const handleStatusChange = async (statusId: string, type: StatusType) => {
+        await changeStatus(userId, statusId, type);
     };
 
     return (
         <div className="flex flex-wrap">
             {days.map((day) => (
                 <div
-                    className={classNames("p-2 transition-all", {
-                        "bg-lime-100": findStatus(habitId, day),
-                        "opacity-30": day >= lastSelectedDays,
-                    })}
+                    className={classNames(
+                        "p-2 transition-all",
+                        getStatusBackgroundClass(
+                            day,
+                            habit,
+                            findStatus(habit.id, day),
+                        ),
+                        {
+                            "opacity-30": day >= lastSelectedDays,
+                        },
+                    )}
                     key={day}
                     title={formatDateInPast(day)}
                 >
                     <ChangeStatusButton
-                        status={findStatus(habitId, day)}
-                        onAdded={() =>
-                            handleStatusAdd(habitId, getDateInPast(day))
+                        status={findStatus(habit.id, day)}
+                        onAdd={(type) =>
+                            handleStatusAdd(habit.id, type, getDateInPast(day))
                         }
-                        onRemoved={(statusId) => handleStatusRemove(statusId)}
+                        onChange={(statusId, type) =>
+                            handleStatusChange(statusId, type)
+                        }
                     />
                 </div>
             ))}
