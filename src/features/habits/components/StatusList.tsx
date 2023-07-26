@@ -1,9 +1,10 @@
 import ChangeStatusButton from "./ChangeStatusButton";
 import { useStatuses } from "../hooks/useStatuses";
 import { formatDateInPast, getDateInPast, normalizeDate } from "@/utils/day";
-import { addStatus, removeStatus } from "../services/statuses";
+import { addStatus, changeStatus } from "../services/statuses";
 import { useUserId } from "@/features/auth/hooks/useUserId";
 import classNames from "classnames";
+import { StatusType } from "../contexts/StatusesContexts";
 
 type Props = {
     habitId: string;
@@ -29,12 +30,16 @@ const StatusList = ({ selectedDays, habitId }: Props) => {
         );
     };
 
-    const handleStatusAdd = async (habitId: string, date: Date) => {
-        await addStatus(userId, habitId, date);
+    const handleStatusAdd = async (
+        habitId: string,
+        type: StatusType,
+        date: Date,
+    ) => {
+        await addStatus(userId, habitId, type, date);
     };
 
-    const handleStatusRemove = async (statusId: string) => {
-        await removeStatus(userId, statusId);
+    const handleStatusChange = async (statusId: string, type: StatusType) => {
+        await changeStatus(userId, statusId, type);
     };
 
     return (
@@ -50,10 +55,12 @@ const StatusList = ({ selectedDays, habitId }: Props) => {
                 >
                     <ChangeStatusButton
                         status={findStatus(habitId, day)}
-                        onAdded={() =>
-                            handleStatusAdd(habitId, getDateInPast(day))
+                        onAdd={(type) =>
+                            handleStatusAdd(habitId, type, getDateInPast(day))
                         }
-                        onRemoved={(statusId) => handleStatusRemove(statusId)}
+                        onChange={(statusId, type) =>
+                            handleStatusChange(statusId, type)
+                        }
                     />
                 </div>
             ))}

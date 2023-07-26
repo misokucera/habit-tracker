@@ -6,10 +6,11 @@ import {
 } from "@/utils/day";
 import ChangeStatusButton from "./ChangeStatusButton";
 import { Habit } from "../contexts/HabitsContexts";
-import { addStatus, removeStatus } from "../services/statuses";
+import { addStatus, changeStatus } from "../services/statuses";
 import { useStatuses } from "../hooks/useStatuses";
 import classNames from "classnames";
 import { useUserId } from "@/features/auth/hooks/useUserId";
+import { StatusType } from "../contexts/StatusesContexts";
 
 type Props = {
     habit: Habit;
@@ -21,12 +22,16 @@ const DailyStatusCells = ({ habit, daysInPast }: Props) => {
     const userId = useUserId();
     const days = Array.from(Array(daysInPast).keys());
 
-    const handleStatusAdd = async (habitId: string, date: Date) => {
-        await addStatus(userId, habitId, date);
+    const handleStatusAdd = async (
+        habitId: string,
+        type: StatusType,
+        date: Date,
+    ) => {
+        await addStatus(userId, habitId, type, date);
     };
 
-    const handleStatusRemove = async (statusId: string) => {
-        await removeStatus(userId, statusId);
+    const handleStatusChange = async (statusId: string, type: StatusType) => {
+        await changeStatus(userId, statusId, type);
     };
 
     const findStatus = (habitId: string, day: number) => {
@@ -45,7 +50,7 @@ const DailyStatusCells = ({ habit, daysInPast }: Props) => {
     const getBackgroundClass = (day: number) => {
         const status = findStatus(habit.id, day);
 
-        if (status) {
+        if (status?.type === "success") {
             return "bg-lime-100";
         }
 
@@ -70,10 +75,12 @@ const DailyStatusCells = ({ habit, daysInPast }: Props) => {
                 >
                     <ChangeStatusButton
                         status={findStatus(habit.id, day)}
-                        onAdded={() =>
-                            handleStatusAdd(habit.id, getDateInPast(day))
+                        onAdd={(type) =>
+                            handleStatusAdd(habit.id, type, getDateInPast(day))
                         }
-                        onRemoved={(statusId) => handleStatusRemove(statusId)}
+                        onChange={(statusId, type) =>
+                            handleStatusChange(statusId, type)
+                        }
                     />
                 </td>
             ))}
