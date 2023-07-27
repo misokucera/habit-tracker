@@ -1,6 +1,8 @@
 import classNames from "classnames";
 import { Status, StatusType } from "../contexts/StatusesContexts";
 import { Popover, RadioGroup } from "@headlessui/react";
+import { usePopper } from "react-popper";
+import React, { useRef, useState } from "react";
 
 type Props = {
     status: Status | null;
@@ -9,6 +11,13 @@ type Props = {
 };
 
 const ChangeStatusButton = ({ status, onChange, onAdd }: Props) => {
+    const [buttonElement, setButtonElement] = useState<HTMLElement | null>();
+    const [panelElement, setPanelElement] = useState<HTMLElement | null>();
+
+    const { styles, attributes } = usePopper(buttonElement, panelElement, {
+        placement: "bottom-start",
+    });
+
     const handleClick = (value: StatusType) => {
         if (status) {
             onChange(status.id, value);
@@ -20,7 +29,7 @@ const ChangeStatusButton = ({ status, onChange, onAdd }: Props) => {
     return (
         <Popover className="relative">
             <Popover.Button
-                // onClick={handleClick}
+                ref={setButtonElement}
                 className={classNames(
                     "rounded-full p-3 transition-colors focus:outline-none focus-visible:ring-2",
                     {
@@ -38,7 +47,12 @@ const ChangeStatusButton = ({ status, onChange, onAdd }: Props) => {
                     })}
                 ></div>
             </Popover.Button>
-            <Popover.Panel className="absolute z-10">
+            <Popover.Panel
+                className="z-10"
+                ref={setPanelElement}
+                style={styles.popper}
+                {...attributes.popper}
+            >
                 <div className="rounded bg-white p-4 text-left shadow-lg">
                     <RadioGroup
                         value={status?.type ?? "unknown"}
