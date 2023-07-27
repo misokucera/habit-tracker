@@ -1,4 +1,5 @@
 import { VariantProps, cva } from "class-variance-authority";
+import { ComponentProps } from "react";
 
 const variants = cva(
     "rounded px-4 py-2 text-sm font-semibold transition-colors focus:outline-none focus-visible:ring-4",
@@ -14,20 +15,13 @@ const variants = cva(
     },
 );
 
-type Props = {
-    children: React.ReactNode;
-    type?: "submit" | "button";
-    onClick?: React.MouseEventHandler<HTMLButtonElement>;
-} & VariantProps<typeof variants>;
+type ButtonPropsWithoutClassName = Omit<ComponentProps<"button">, "className">;
 
-const Button = ({
-    onClick,
-    children,
-    type = "button",
-    variant = "primary",
-}: Props) => {
+type Props = ButtonPropsWithoutClassName & VariantProps<typeof variants>;
+
+const Button = ({ children, variant = "primary", ...props }: Props) => {
     return (
-        <button className={variants({ variant })} onClick={onClick} type={type}>
+        <button {...props} className={variants({ variant })}>
             {children}
         </button>
     );
