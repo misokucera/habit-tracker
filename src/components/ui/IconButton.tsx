@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ComponentProps } from "react";
 import { forwardRef } from "react";
 import { VariantProps, cva } from "class-variance-authority";
 
@@ -14,20 +14,14 @@ const variants = cva(
     },
 );
 
-type Props = {
-    children: React.ReactNode;
-    onClick?: React.MouseEventHandler<HTMLButtonElement>;
-} & VariantProps<typeof variants>;
+type ButtonPropsWithoutClassName = Omit<ComponentProps<"button">, "className">;
+
+type Props = ButtonPropsWithoutClassName & VariantProps<typeof variants>;
 
 const IconButton = forwardRef<HTMLButtonElement, Props>(
-    ({ children, onClick, variant = "normal", ...props }: Props, ref) => {
+    ({ children, variant = "normal", ...props }: Props, ref) => {
         return (
-            <button
-                {...props}
-                onClick={onClick}
-                ref={ref}
-                className={variants({ variant })}
-            >
+            <button {...props} ref={ref} className={variants({ variant })}>
                 {children}
             </button>
         );
