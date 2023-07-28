@@ -3,6 +3,7 @@ import { Status, StatusType } from "../contexts/StatusesContexts";
 import { Popover, RadioGroup } from "@headlessui/react";
 import { usePopper } from "react-popper";
 import React, { useRef, useState } from "react";
+import Dot from "@/components/ui/Dot";
 
 type Props = {
     status: Status | null;
@@ -53,41 +54,35 @@ const ChangeStatusButton = ({ status, onChange, onAdd }: Props) => {
                 style={styles.popper}
                 {...attributes.popper}
             >
-                <div className="rounded bg-white p-4 text-left shadow-lg">
-                    <RadioGroup
-                        value={status?.type ?? "unknown"}
-                        onChange={handleClick}
+                <div className="rounded-lg bg-white p-2 text-left text-sm shadow-lg">
+                    <Popover.Button
+                        onClick={() => handleClick("success")}
+                        className="flex w-full cursor-pointer items-center gap-2 whitespace-nowrap rounded p-1 hover:bg-slate-100"
                     >
-                        <RadioGroup.Label className="mb-5 text-slate-500">
-                            Options
-                        </RadioGroup.Label>
-                        <RadioGroup.Option
-                            value="success"
-                            className="flex cursor-pointer items-center gap-2 whitespace-nowrap rounded p-2 hover:bg-slate-100"
-                        >
-                            {({ checked }) => (
-                                <>
-                                    <div
-                                        className={
-                                            "h-3 w-3 shrink-0 rounded-full bg-lime-500"
-                                        }
-                                    ></div>
-                                    <span>Success</span>
-                                </>
-                            )}
-                        </RadioGroup.Option>
-                        <RadioGroup.Option
-                            value="unknown"
-                            className="flex cursor-pointer items-center gap-2 whitespace-nowrap rounded p-2 hover:bg-slate-100"
-                        >
-                            <div
-                                className={
-                                    "h-3 w-3 shrink-0 rounded-full bg-slate-300"
-                                }
-                            ></div>
-                            Not selected
-                        </RadioGroup.Option>
-                    </RadioGroup>
+                        <Dot color="lime" size="small" />
+                        <span>Done</span>
+                    </Popover.Button>
+                    <Popover.Button
+                        onClick={() => handleClick("failure")}
+                        className="flex w-full cursor-pointer items-center gap-2 whitespace-nowrap rounded p-1 hover:bg-slate-100"
+                    >
+                        <Dot color="slate" size="small" />
+                        <span>Failed</span>
+                    </Popover.Button>
+                    <Popover.Button
+                        onClick={() => handleClick("unknown")}
+                        className="flex w-full cursor-pointer items-center gap-2 whitespace-nowrap rounded p-1 hover:bg-slate-100"
+                    >
+                        <Dot color="slate" size="small" />
+                        <span>Not yet</span>
+                    </Popover.Button>
+                    <Popover.Button
+                        onClick={() => handleClick("blocker")}
+                        className="flex w-full cursor-pointer items-center gap-2 whitespace-nowrap rounded p-1 hover:bg-slate-100"
+                    >
+                        <Dot color="slate" size="small" />
+                        <span>Obstacle</span>
+                    </Popover.Button>
                 </div>
             </Popover.Panel>
         </Popover>
