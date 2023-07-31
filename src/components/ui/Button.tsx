@@ -1,5 +1,6 @@
 import { VariantProps, cva } from "class-variance-authority";
 import { ComponentProps } from "react";
+import { twMerge } from "tailwind-merge";
 
 const variants = cva(
     "rounded px-4 py-2 text-sm font-semibold transition-colors focus:outline-none focus-visible:ring-4",
@@ -15,13 +16,19 @@ const variants = cva(
     },
 );
 
-type ButtonPropsWithoutClassName = Omit<ComponentProps<"button">, "className">;
+type Props = ComponentProps<"button"> & VariantProps<typeof variants>;
 
-type Props = ButtonPropsWithoutClassName & VariantProps<typeof variants>;
-
-const Button = ({ children, variant = "primary", ...props }: Props) => {
+const Button = ({
+    children,
+    variant = "primary",
+    className,
+    ...props
+}: Props) => {
     return (
-        <button {...props} className={variants({ variant })}>
+        <button
+            {...props}
+            className={twMerge(variants({ variant }), className)}
+        >
             {children}
         </button>
     );
