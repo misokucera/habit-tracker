@@ -1,5 +1,6 @@
 "use client";
 
+import LinkButton from "@/components/ui/LinkButton";
 import { auth } from "@/services/firebase";
 
 const SignOutButton = () => {
@@ -8,12 +9,9 @@ const SignOutButton = () => {
     };
 
     return (
-        <button
-            onClick={signOut}
-            className="text-sm font-semibold text-sky-100 hover:text-sky-700"
-        >
+        <LinkButton className="text-sm font-semibold" onClick={signOut}>
             Sign out
-        </button>
+        </LinkButton>
     );
 };
 

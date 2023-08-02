@@ -158,9 +158,9 @@ const HabitList = () => {
                                                 <td className="px-2 py-3 align-middle sm:p-3 md:pr-6">
                                                     <Link
                                                         href={`/detail/${habit.id}`}
-                                                        className="group/link"
+                                                        className="group/link focus-visible:outline-none"
                                                     >
-                                                        <p className="line-clamp-2 font-medium text-slate-700 group-hover/link:text-sky-400">
+                                                        <p className="line-clamp-2 font-medium text-slate-700 group-hover/link:text-violet-400 group-hover/link:underline group-hover/link:underline-offset-2 group-focus-visible/link:text-violet-400 group-focus-visible/link:underline group-focus-visible/link:underline-offset-2">
                                                             {habit.name}
                                                         </p>
                                                         {habit.description !==
