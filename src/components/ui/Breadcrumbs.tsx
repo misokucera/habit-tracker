@@ -1,4 +1,6 @@
 import Link from "next/link";
+import styles from "./styles/link.module.css";
+import classNames from "classnames";
 
 type Props = {
     segments?: string[];
@@ -6,13 +8,19 @@ type Props = {
 
 const Breadcrumbs = ({ segments = [] }: Props) => {
     return (
-        <p className="whitespace-nowrap font-mono font-bold text-sky-100">
-            <Link href="/" className="hover:text-sky-700">
-                /habit-tracker
+        <p className="inline-flex flex-wrap gap-1 font-mono font-bold text-sky-100">
+            <span>/</span>
+            <Link
+                href="/"
+                className={classNames("whitespace-nowrap", styles.link)}
+            >
+                habit-tracker
             </Link>
-
             {segments.map((segment, index) => (
-                <span key={index}>/{segment}</span>
+                <>
+                    <span key={index}>/</span>
+                    <span className="whitespace-nowrap">{segment}</span>
+                </>
             ))}
         </p>
     );

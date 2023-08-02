@@ -1,0 +1,10 @@
+.link {
+    @apply text-sky-100;
+    @apply hover:text-sky-700;
+    @apply hover:underline;
+    @apply hover:underline-offset-2;
+    @apply focus:text-sky-700;
+    @apply focus:underline;
+    @apply focus:underline-offset-2;
+    @apply focus:outline-none;
+}
