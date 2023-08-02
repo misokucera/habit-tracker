@@ -6,9 +6,9 @@ describe("Breadcrumbs", () => {
         render(<Breadcrumbs segments={["detail"]} />);
 
         expect(
-            screen.getByRole("link", { name: /\/habit-tracker/i }),
+            screen.getByRole("link", { name: /habit-tracker/i }),
         ).toBeInTheDocument();
 
-        expect(screen.getByText("/detail")).toBeInTheDocument();
+        expect(screen.getByText("detail")).toBeInTheDocument();
     });
 });
