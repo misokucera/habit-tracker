@@ -3,8 +3,8 @@
     @apply hover:text-white;
     @apply hover:underline;
     @apply hover:underline-offset-2;
-    @apply focus:text-sky-700;
-    @apply focus:underline;
-    @apply focus:underline-offset-2;
+    @apply focus-visible:text-white;
+    @apply focus-visible:underline;
+    @apply focus-visible:underline-offset-2;
     @apply focus:outline-none;
 }

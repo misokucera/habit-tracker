@@ -3,14 +3,14 @@ import { ComponentProps } from "react";
 import { twMerge } from "tailwind-merge";
 
 const variants = cva(
-    "rounded px-4 py-2 text-sm font-semibold transition-colors focus:outline-none focus-visible:ring-4",
+    "rounded-md px-5 py-3 text-sm font-semibold transition-colors focus:outline-none focus-visible:ring-4",
     {
         variants: {
             variant: {
                 primary:
                     "bg-sky-400 text-white hover:bg-sky-500 focus-visible:ring-sky-200",
                 secondary:
-                    "bg-slate-200 text-slate-500 hover:bg-slate-300 hover:text-slate-600 focus-visible:ring-slate-100",
+                    "bg-sky-100 text-sky-700 hover:bg-sky-200 hover:text-sky-800 focus-visible:ring-sky-200",
             },
         },
     },
