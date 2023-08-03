@@ -83,22 +83,31 @@ const HabitDetail = ({ habitId }: Props) => {
                 <RadioGroup.Label className="mb-3 block">
                     Period
                 </RadioGroup.Label>
-                <div className="mb-5 inline-flex overflow-hidden rounded-md">
-                    <RadioGroup.Option value={7}>
+                <div className="mb-5 inline-flex overflow-hidden rounded-md focus-within:ring-4 focus-within:ring-violet-200">
+                    <RadioGroup.Option
+                        value={7}
+                        className="focus-visible: focus:outline-none"
+                    >
                         {({ checked }) => (
                             <StatusPeriodOption checked={checked}>
                                 7 days
                             </StatusPeriodOption>
                         )}
                     </RadioGroup.Option>
-                    <RadioGroup.Option value={30}>
+                    <RadioGroup.Option
+                        value={30}
+                        className="focus:outline-none"
+                    >
                         {({ checked }) => (
                             <StatusPeriodOption checked={checked}>
                                 30 days
                             </StatusPeriodOption>
                         )}
                     </RadioGroup.Option>
-                    <RadioGroup.Option value={100}>
+                    <RadioGroup.Option
+                        value={100}
+                        className="focus:outline-none"
+                    >
                         {({ checked }) => (
                             <StatusPeriodOption checked={checked}>
                                 100 days

@@ -1,5 +1,6 @@
 "use client";
 
+import Button from "@/components/ui/Button";
 import { auth } from "@/services/firebase";
 import {
     AuthProvider,
@@ -18,25 +19,25 @@ const SignInForm = () => {
 
     return (
         <div className="">
-            <button
-                className="inline-flex items-center gap-3 whitespace-nowrap rounded-md border px-4 py-2 text-sm"
+            <Button
+                variant="secondary"
+                className="inline-flex items-center gap-2"
                 onClick={() => singIn(provider)}
             >
-                <FcGoogle />
+                <div className="rounded-full bg-white p-1">
+                    <FcGoogle />
+                </div>
                 Sign in with Google
-            </button>
+            </Button>
             <div className="relative mb-5 mt-10">
                 <hr />
                 <span className="relative -top-3 bg-white px-4 text-xs text-slate-500">
                     OR
                 </span>
             </div>
-            <button
-                className="inline-flex items-center gap-3 whitespace-nowrap rounded-md border px-4 py-2 text-sm"
-                onClick={() => signInAnonymously(auth)}
-            >
+            <Button variant="secondary" onClick={() => signInAnonymously(auth)}>
                 Sign in Anonymously
-            </button>
+            </Button>
         </div>
     );
 };

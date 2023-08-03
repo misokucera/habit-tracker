@@ -11,7 +11,7 @@ export default function Login() {
         <WithoutAuthentication>
             <div className="text-center ">
                 <div className="mb-5">
-                    <Breadcrumbs segments={["welcome"]} />
+                    <Breadcrumbs segments={[{ name: "welcome" }]} />
                 </div>
                 <ContentBox>
                     <div className="py-5">

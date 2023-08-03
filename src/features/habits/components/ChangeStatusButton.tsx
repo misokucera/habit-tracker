@@ -20,10 +20,10 @@ const ChangeStatusButton = ({ status, onAdded, onRemoved }: Props) => {
         <button
             onClick={handleClick}
             className={classNames(
-                "rounded-full p-3 transition-colors focus:outline-none focus-visible:ring-2",
+                "rounded-full p-3 transition-colors focus:outline-none",
                 {
-                    "hover:bg-lime-200  focus-visible:ring-lime-300": status,
-                    "hover:bg-slate-100  focus-visible:ring-slate-300": !status,
+                    "hover:bg-lime-200 focus-visible:bg-lime-200": status,
+                    "hover:bg-slate-100 focus-visible:bg-slate-100": !status,
                 },
             )}
         >
