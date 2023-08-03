@@ -9,7 +9,7 @@ const Detail = ({ params }: { params: { id: string } }) => {
     return (
         <div className="w-full max-w-5xl">
             <div className="mb-5 flex items-center justify-between gap-3">
-                <Breadcrumbs segments={["habit-detail"]} />
+                <Breadcrumbs segments={[{ name: "habit-detail" }]} />
                 <SignOutButton />
             </div>
             <ContentBox>
