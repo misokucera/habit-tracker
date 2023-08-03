@@ -26,7 +26,9 @@ export default function RootLayout({
                         fallback={
                             <div className="text-center">
                                 <div>
-                                    <Breadcrumbs segments={["loading..."]} />
+                                    <Breadcrumbs
+                                        segments={[{ name: "loading..." }]}
+                                    />
                                 </div>
                                 <div className="mt-10 text-center">
                                     <CgSpinner className="inline h-10 w-10 animate-spin text-sky-200" />

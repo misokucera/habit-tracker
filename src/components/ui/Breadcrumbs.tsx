@@ -2,8 +2,13 @@ import Link from "next/link";
 import styles from "./styles/link.module.css";
 import classNames from "classnames";
 
+type Segment = {
+    name: string;
+    href?: string;
+};
+
 type Props = {
-    segments?: string[];
+    segments?: Segment[];
 };
 
 const Breadcrumbs = ({ segments = [] }: Props) => {
@@ -19,7 +24,21 @@ const Breadcrumbs = ({ segments = [] }: Props) => {
             {segments.map((segment, index) => (
                 <>
                     <span key={index}>/</span>
-                    <span className="whitespace-nowrap">{segment}</span>
+                    {segment.href ? (
+                        <Link
+                            href={segment.href}
+                            className={classNames(
+                                "whitespace-nowrap",
+                                styles.link,
+                            )}
+                        >
+                            {segment.name}
+                        </Link>
+                    ) : (
+                        <span className="whitespace-nowrap">
+                            {segment.name}
+                        </span>
+                    )}
                 </>
             ))}
         </p>

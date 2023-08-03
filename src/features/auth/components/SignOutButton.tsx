@@ -9,7 +9,7 @@ const SignOutButton = () => {
     };
 
     return (
-        <LinkButton className="text-sm font-semibold" onClick={signOut}>
+        <LinkButton className="font-mono font-semibold" onClick={signOut}>
             Sign out
         </LinkButton>
     );
