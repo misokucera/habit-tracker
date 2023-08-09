@@ -2,9 +2,8 @@ import AuthProvider from "@/features/auth/components/AuthProvider";
 import "./globals.css";
 import { Inter } from "next/font/google";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
-import Skeleton from "@/components/ui/Skeleton";
-import HabitsProvider from "@/features/habits/components/HabitsProvider";
 import { CgSpinner } from "react-icons/cg";
+import { HabitsProvider } from "@/features/habits/contexts/HabitsContexts";
 
 const inter = Inter({ subsets: ["latin"] });
 

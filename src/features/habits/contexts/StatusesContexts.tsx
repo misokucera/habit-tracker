@@ -1,21 +1,45 @@
-"use client";
-
+import { useUserId } from "@/features/auth/hooks/useUserId";
 import { db } from "@/services/firebase";
+import dayjs from "dayjs";
 import {
-    query,
+    QueryDocumentSnapshot,
+    DocumentData,
+    Timestamp,
     collection,
     onSnapshot,
-    Timestamp,
+    query,
     where,
 } from "firebase/firestore";
-import { useState, useEffect } from "react";
-import {
-    Status,
-    StatusesContext,
-    createStatusFromDocument,
-} from "../contexts/StatusesContexts";
-import dayjs from "dayjs";
-import { useUserId } from "@/features/auth/hooks/useUserId";
+import { createContext, useContext, useEffect, useState } from "react";
+import { z } from "zod";
+
+const createStatusFromDocument = (
+    doc: QueryDocumentSnapshot<DocumentData>,
+): Status => {
+    return schema.parse({
+        id: doc.id,
+        ...doc.data(),
+        date: doc.data().date.toDate(),
+    });
+};
+
+const schema = z.object({
+    id: z.string(),
+    habitId: z.string(),
+    date: z.date(),
+});
+
+export type Status = z.infer<typeof schema>;
+
+type StatusesContext = {
+    statuses: Status[];
+    lastSelectedDays: number;
+};
+
+export const StatusesContext = createContext<StatusesContext>({
+    statuses: [],
+    lastSelectedDays: 0,
+});
 
 type Props = {
     selectedDays: number;
@@ -23,7 +47,11 @@ type Props = {
     children: React.ReactNode;
 };
 
-const StatusesProvider = ({ children, selectedDays, habitId }: Props) => {
+export const StatusesProvider = ({
+    children,
+    selectedDays,
+    habitId,
+}: Props) => {
     const [statuses, setStatuses] = useState<Status[]>([]);
     const [lastSelectedDays, setLastSelectedDays] = useState<number>(0);
     const userId = useUserId();
@@ -57,4 +85,14 @@ const StatusesProvider = ({ children, selectedDays, habitId }: Props) => {
     );
 };
 
-export default StatusesProvider;
+export const useStatusesContext = () => {
+    const context = useContext(StatusesContext);
+
+    if (context === null) {
+        throw new Error(
+            "Hook useStatusesContext must be used within StatusesContextProvider",
+        );
+    }
+
+    return context;
+};

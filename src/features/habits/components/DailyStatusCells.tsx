@@ -7,9 +7,9 @@ import {
 import ChangeStatusButton from "./ChangeStatusButton";
 import { Habit } from "../contexts/HabitsContexts";
 import { addStatus, removeStatus } from "../services/statuses";
-import { useStatuses } from "../hooks/useStatuses";
 import classNames from "classnames";
 import { useUserId } from "@/features/auth/hooks/useUserId";
+import { useStatusesContext } from "../contexts/StatusesContexts";
 
 type Props = {
     habit: Habit;
@@ -17,7 +17,7 @@ type Props = {
 };
 
 const DailyStatusCells = ({ habit, daysInPast }: Props) => {
-    const { statuses, lastSelectedDays } = useStatuses();
+    const { statuses, lastSelectedDays } = useStatusesContext();
     const userId = useUserId();
     const days = Array.from(Array(daysInPast).keys());
 

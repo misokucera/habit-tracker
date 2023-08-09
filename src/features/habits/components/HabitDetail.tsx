@@ -8,20 +8,20 @@ import { useState } from "react";
 import Dialog from "@/components/ui/Dialog";
 import HabitForm, { HabitFormValues } from "./HabitForm";
 import { useUserId } from "@/features/auth/hooks/useUserId";
-import StatusesProvider from "./StatusesProvider";
 import StatusList from "./StatusList";
 import { RadioGroup } from "@headlessui/react";
 import StatusPeriodOption from "./StatusPeriodOption";
-import { useHabits } from "../hooks/useHabits";
 import { HiArrowLeft } from "react-icons/hi";
 import Link from "next/link";
+import { useHabitsContext } from "../contexts/HabitsContexts";
+import { StatusesProvider } from "../contexts/StatusesContexts";
 
 type Props = {
     habitId: string;
 };
 
 const HabitDetail = ({ habitId }: Props) => {
-    const { habits } = useHabits();
+    const { habits } = useHabitsContext();
     const userId = useUserId();
     const { replace } = useRouter();
     const [openRemoveDialog, setOpenRemoveDialog] = useState(false);
@@ -78,12 +78,12 @@ const HabitDetail = ({ habitId }: Props) => {
                     <Headline>{habit.name}</Headline>
                 </div>
             </div>
-            {habit.description && <p>{habit.description}</p>}
+            {habit.description && <p className="mb-5">{habit.description}</p>}
             <RadioGroup value={selectedDays} onChange={setSelectedDays}>
-                <RadioGroup.Label className="mb-3 block">
+                <RadioGroup.Label className="mb-3 block text-sm text-slate-500">
                     Period
                 </RadioGroup.Label>
-                <div className="mb-5 inline-flex overflow-hidden rounded-md focus-within:ring-4 focus-within:ring-violet-200">
+                <div className="mb-5 inline-flex overflow-hidden rounded-md focus-within:ring-2 focus-within:ring-violet-200 focus-within:ring-offset-2">
                     <RadioGroup.Option
                         value={7}
                         className="focus-visible: focus:outline-none"

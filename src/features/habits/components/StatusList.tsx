@@ -1,9 +1,9 @@
 import ChangeStatusButton from "./ChangeStatusButton";
-import { useStatuses } from "../hooks/useStatuses";
 import { formatDateInPast, getDateInPast, normalizeDate } from "@/utils/day";
 import { addStatus, removeStatus } from "../services/statuses";
 import { useUserId } from "@/features/auth/hooks/useUserId";
 import classNames from "classnames";
+import { useStatusesContext } from "../contexts/StatusesContexts";
 
 type Props = {
     habitId: string;
@@ -11,7 +11,7 @@ type Props = {
 };
 
 const StatusList = ({ selectedDays, habitId }: Props) => {
-    const { statuses, lastSelectedDays } = useStatuses();
+    const { statuses, lastSelectedDays } = useStatusesContext();
     const userId = useUserId();
 
     const days = Array.from(Array(selectedDays).keys());
