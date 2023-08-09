@@ -1,9 +1,22 @@
 import classNames from "classnames";
 import { Status, StatusType } from "../contexts/StatusesContexts";
-import { Popover, RadioGroup } from "@headlessui/react";
+import { Popover } from "@headlessui/react";
 import { usePopper } from "react-popper";
-import React, { useRef, useState } from "react";
+import { useState } from "react";
 import Dot from "@/components/ui/Dot";
+import { selectColorByType } from "../services/statusTypes";
+
+type StatusOption = {
+    type: StatusType;
+    label: string;
+};
+
+const statusOptions: StatusOption[] = [
+    { type: "success", label: "Done" },
+    { type: "failure", label: "Failed" },
+    { type: "unknown", label: "Not yet" },
+    { type: "blocker", label: "Obstacle" },
+];
 
 type Props = {
     status: Status | null;
@@ -36,17 +49,16 @@ const ChangeStatusButton = ({ status, onChange, onAdd }: Props) => {
                     {
                         "hover:bg-lime-200  focus-visible:ring-lime-300":
                             status?.type === "success",
+                        "hover:bg-orange-200  focus-visible:ring-orange-300":
+                            status?.type === "failure",
+                        "hover:bg-stone-200  focus-visible:ring-stone-300":
+                            status?.type === "blocker",
                         "hover:bg-slate-100  focus-visible:ring-slate-300":
                             !status || status.type === "unknown",
                     },
                 )}
             >
-                <div
-                    className={classNames("h-3 w-3 rounded-full", {
-                        "bg-lime-500": status?.type === "success",
-                        "bg-slate-300": !status || status.type === "unknown",
-                    })}
-                ></div>
+                <Dot color={selectColorByType(status?.type)} />
             </Popover.Button>
             <Popover.Panel
                 className="z-10"
@@ -54,35 +66,18 @@ const ChangeStatusButton = ({ status, onChange, onAdd }: Props) => {
                 style={styles.popper}
                 {...attributes.popper}
             >
-                <div className="rounded-lg bg-white p-2 text-left text-sm shadow-lg">
-                    <Popover.Button
-                        onClick={() => handleClick("success")}
-                        className="flex w-full cursor-pointer items-center gap-2 whitespace-nowrap rounded p-1 hover:bg-slate-100"
-                    >
-                        <Dot color="lime" size="small" />
-                        <span>Done</span>
-                    </Popover.Button>
-                    <Popover.Button
-                        onClick={() => handleClick("failure")}
-                        className="flex w-full cursor-pointer items-center gap-2 whitespace-nowrap rounded p-1 hover:bg-slate-100"
-                    >
-                        <Dot color="slate" size="small" />
-                        <span>Failed</span>
-                    </Popover.Button>
-                    <Popover.Button
-                        onClick={() => handleClick("unknown")}
-                        className="flex w-full cursor-pointer items-center gap-2 whitespace-nowrap rounded p-1 hover:bg-slate-100"
-                    >
-                        <Dot color="slate" size="small" />
-                        <span>Not yet</span>
-                    </Popover.Button>
-                    <Popover.Button
-                        onClick={() => handleClick("blocker")}
-                        className="flex w-full cursor-pointer items-center gap-2 whitespace-nowrap rounded p-1 hover:bg-slate-100"
-                    >
-                        <Dot color="slate" size="small" />
-                        <span>Obstacle</span>
-                    </Popover.Button>
+                <div className="rounded-md bg-white p-2 text-left text-sm shadow-lg">
+                    <p className="whitespace-nowrap px-3 py-2">Select result</p>
+                    {statusOptions.map((option) => (
+                        <Popover.Button
+                            key={option.type}
+                            onClick={() => handleClick(option.type)}
+                            className="flex w-full cursor-pointer items-center gap-2 whitespace-nowrap rounded-md px-3 py-2 hover:bg-slate-100"
+                        >
+                            <Dot color={selectColorByType(option.type)} />
+                            <span>{option.label}</span>
+                        </Popover.Button>
+                    ))}
                 </div>
             </Popover.Panel>
         </Popover>

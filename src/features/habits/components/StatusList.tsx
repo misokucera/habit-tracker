@@ -5,13 +5,15 @@ import { addStatus, changeStatus } from "../services/statuses";
 import { useUserId } from "@/features/auth/hooks/useUserId";
 import classNames from "classnames";
 import { StatusType } from "../contexts/StatusesContexts";
+import { getStatusBackgroundClass } from "../services/statusTypes";
+import { Habit } from "../contexts/HabitsContexts";
 
 type Props = {
-    habitId: string;
+    habit: Habit;
     selectedDays: number;
 };
 
-const StatusList = ({ selectedDays, habitId }: Props) => {
+const StatusList = ({ selectedDays, habit }: Props) => {
     const { statuses, lastSelectedDays } = useStatuses();
     const userId = useUserId();
 
@@ -46,17 +48,24 @@ const StatusList = ({ selectedDays, habitId }: Props) => {
         <div className="flex flex-wrap">
             {days.map((day) => (
                 <div
-                    className={classNames("p-2 transition-all", {
-                        "bg-lime-100": findStatus(habitId, day),
-                        "opacity-30": day >= lastSelectedDays,
-                    })}
+                    className={classNames(
+                        "p-2 transition-all",
+                        getStatusBackgroundClass(
+                            day,
+                            habit,
+                            findStatus(habit.id, day),
+                        ),
+                        {
+                            "opacity-30": day >= lastSelectedDays,
+                        },
+                    )}
                     key={day}
                     title={formatDateInPast(day)}
                 >
                     <ChangeStatusButton
-                        status={findStatus(habitId, day)}
+                        status={findStatus(habit.id, day)}
                         onAdd={(type) =>
-                            handleStatusAdd(habitId, type, getDateInPast(day))
+                            handleStatusAdd(habit.id, type, getDateInPast(day))
                         }
                         onChange={(statusId, type) =>
                             handleStatusChange(statusId, type)

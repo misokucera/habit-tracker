@@ -5,6 +5,8 @@ const variants = cva("shrink-0 rounded-full", {
         color: {
             lime: "bg-lime-500",
             slate: "bg-slate-300",
+            orange: "bg-orange-400",
+            stone: "bg-stone-500",
         },
         size: {
             small: "h-2 w-2",
