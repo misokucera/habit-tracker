@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import CreateHabitDialog from "./CreateHabitDialog";
-import { useHabits } from "../hooks/useHabits";
 import { HabitFormValues } from "./HabitForm";
 import dayjs from "dayjs";
 import localizedFormat from "dayjs/plugin/localizedFormat";
@@ -13,7 +12,6 @@ import Headline from "@/components/ui/Headline";
 import { useElementWidthOnViewportChange } from "../hooks/useElementWidthOnViewportChange";
 import Button from "@/components/ui/Button";
 import DailyStatusCells from "./DailyStatusCells";
-import StatusesProvider from "./StatusesProvider";
 import { useUserId } from "@/features/auth/hooks/useUserId";
 import {
     DndContext,
@@ -39,6 +37,8 @@ import {
     restrictToVerticalAxis,
 } from "@dnd-kit/modifiers";
 import Skeleton from "@/components/ui/Skeleton";
+import { useHabitsContext } from "../contexts/HabitsContexts";
+import { StatusesProvider } from "../contexts/StatusesContexts";
 
 dayjs.extend(localizedFormat);
 
@@ -46,7 +46,7 @@ const expectedCellWidth = 100;
 const minCellCount = 3;
 
 const HabitList = () => {
-    const { habits, fetching, reorder } = useHabits();
+    const { habits, fetching, reorder } = useHabitsContext();
     const [draggedItem, setDraggedItem] = useState<UniqueIdentifier | null>(
         null,
     );

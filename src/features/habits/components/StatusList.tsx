@@ -1,10 +1,9 @@
 import ChangeStatusButton from "./ChangeStatusButton";
-import { useStatuses } from "../hooks/useStatuses";
 import { formatDateInPast, getDateInPast, normalizeDate } from "@/utils/day";
 import { addStatus, changeStatus } from "../services/statuses";
 import { useUserId } from "@/features/auth/hooks/useUserId";
 import classNames from "classnames";
-import { StatusType } from "../contexts/StatusesContexts";
+import { StatusType, useStatusesContext } from "../contexts/StatusesContexts";
 import { getStatusBackgroundClass } from "../services/statusTypes";
 import { Habit } from "../contexts/HabitsContexts";
 
@@ -14,7 +13,7 @@ type Props = {
 };
 
 const StatusList = ({ selectedDays, habit }: Props) => {
-    const { statuses, lastSelectedDays } = useStatuses();
+    const { statuses, lastSelectedDays } = useStatusesContext();
     const userId = useUserId();
 
     const days = Array.from(Array(selectedDays).keys());

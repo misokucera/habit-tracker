@@ -1,34 +1,52 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import {
-    Habit,
-    HabitsContext,
-    createHabitFromDocument,
-    habitSchema,
-} from "../contexts/HabitsContexts";
+import { useAuth } from "@/features/auth/hooks/useAuth";
 import { db } from "@/services/firebase";
 import {
-    query,
+    QueryDocumentSnapshot,
+    DocumentData,
+    Unsubscribe,
     collection,
     onSnapshot,
-    Unsubscribe,
     orderBy,
-    DocumentSnapshot,
-    QuerySnapshot,
-    Query,
-    DocumentData,
+    query,
 } from "firebase/firestore";
-import { useAuth } from "@/features/auth/hooks/useAuth";
+import { createContext, useContext, useEffect, useState } from "react";
+import { z } from "zod";
 import { reorderHabits } from "../services/habits";
 
-type HabitData = Omit<Habit, "id">;
+const createHabitFromDocument = (
+    doc: QueryDocumentSnapshot<DocumentData>,
+): Habit => {
+    return schema.parse({
+        id: doc.id,
+        ...doc.data(),
+    });
+};
+
+const schema = z.object({
+    id: z.string(),
+    name: z.string(),
+    description: z.optional(z.string()),
+    days: z.array(z.number()),
+    order: z.number(),
+});
+
+export type Habit = z.infer<typeof schema>;
+
+type HabitsContext = {
+    habits: Habit[];
+    fetching: boolean;
+    reorder: (reorderedHabits: Habit[]) => void;
+};
+
+const HabitsContext = createContext<HabitsContext | null>(null);
 
 type Props = {
     children: React.ReactNode;
 };
 
-const HabitsProvider = ({ children }: Props) => {
+export const HabitsProvider = ({ children }: Props) => {
     const [habits, setHabits] = useState<Habit[]>([]);
     const [fetching, setFetching] = useState<boolean>(true);
     const { user } = useAuth();
@@ -73,4 +91,14 @@ const HabitsProvider = ({ children }: Props) => {
     );
 };
 
-export default HabitsProvider;
+export const useHabitsContext = () => {
+    const context = useContext(HabitsContext);
+
+    if (context === null) {
+        throw new Error(
+            "Hook useHabitsContext must be used within HabitContextProvider",
+        );
+    }
+
+    return context;
+};
