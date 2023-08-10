@@ -12,28 +12,36 @@ import {
     where,
 } from "firebase/firestore";
 import { StatusType } from "../contexts/StatusesContexts";
+import { updateStreaks } from "./streaks";
+import { Habit } from "../contexts/HabitsContexts";
 
 export const addStatus = async (
     userId: string,
-    habitId: string,
+    habit: Habit,
     type: StatusType,
     date: Date,
 ) => {
-    return await addDoc(collection(db, `users/${userId}/statuses`), {
+    await addDoc(collection(db, `users/${userId}/statuses`), {
         date: Timestamp.fromDate(normalizeDate(date)),
         type,
-        habitId,
+        habitId: habit.id,
     });
+
+    return await updateStreaks(userId, habit, date, type);
 };
 
 export const changeStatus = async (
     userId: string,
+    habit: Habit,
     statusId: string,
     type: StatusType,
+    date: Date,
 ) => {
-    return await updateDoc(doc(db, `users/${userId}/statuses/${statusId}`), {
+    await updateDoc(doc(db, `users/${userId}/statuses/${statusId}`), {
         type,
     });
+
+    return await updateStreaks(userId, habit, date, type);
 };
 
 export const removeStatusesByHabit = async (

@@ -24,3 +24,10 @@ export const formatDateInPast = (daysPassed: number): string => {
         weekday: "short",
     });
 };
+
+export const getDifferenceInDays = (
+    date1: Date | null,
+    date2: Date | null,
+): number => {
+    return dayjs(date1).diff(date2, "day");
+};

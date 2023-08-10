@@ -6,7 +6,7 @@ import { HabitFormValues } from "./HabitForm";
 import dayjs from "dayjs";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import { addHabit } from "../services/habits";
-import { formatDateInPast } from "@/utils/day";
+import { formatDateInPast, getDifferenceInDays } from "@/utils/day";
 import Link from "next/link";
 import Headline from "@/components/ui/Headline";
 import { useElementWidthOnViewportChange } from "../hooks/useElementWidthOnViewportChange";
@@ -161,7 +161,13 @@ const HabitList = () => {
                                                         className="group/link focus-visible:outline-none"
                                                     >
                                                         <p className="line-clamp-2 font-medium text-slate-700 group-hover/link:text-violet-400 group-hover/link:underline group-hover/link:underline-offset-2 group-focus-visible/link:text-violet-400 group-focus-visible/link:underline group-focus-visible/link:underline-offset-2">
-                                                            {habit.name}
+                                                            {habit.name}{" "}
+                                                            <span className="bg-lime-600 p-2 text-white">
+                                                                {getDifferenceInDays(
+                                                                    habit.streakEndDate,
+                                                                    habit.streakStartDate,
+                                                                )}
+                                                            </span>
                                                         </p>
                                                         {habit.description !==
                                                             "" && (

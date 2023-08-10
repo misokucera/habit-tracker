@@ -17,16 +17,16 @@ const DailyStatusCells = ({ habit, daysInPast }: Props) => {
     const userId = useUserId();
     const days = Array.from(Array(daysInPast).keys());
 
-    const handleStatusAdd = async (
-        habitId: string,
+    const handleStatusAdd = async (type: StatusType, date: Date) => {
+        await addStatus(userId, habit, type, date);
+    };
+
+    const handleStatusChange = async (
+        statusId: string,
         type: StatusType,
         date: Date,
     ) => {
-        await addStatus(userId, habitId, type, date);
-    };
-
-    const handleStatusChange = async (statusId: string, type: StatusType) => {
-        await changeStatus(userId, statusId, type);
+        await changeStatus(userId, habit, statusId, type, date);
     };
 
     const findStatus = (habitId: string, day: number) => {
@@ -61,10 +61,14 @@ const DailyStatusCells = ({ habit, daysInPast }: Props) => {
                     <ChangeStatusButton
                         status={findStatus(habit.id, day)}
                         onAdd={(type) =>
-                            handleStatusAdd(habit.id, type, getDateInPast(day))
+                            handleStatusAdd(type, getDateInPast(day))
                         }
                         onChange={(statusId, type) =>
-                            handleStatusChange(statusId, type)
+                            handleStatusChange(
+                                statusId,
+                                type,
+                                getDateInPast(day),
+                            )
                         }
                     />
                 </td>
