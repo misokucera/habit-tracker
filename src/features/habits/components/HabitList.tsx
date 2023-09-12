@@ -162,13 +162,13 @@ const HabitList = () => {
                                                     >
                                                         <p className="line-clamp-2 font-medium text-slate-700 group-hover/link:text-violet-400 group-hover/link:underline group-hover/link:underline-offset-2 group-focus-visible/link:text-violet-400 group-focus-visible/link:underline group-focus-visible/link:underline-offset-2">
                                                             {habit.name}{" "}
-                                                            <span className="bg-lime-600 p-2 text-white">
-                                                                {getDifferenceInDays(
-                                                                    habit.streakEndDate,
-                                                                    habit.streakStartDate,
-                                                                )}
-                                                            </span>
                                                         </p>
+                                                        <span className="rounded bg-lime-600 px-2 py-1 text-xs text-white">
+                                                            {getDifferenceInDays(
+                                                                habit.streakEndDate,
+                                                                habit.streakStartDate,
+                                                            )}
+                                                        </span>
                                                         {habit.description !==
                                                             "" && (
                                                             <p className="mt-1 line-clamp-2 text-sm text-slate-400">

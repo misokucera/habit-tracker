@@ -49,13 +49,22 @@ export const getHabit = async (
     );
 
     if (snapshot.exists()) {
-        const { name, days, description, order } = snapshot.data();
+        const {
+            name,
+            days,
+            description,
+            order,
+            streakStartDate,
+            streakEndDate,
+        } = snapshot.data();
         return {
             id: habitId,
             name,
             days,
             description,
             order,
+            streakStartDate: streakStartDate?.toDate() || null,
+            streakEndDate: streakEndDate?.toDate() || null,
         };
     }
 
