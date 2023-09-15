@@ -5,6 +5,7 @@ import { addStatus, removeStatus } from "../services/statuses";
 import { useUserId } from "@/features/auth/hooks/useUserId";
 import { useStatusesContext } from "../contexts/StatusesContexts";
 import { Fragment } from "react";
+import { HiXMark } from "react-icons/hi2";
 
 type Props = {
     habit: Habit;
@@ -41,16 +42,29 @@ const StatusList = ({ habit, daysInPast }: Props) => {
         <>
             {days.map((day) => (
                 <Fragment key={day}>
-                    <StatusButton
-                        status={findStatus(habit.id, day)}
-                        dayInPast={day}
-                        isOptional={!habit.days.includes(getWeekdayInPast(day))}
-                        isLoading={day >= lastSelectedDays}
-                        onAdded={() =>
-                            handleStatusAdd(habit.id, getDateInPast(day))
-                        }
-                        onRemoved={(statusId) => handleStatusRemove(statusId)}
-                    />
+                    {habit.dateCreated <= getDateInPast(day) ? (
+                        <StatusButton
+                            status={findStatus(habit.id, day)}
+                            dayInPast={day}
+                            isOptional={
+                                !habit.days.includes(getWeekdayInPast(day))
+                            }
+                            isLoading={day >= lastSelectedDays}
+                            onAdded={() =>
+                                handleStatusAdd(habit.id, getDateInPast(day))
+                            }
+                            onRemoved={(statusId) =>
+                                handleStatusRemove(statusId)
+                            }
+                        />
+                    ) : (
+                        <div
+                            className="flex w-16 items-center justify-center"
+                            title="Not available"
+                        >
+                            <HiXMark className="text-slate-400" />
+                        </div>
+                    )}
                 </Fragment>
             ))}
         </>
