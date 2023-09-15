@@ -2,7 +2,7 @@ import {
     getWeekdayInPast,
     getDateInPast,
     normalizeDate,
-    formatDateInPast,
+    formatLongDate,
 } from "@/utils/day";
 import ChangeStatusButton from "./ChangeStatusButton";
 import { Habit } from "../contexts/HabitsContexts";
@@ -63,14 +63,14 @@ const DailyStatusCells = ({ habit, daysInPast }: Props) => {
     return (
         <>
             {days.map((day) => (
-                <td
+                <div
                     key={day}
                     className={classNames(
-                        "p-2 text-center transition-all sm:p-3",
+                        "flex w-16 items-center justify-center p-2 text-center transition-all sm:p-3",
                         getBackgroundClass(day),
                         { "opacity-30": day >= lastSelectedDays },
                     )}
-                    title={formatDateInPast(day)}
+                    title={formatLongDate(getDateInPast(day))}
                 >
                     <ChangeStatusButton
                         status={findStatus(habit.id, day)}
@@ -80,7 +80,7 @@ const DailyStatusCells = ({ habit, daysInPast }: Props) => {
                         }
                         onRemoved={(statusId) => handleStatusRemove(statusId)}
                     />
-                </td>
+                </div>
             ))}
         </>
     );

@@ -1,5 +1,5 @@
 import ChangeStatusButton from "./ChangeStatusButton";
-import { formatDateInPast, getDateInPast, normalizeDate } from "@/utils/day";
+import { formatLongDate, getDateInPast, normalizeDate } from "@/utils/day";
 import { addStatus, removeStatus } from "../services/statuses";
 import { useUserId } from "@/features/auth/hooks/useUserId";
 import classNames from "classnames";
@@ -47,7 +47,7 @@ const StatusList = ({ selectedDays, habitId }: Props) => {
                         "opacity-30": day >= lastSelectedDays,
                     })}
                     key={day}
-                    title={formatDateInPast(day)}
+                    title={formatLongDate(getDateInPast(day))}
                 >
                     <ChangeStatusButton
                         status={findStatus(habitId, day)}

@@ -17,10 +17,17 @@ export const getWeekdayInPast = (daysPassed: number): number => {
     return dayjs(getDateInPast(daysPassed)).day();
 };
 
-export const formatDateInPast = (daysPassed: number): string => {
-    return getDateInPast(daysPassed).toLocaleDateString(locale, {
+export const formatShortDate = (date: Date): string => {
+    return date.toLocaleDateString(locale, {
         day: "numeric",
         month: "numeric",
-        weekday: "short",
+    });
+};
+
+export const formatLongDate = (date: Date): string => {
+    return date.toLocaleDateString(locale, {
+        day: "numeric",
+        month: "numeric",
+        weekday: "long",
     });
 };

@@ -27,14 +27,14 @@ const SortableTableRow = ({ id, children }: Props) => {
     };
 
     return (
-        <tr
+        <div
             ref={setNodeRef}
             style={style}
-            className={classNames({
+            className={classNames("flex", {
                 "opacity-70": isDragging,
             })}
         >
-            <td>
+            <div className="flex items-center">
                 <IconButton
                     variant="light"
                     {...attributes}
@@ -43,9 +43,9 @@ const SortableTableRow = ({ id, children }: Props) => {
                 >
                     <MdDragIndicator />
                 </IconButton>
-            </td>
+            </div>
             {children}
-        </tr>
+        </div>
     );
 };
 

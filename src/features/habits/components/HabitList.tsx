@@ -6,7 +6,7 @@ import { HabitFormValues } from "./HabitForm";
 import dayjs from "dayjs";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import { addHabit } from "../services/habits";
-import { formatDateInPast } from "@/utils/day";
+import { formatLongDate, formatShortDate, getDateInPast } from "@/utils/day";
 import Link from "next/link";
 import Headline from "@/components/ui/Headline";
 import { useElementWidthOnViewportChange } from "../hooks/useElementWidthOnViewportChange";
@@ -119,22 +119,23 @@ const HabitList = () => {
             {fetching && <Skeleton />}
             {!fetching && habits.length > 0 && (
                 <div className="overflow-auto" ref={tableParentRef}>
-                    <table className="w-full">
-                        <thead>
-                            <tr className="border-b">
-                                <th></th>
-                                <th></th>
+                    <div className="w-full">
+                        <div>
+                            <div className="flex justify-end border-b">
                                 {days.map((day) => (
-                                    <th
+                                    <div
                                         key={day}
-                                        className="whitespace-nowrap p-2 text-xs font-normal text-slate-700"
+                                        title={formatLongDate(
+                                            getDateInPast(day),
+                                        )}
+                                        className="w-16 whitespace-nowrap p-2 text-center text-xs font-normal text-slate-700"
                                     >
-                                        {formatDateInPast(day)}
-                                    </th>
+                                        {formatShortDate(getDateInPast(day))}
+                                    </div>
                                 ))}
-                            </tr>
-                        </thead>
-                        <tbody>
+                            </div>
+                        </div>
+                        <div>
                             <StatusesProvider selectedDays={numberOfDaysToShow}>
                                 <DndContext
                                     onDragEnd={handleDragEnd}
@@ -155,7 +156,7 @@ const HabitList = () => {
                                                 key={habit.id}
                                                 id={habit.id}
                                             >
-                                                <td className="px-2 py-3 align-middle sm:p-3 md:pr-6">
+                                                <div className="flex flex-1 items-center px-2 py-3 sm:p-3 md:pr-6">
                                                     <Link
                                                         href={`/detail/${habit.id}`}
                                                         className="group/link focus-visible:outline-none"
@@ -172,7 +173,7 @@ const HabitList = () => {
                                                             </p>
                                                         )}
                                                     </Link>
-                                                </td>
+                                                </div>
 
                                                 <DailyStatusCells
                                                     habit={habit}
@@ -185,8 +186,8 @@ const HabitList = () => {
                                     </SortableContext>
                                 </DndContext>
                             </StatusesProvider>
-                        </tbody>
-                    </table>
+                        </div>
+                    </div>
                 </div>
             )}
             {!fetching && habits.length === 0 && (
