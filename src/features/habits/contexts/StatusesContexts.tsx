@@ -20,24 +20,16 @@ const createStatusFromDocument = (
         id: doc.id,
         ...doc.data(),
         date: doc.data().date.toDate(),
-        type: doc.data()?.type ?? "success",
     });
 };
 
 const schema = z.object({
     id: z.string(),
     habitId: z.string(),
-    type: z.union([
-        z.literal("unknown"),
-        z.literal("success"),
-        z.literal("failure"),
-        z.literal("blocker"),
-    ]),
     date: z.date(),
 });
 
 export type Status = z.infer<typeof schema>;
-export type StatusType = Status["type"];
 
 type StatusesContext = {
     statuses: Status[];

@@ -1,18 +1,16 @@
 import ChangeStatusButton from "./ChangeStatusButton";
 import { formatDateInPast, getDateInPast, normalizeDate } from "@/utils/day";
-import { addStatus, changeStatus } from "../services/statuses";
+import { addStatus, removeStatus } from "../services/statuses";
 import { useUserId } from "@/features/auth/hooks/useUserId";
 import classNames from "classnames";
-import { StatusType, useStatusesContext } from "../contexts/StatusesContexts";
-import { getStatusBackgroundClass } from "../services/statusTypes";
-import { Habit } from "../contexts/HabitsContexts";
+import { useStatusesContext } from "../contexts/StatusesContexts";
 
 type Props = {
-    habit: Habit;
+    habitId: string;
     selectedDays: number;
 };
 
-const StatusList = ({ selectedDays, habit }: Props) => {
+const StatusList = ({ selectedDays, habitId }: Props) => {
     const { statuses, lastSelectedDays } = useStatusesContext();
     const userId = useUserId();
 
@@ -31,44 +29,31 @@ const StatusList = ({ selectedDays, habit }: Props) => {
         );
     };
 
-    const handleStatusAdd = async (
-        habitId: string,
-        type: StatusType,
-        date: Date,
-    ) => {
-        await addStatus(userId, habitId, type, date);
+    const handleStatusAdd = async (habitId: string, date: Date) => {
+        await addStatus(userId, habitId, date);
     };
 
-    const handleStatusChange = async (statusId: string, type: StatusType) => {
-        await changeStatus(userId, statusId, type);
+    const handleStatusRemove = async (statusId: string) => {
+        await removeStatus(userId, statusId);
     };
 
     return (
         <div className="flex flex-wrap">
             {days.map((day) => (
                 <div
-                    className={classNames(
-                        "p-2 transition-all",
-                        getStatusBackgroundClass(
-                            day,
-                            habit,
-                            findStatus(habit.id, day),
-                        ),
-                        {
-                            "opacity-30": day >= lastSelectedDays,
-                        },
-                    )}
+                    className={classNames("p-2 transition-all", {
+                        "bg-lime-100": findStatus(habitId, day),
+                        "opacity-30": day >= lastSelectedDays,
+                    })}
                     key={day}
                     title={formatDateInPast(day)}
                 >
                     <ChangeStatusButton
-                        status={findStatus(habit.id, day)}
-                        onAdd={(type) =>
-                            handleStatusAdd(habit.id, type, getDateInPast(day))
+                        status={findStatus(habitId, day)}
+                        onAdded={() =>
+                            handleStatusAdd(habitId, getDateInPast(day))
                         }
-                        onChange={(statusId, type) =>
-                            handleStatusChange(statusId, type)
-                        }
+                        onRemoved={(statusId) => handleStatusRemove(statusId)}
                     />
                 </div>
             ))}
