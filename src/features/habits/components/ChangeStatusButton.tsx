@@ -1,8 +1,11 @@
 import classNames from "classnames";
 import { Status } from "../contexts/StatusesContexts";
+import { formatLongDate, getDateInPast, getWeekdayInPast } from "@/utils/day";
 
 type Props = {
     status: Status | null;
+    isOptional: boolean;
+    isLoading: boolean;
     dayInPast: number;
     onAdded: () => void;
     onRemoved: (statusId: string) => void;
@@ -11,6 +14,8 @@ type Props = {
 const ChangeStatusButton = ({
     status,
     dayInPast,
+    isOptional,
+    isLoading,
     onAdded,
     onRemoved,
 }: Props) => {
@@ -22,8 +27,31 @@ const ChangeStatusButton = ({
         }
     };
 
+    const getBackgroundClass = () => {
+        if (status) {
+            return "bg-lime-100";
+        }
+
+        if (dayInPast > 0) {
+            return "bg-amber-100";
+        }
+
+        if (isOptional) {
+            return "bg-slate-100";
+        }
+
+        return "";
+    };
+
     return (
-        <div>
+        <div
+            className={classNames(
+                "flex w-16 items-center justify-center p-2 text-center transition-all sm:p-3",
+                getBackgroundClass(),
+                { "opacity-30": isLoading },
+            )}
+            title={formatLongDate(getDateInPast(dayInPast))}
+        >
             <button
                 onClick={handleClick}
                 className={classNames(

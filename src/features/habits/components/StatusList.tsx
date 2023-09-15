@@ -1,15 +1,10 @@
-import {
-    getWeekdayInPast,
-    getDateInPast,
-    normalizeDate,
-    formatLongDate,
-} from "@/utils/day";
+import { getWeekdayInPast, getDateInPast, normalizeDate } from "@/utils/day";
 import ChangeStatusButton from "./ChangeStatusButton";
 import { Habit } from "../contexts/HabitsContexts";
 import { addStatus, removeStatus } from "../services/statuses";
-import classNames from "classnames";
 import { useUserId } from "@/features/auth/hooks/useUserId";
 import { useStatusesContext } from "../contexts/StatusesContexts";
+import { Fragment } from "react";
 
 type Props = {
     habit: Habit;
@@ -42,45 +37,21 @@ const StatusList = ({ habit, daysInPast }: Props) => {
         );
     };
 
-    const getBackgroundClass = (day: number) => {
-        const status = findStatus(habit.id, day);
-
-        if (status) {
-            return "bg-lime-100";
-        }
-
-        if (day > 0) {
-            return "bg-amber-100";
-        }
-
-        if (!habit.days.includes(getWeekdayInPast(day))) {
-            return "bg-slate-100";
-        }
-
-        return "";
-    };
-
     return (
         <>
             {days.map((day) => (
-                <div
-                    key={day}
-                    className={classNames(
-                        "flex w-16 items-center justify-center p-2 text-center transition-all sm:p-3",
-                        getBackgroundClass(day),
-                        { "opacity-30": day >= lastSelectedDays },
-                    )}
-                    title={formatLongDate(getDateInPast(day))}
-                >
+                <Fragment key={day}>
                     <ChangeStatusButton
                         status={findStatus(habit.id, day)}
                         dayInPast={day}
+                        isOptional={!habit.days.includes(getWeekdayInPast(day))}
+                        isLoading={day >= lastSelectedDays}
                         onAdded={() =>
                             handleStatusAdd(habit.id, getDateInPast(day))
                         }
                         onRemoved={(statusId) => handleStatusRemove(statusId)}
                     />
-                </div>
+                </Fragment>
             ))}
         </>
     );
