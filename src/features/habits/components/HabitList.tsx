@@ -11,7 +11,7 @@ import Link from "next/link";
 import Headline from "@/components/ui/Headline";
 import { useElementWidthOnViewportChange } from "../hooks/useElementWidthOnViewportChange";
 import Button from "@/components/ui/Button";
-import DailyStatusCells from "./DailyStatusCells";
+import StatusList from "./StatusList";
 import { useUserId } from "@/features/auth/hooks/useUserId";
 import {
     DndContext,
@@ -175,7 +175,7 @@ const HabitList = () => {
                                                     </Link>
                                                 </div>
 
-                                                <DailyStatusCells
+                                                <StatusList
                                                     habit={habit}
                                                     daysInPast={
                                                         numberOfDaysToShow

@@ -8,13 +8,13 @@ import { useState } from "react";
 import Dialog from "@/components/ui/Dialog";
 import HabitForm, { HabitFormValues } from "./HabitForm";
 import { useUserId } from "@/features/auth/hooks/useUserId";
-import StatusList from "./StatusList";
 import { RadioGroup } from "@headlessui/react";
 import StatusPeriodOption from "./StatusPeriodOption";
 import { HiArrowLeft } from "react-icons/hi";
 import Link from "next/link";
 import { useHabitsContext } from "../contexts/HabitsContexts";
 import { StatusesProvider } from "../contexts/StatusesContexts";
+import StatusList from "./StatusList";
 
 type Props = {
     habitId: string;
@@ -117,7 +117,9 @@ const HabitDetail = ({ habitId }: Props) => {
                 </div>
             </RadioGroup>
             <StatusesProvider selectedDays={selectedDays} habitId={habitId}>
-                <StatusList habitId={habitId} selectedDays={selectedDays} />
+                <div className="flex flex-wrap">
+                    <StatusList daysInPast={selectedDays} habit={habit} />
+                </div>
             </StatusesProvider>
             <Dialog
                 open={openRemoveDialog}

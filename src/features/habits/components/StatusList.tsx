@@ -1,20 +1,33 @@
+import {
+    getWeekdayInPast,
+    getDateInPast,
+    normalizeDate,
+    formatLongDate,
+} from "@/utils/day";
 import ChangeStatusButton from "./ChangeStatusButton";
-import { formatLongDate, getDateInPast, normalizeDate } from "@/utils/day";
+import { Habit } from "../contexts/HabitsContexts";
 import { addStatus, removeStatus } from "../services/statuses";
-import { useUserId } from "@/features/auth/hooks/useUserId";
 import classNames from "classnames";
+import { useUserId } from "@/features/auth/hooks/useUserId";
 import { useStatusesContext } from "../contexts/StatusesContexts";
 
 type Props = {
-    habitId: string;
-    selectedDays: number;
+    habit: Habit;
+    daysInPast: number;
 };
 
-const StatusList = ({ selectedDays, habitId }: Props) => {
+const StatusList = ({ habit, daysInPast }: Props) => {
     const { statuses, lastSelectedDays } = useStatusesContext();
     const userId = useUserId();
+    const days = Array.from(Array(daysInPast).keys());
 
-    const days = Array.from(Array(selectedDays).keys());
+    const handleStatusAdd = async (habitId: string, date: Date) => {
+        await addStatus(userId, habitId, date);
+    };
+
+    const handleStatusRemove = async (statusId: string) => {
+        await removeStatus(userId, statusId);
+    };
 
     const findStatus = (habitId: string, day: number) => {
         const dateInPast = getDateInPast(day);
@@ -29,37 +42,47 @@ const StatusList = ({ selectedDays, habitId }: Props) => {
         );
     };
 
-    const handleStatusAdd = async (habitId: string, date: Date) => {
-        await addStatus(userId, habitId, date);
-    };
+    const getBackgroundClass = (day: number) => {
+        const status = findStatus(habit.id, day);
 
-    const handleStatusRemove = async (statusId: string) => {
-        await removeStatus(userId, statusId);
+        if (status) {
+            return "bg-lime-100";
+        }
+
+        if (day > 0) {
+            return "bg-amber-100";
+        }
+
+        if (!habit.days.includes(getWeekdayInPast(day))) {
+            return "bg-slate-100";
+        }
+
+        return "";
     };
 
     return (
-        <div className="flex flex-wrap">
+        <>
             {days.map((day) => (
                 <div
-                    className={classNames("p-2 transition-all", {
-                        "bg-lime-100": findStatus(habitId, day),
-                        "bg-amber-100": !findStatus(habitId, day) && day > 0,
-                        "opacity-30": day >= lastSelectedDays,
-                    })}
                     key={day}
+                    className={classNames(
+                        "flex w-16 items-center justify-center p-2 text-center transition-all sm:p-3",
+                        getBackgroundClass(day),
+                        { "opacity-30": day >= lastSelectedDays },
+                    )}
                     title={formatLongDate(getDateInPast(day))}
                 >
                     <ChangeStatusButton
-                        status={findStatus(habitId, day)}
+                        status={findStatus(habit.id, day)}
                         dayInPast={day}
                         onAdded={() =>
-                            handleStatusAdd(habitId, getDateInPast(day))
+                            handleStatusAdd(habit.id, getDateInPast(day))
                         }
                         onRemoved={(statusId) => handleStatusRemove(statusId)}
                     />
                 </div>
             ))}
-        </div>
+        </>
     );
 };
 
