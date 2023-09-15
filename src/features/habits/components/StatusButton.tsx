@@ -11,7 +11,7 @@ type Props = {
     onRemoved: (statusId: string) => void;
 };
 
-const ChangeStatusButton = ({
+const StatusButton = ({
     status,
     dayInPast,
     isOptional,
@@ -77,4 +77,4 @@ const ChangeStatusButton = ({
     );
 };
 
-export default ChangeStatusButton;
+export default StatusButton;

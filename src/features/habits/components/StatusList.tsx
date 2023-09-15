@@ -1,5 +1,5 @@
 import { getWeekdayInPast, getDateInPast, normalizeDate } from "@/utils/day";
-import ChangeStatusButton from "./ChangeStatusButton";
+import StatusButton from "./StatusButton";
 import { Habit } from "../contexts/HabitsContexts";
 import { addStatus, removeStatus } from "../services/statuses";
 import { useUserId } from "@/features/auth/hooks/useUserId";
@@ -41,7 +41,7 @@ const StatusList = ({ habit, daysInPast }: Props) => {
         <>
             {days.map((day) => (
                 <Fragment key={day}>
-                    <ChangeStatusButton
+                    <StatusButton
                         status={findStatus(habit.id, day)}
                         dayInPast={day}
                         isOptional={!habit.days.includes(getWeekdayInPast(day))}
