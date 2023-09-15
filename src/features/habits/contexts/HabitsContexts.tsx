@@ -21,6 +21,8 @@ const createHabitFromDocument = (
     return schema.parse({
         id: doc.id,
         ...doc.data(),
+        dateCreated: doc.data().dateCreated.toDate(),
+        dateUpdated: doc.data().dateUpdated.toDate(),
     });
 };
 
@@ -30,6 +32,8 @@ const schema = z.object({
     description: z.optional(z.string()),
     days: z.array(z.number()),
     order: z.number(),
+    dateCreated: z.date(),
+    dateUpdated: z.date(),
 });
 
 export type Habit = z.infer<typeof schema>;
