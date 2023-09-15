@@ -31,7 +31,7 @@ import {
     sortableKeyboardCoordinates,
     verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import SortableTableRow from "./SortableTableRow";
+import SortableRow from "./SortableRow";
 import {
     restrictToParentElement,
     restrictToVerticalAxis,
@@ -152,7 +152,7 @@ const HabitList = () => {
                                         strategy={verticalListSortingStrategy}
                                     >
                                         {habits.map((habit) => (
-                                            <SortableTableRow
+                                            <SortableRow
                                                 key={habit.id}
                                                 id={habit.id}
                                             >
@@ -181,7 +181,7 @@ const HabitList = () => {
                                                         numberOfDaysToShow
                                                     }
                                                 />
-                                            </SortableTableRow>
+                                            </SortableRow>
                                         ))}
                                     </SortableContext>
                                 </DndContext>

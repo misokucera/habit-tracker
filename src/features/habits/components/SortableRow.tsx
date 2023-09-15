@@ -10,7 +10,7 @@ type Props = {
     children: React.ReactNode;
 };
 
-const SortableTableRow = ({ id, children }: Props) => {
+const SortableRow = ({ id, children }: Props) => {
     const {
         isDragging,
         attributes,
@@ -49,4 +49,4 @@ const SortableTableRow = ({ id, children }: Props) => {
     );
 };
 
-export default SortableTableRow;
+export default SortableRow;
