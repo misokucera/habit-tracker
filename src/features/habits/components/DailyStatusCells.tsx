@@ -49,6 +49,10 @@ const DailyStatusCells = ({ habit, daysInPast }: Props) => {
             return "bg-lime-100";
         }
 
+        if (day > 0) {
+            return "bg-amber-100";
+        }
+
         if (!habit.days.includes(getWeekdayInPast(day))) {
             return "bg-slate-100";
         }
@@ -70,6 +74,7 @@ const DailyStatusCells = ({ habit, daysInPast }: Props) => {
                 >
                     <ChangeStatusButton
                         status={findStatus(habit.id, day)}
+                        dayInPast={day}
                         onAdded={() =>
                             handleStatusAdd(habit.id, getDateInPast(day))
                         }

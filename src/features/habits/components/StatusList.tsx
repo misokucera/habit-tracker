@@ -43,6 +43,7 @@ const StatusList = ({ selectedDays, habitId }: Props) => {
                 <div
                     className={classNames("p-2 transition-all", {
                         "bg-lime-100": findStatus(habitId, day),
+                        "bg-amber-100": !findStatus(habitId, day) && day > 0,
                         "opacity-30": day >= lastSelectedDays,
                     })}
                     key={day}
@@ -50,6 +51,7 @@ const StatusList = ({ selectedDays, habitId }: Props) => {
                 >
                     <ChangeStatusButton
                         status={findStatus(habitId, day)}
+                        dayInPast={day}
                         onAdded={() =>
                             handleStatusAdd(habitId, getDateInPast(day))
                         }
