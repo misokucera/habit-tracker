@@ -42,8 +42,8 @@ import { StatusesProvider } from "../contexts/StatusesContexts";
 
 dayjs.extend(localizedFormat);
 
-const expectedCellWidth = 100;
-const minCellCount = 3;
+const expectedStatusButtonWidth = 64;
+const minDaysToShow = 1;
 
 const HabitList = () => {
     const { habits, fetching, reorder } = useHabitsContext();
@@ -53,7 +53,7 @@ const HabitList = () => {
     const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
     const userId = useUserId();
     const tableParentRef = useRef<HTMLDivElement>(null);
-    const [numberOfDaysToShow, setNumberOfDaysToShow] = useState(4);
+    const [numberOfDaysToShow, setNumberOfDaysToShow] = useState(minDaysToShow);
     const tableWidth = useElementWidthOnViewportChange(tableParentRef);
 
     const sensors = useSensors(
@@ -66,7 +66,10 @@ const HabitList = () => {
 
     useEffect(() => {
         setNumberOfDaysToShow(
-            Math.max(Math.floor(tableWidth / expectedCellWidth), minCellCount),
+            Math.max(
+                Math.floor(tableWidth / expectedStatusButtonWidth),
+                minDaysToShow,
+            ),
         );
     }, [tableWidth]);
 
@@ -118,75 +121,74 @@ const HabitList = () => {
             </div>
             {fetching && <Skeleton />}
             {!fetching && habits.length > 0 && (
-                <div className="overflow-auto" ref={tableParentRef}>
-                    <div className="w-full">
-                        <div>
-                            <div className="flex justify-end border-b">
-                                {days.map((day) => (
-                                    <div
-                                        key={day}
-                                        title={formatLongDate(
-                                            getDateInPast(day),
-                                        )}
-                                        className="w-16 whitespace-nowrap p-2 text-center text-xs font-normal text-slate-700"
-                                    >
-                                        {formatShortDate(getDateInPast(day))}
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                        <div>
-                            <StatusesProvider selectedDays={numberOfDaysToShow}>
-                                <DndContext
-                                    onDragEnd={handleDragEnd}
-                                    onDragStart={handleDragStart}
-                                    collisionDetection={closestCenter}
-                                    sensors={sensors}
-                                    modifiers={[
-                                        restrictToVerticalAxis,
-                                        restrictToParentElement,
-                                    ]}
+                <div className="w-full">
+                    <div>
+                        <div className="flex justify-end border-b">
+                            {days.map((day) => (
+                                <div
+                                    key={day}
+                                    title={formatLongDate(getDateInPast(day))}
+                                    className="w-16 whitespace-nowrap p-2 text-center text-xs font-normal text-slate-700"
                                 >
-                                    <SortableContext
-                                        items={habits}
-                                        strategy={verticalListSortingStrategy}
-                                    >
-                                        {habits.map((habit) => (
-                                            <SortableRow
-                                                key={habit.id}
-                                                id={habit.id}
-                                            >
-                                                <div className="flex flex-1 items-center px-2 py-3 sm:p-3 md:pr-6">
-                                                    <Link
-                                                        href={`/detail/${habit.id}`}
-                                                        className="group/link focus-visible:outline-none"
-                                                    >
-                                                        <p className="line-clamp-2 font-medium text-slate-700 group-hover/link:text-violet-400 group-hover/link:underline group-hover/link:underline-offset-2 group-focus-visible/link:text-violet-400 group-focus-visible/link:underline group-focus-visible/link:underline-offset-2">
-                                                            {habit.name}
+                                    {formatShortDate(getDateInPast(day))}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                    <div>
+                        <StatusesProvider selectedDays={numberOfDaysToShow}>
+                            <DndContext
+                                onDragEnd={handleDragEnd}
+                                onDragStart={handleDragStart}
+                                collisionDetection={closestCenter}
+                                sensors={sensors}
+                                modifiers={[
+                                    restrictToVerticalAxis,
+                                    restrictToParentElement,
+                                ]}
+                            >
+                                <SortableContext
+                                    items={habits}
+                                    strategy={verticalListSortingStrategy}
+                                >
+                                    {habits.map((habit) => (
+                                        <SortableRow
+                                            key={habit.id}
+                                            id={habit.id}
+                                        >
+                                            <div className="flex max-w-xs flex-auto items-center px-2 py-3 sm:p-3 md:max-w-sm md:pr-6">
+                                                <Link
+                                                    href={`/detail/${habit.id}`}
+                                                    className="group/link focus-visible:outline-none"
+                                                >
+                                                    <p className="line-clamp-2 font-medium text-slate-700 group-hover/link:text-violet-400 group-hover/link:underline group-hover/link:underline-offset-2 group-focus-visible/link:text-violet-400 group-focus-visible/link:underline group-focus-visible/link:underline-offset-2">
+                                                        {habit.name}
+                                                    </p>
+                                                    {habit.description !==
+                                                        "" && (
+                                                        <p className="mt-1 line-clamp-2 text-sm text-slate-400">
+                                                            {habit.description}
                                                         </p>
-                                                        {habit.description !==
-                                                            "" && (
-                                                            <p className="mt-1 line-clamp-2 text-sm text-slate-400">
-                                                                {
-                                                                    habit.description
-                                                                }
-                                                            </p>
-                                                        )}
-                                                    </Link>
-                                                </div>
+                                                    )}
+                                                </Link>
+                                            </div>
 
+                                            <div
+                                                ref={tableParentRef}
+                                                className="flex flex-1 justify-end"
+                                            >
                                                 <StatusList
                                                     habit={habit}
                                                     daysInPast={
                                                         numberOfDaysToShow
                                                     }
                                                 />
-                                            </SortableRow>
-                                        ))}
-                                    </SortableContext>
-                                </DndContext>
-                            </StatusesProvider>
-                        </div>
+                                            </div>
+                                        </SortableRow>
+                                    ))}
+                                </SortableContext>
+                            </DndContext>
+                        </StatusesProvider>
                     </div>
                 </div>
             )}

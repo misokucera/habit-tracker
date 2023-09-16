@@ -46,7 +46,7 @@ const StatusButton = ({
     return (
         <div
             className={classNames(
-                "flex w-16 items-center justify-center p-2 text-center transition-all sm:p-3",
+                "flex w-16 shrink-0 items-center justify-center p-3 text-center transition-all",
                 getBackgroundClass(),
                 { "opacity-30": isLoading },
             )}
