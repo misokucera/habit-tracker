@@ -15,22 +15,21 @@ Application is built on Next.js and hosted on Vercel. Authentication and databas
 
 ## Getting started
 
-You can run application by yourself, but first, you need to create Firebase project with:
+You can run application by yourself, but first, you need to create your own [Firebase project](https://firebase.google.com/) with:
 
 -   **Authentication** with enabled following sign-in methods: Google, Anonymous
--   **Firestore** database with index on *statuses* collection (please follow steps in console error after first run)
+-   **Firestore** database with index on _statuses_ collection (please follow steps in console error after first run)
 
-After that, you will need to create a .env file at the root of the project and include the following variables:
-```env
-NEXT_PUBLIC_API_KEY="..."
-NEXT_PUBLIC_PROJECT_ID="..."
-NEXT_PUBLIC_MESSAGING_SENDER_ID="..."
-NEXT_PUBLIC_APP_ID="..."
+After that, you will need to create a .env file at the root of the project by copying .env.example:
+
+```
+cp .env.example .env
 ```
 
 Values are available at you Firebase project.
 
 To start application locally run commands:
+
 ```
 npm install
 
@@ -38,5 +37,5 @@ npm run dev
 ```
 
 ## Next steps
-- Add streak counter (for every habit)
-- Add multiple status options for every day (`success`, `failure`, `obstacle`)
+
+-   Add streak counter (for every habit)
