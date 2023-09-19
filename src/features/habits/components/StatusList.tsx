@@ -10,9 +10,10 @@ import { HiXMark } from "react-icons/hi2";
 type Props = {
     habit: Habit;
     daysInPast: number;
+    fillEmptyDays?: boolean;
 };
 
-const StatusList = ({ habit, daysInPast }: Props) => {
+const StatusList = ({ habit, daysInPast, fillEmptyDays }: Props) => {
     const { statuses, lastSelectedDays } = useStatusesContext();
     const userId = useUserId();
     const days = Array.from(Array(daysInPast).keys());
@@ -42,7 +43,7 @@ const StatusList = ({ habit, daysInPast }: Props) => {
         <>
             {days.map((day) => (
                 <Fragment key={day}>
-                    {habit.dateCreated <= getDateInPast(day) ? (
+                    {habit.dateCreated <= getDateInPast(day) && (
                         <StatusButton
                             status={findStatus(habit.id, day)}
                             dayInPast={day}
@@ -57,14 +58,17 @@ const StatusList = ({ habit, daysInPast }: Props) => {
                                 handleStatusRemove(statusId)
                             }
                         />
-                    ) : (
-                        <div
-                            className="flex w-16 items-center justify-center"
-                            title="Not available"
-                        >
-                            <HiXMark className="text-slate-400" />
-                        </div>
                     )}
+
+                    {habit.dateCreated > getDateInPast(day) &&
+                        fillEmptyDays && (
+                            <div
+                                className="flex w-16 items-center justify-center"
+                                title="Not available"
+                            >
+                                <HiXMark className="text-slate-400" />
+                            </div>
+                        )}
                 </Fragment>
             ))}
         </>

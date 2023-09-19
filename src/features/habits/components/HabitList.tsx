@@ -182,6 +182,7 @@ const HabitList = () => {
                                                     daysInPast={
                                                         numberOfDaysToShow
                                                     }
+                                                    fillEmptyDays
                                                 />
                                             </div>
                                         </SortableRow>
