@@ -14,7 +14,7 @@ type Props = {
 };
 
 const StatusList = ({ habit, daysInPast, fillEmptyDays }: Props) => {
-    const { statuses, lastSelectedDays } = useStatusesContext();
+    const { statuses } = useStatusesContext();
     const userId = useUserId();
     const days = Array.from(Array(daysInPast).keys());
 
@@ -50,7 +50,6 @@ const StatusList = ({ habit, daysInPast, fillEmptyDays }: Props) => {
                             isOptional={
                                 !habit.days.includes(getWeekdayInPast(day))
                             }
-                            isLoading={day >= lastSelectedDays}
                             onAdded={() =>
                                 handleStatusAdd(habit.id, getDateInPast(day))
                             }

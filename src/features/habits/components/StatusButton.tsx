@@ -4,8 +4,8 @@ import { formatLongDate, getDateInPast, getWeekdayInPast } from "@/utils/day";
 
 type Props = {
     status: Status | null;
-    isOptional: boolean;
-    isLoading: boolean;
+    isOptional?: boolean;
+    isLoading?: boolean;
     dayInPast: number;
     onAdded: () => void;
     onRemoved: (statusId: string) => void;
@@ -14,8 +14,8 @@ type Props = {
 const StatusButton = ({
     status,
     dayInPast,
-    isOptional,
-    isLoading,
+    isOptional = false,
+    isLoading = false,
     onAdded,
     onRemoved,
 }: Props) => {
