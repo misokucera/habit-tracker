@@ -52,9 +52,10 @@ const HabitList = () => {
     );
     const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
     const userId = useUserId();
-    const tableParentRef = useRef<HTMLDivElement>(null);
+    const statusListParentRef = useRef<HTMLDivElement>(null);
     const [numberOfDaysToShow, setNumberOfDaysToShow] = useState(minDaysToShow);
-    const tableWidth = useElementWidthOnViewportChange(tableParentRef);
+    const statusListWidth =
+        useElementWidthOnViewportChange(statusListParentRef);
 
     const sensors = useSensors(
         useSensor(MouseSensor),
@@ -67,11 +68,11 @@ const HabitList = () => {
     useEffect(() => {
         setNumberOfDaysToShow(
             Math.max(
-                Math.floor(tableWidth / expectedStatusButtonWidth),
+                Math.floor(statusListWidth / expectedStatusButtonWidth),
                 minDaysToShow,
             ),
         );
-    }, [tableWidth]);
+    }, [statusListWidth]);
 
     const handleFormSubmit = async (data: HabitFormValues) => {
         setIsCreateDialogOpen(false);
@@ -174,7 +175,7 @@ const HabitList = () => {
                                             </div>
 
                                             <div
-                                                ref={tableParentRef}
+                                                ref={statusListParentRef}
                                                 className="flex flex-1 justify-end"
                                             >
                                                 <StatusList
