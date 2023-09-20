@@ -137,7 +137,9 @@ const HabitList = () => {
                         </div>
                     </div>
                     <div>
-                        <StatusesProvider selectedDays={numberOfDaysToShow}>
+                        <StatusesProvider
+                            startDate={getDateInPast(numberOfDaysToShow)}
+                        >
                             <DndContext
                                 onDragEnd={handleDragEnd}
                                 onDragStart={handleDragStart}

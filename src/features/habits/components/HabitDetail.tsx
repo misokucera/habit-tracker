@@ -8,13 +8,12 @@ import { useState } from "react";
 import Dialog from "@/components/ui/Dialog";
 import HabitForm, { HabitFormValues } from "./HabitForm";
 import { useUserId } from "@/features/auth/hooks/useUserId";
-import { RadioGroup } from "@headlessui/react";
-import StatusPeriodOption from "./StatusPeriodOption";
 import { HiArrowLeft } from "react-icons/hi";
 import Link from "next/link";
 import { useHabitsContext } from "../contexts/HabitsContexts";
 import { StatusesProvider } from "../contexts/StatusesContexts";
-import StatusList from "./StatusList";
+import CalendarStatusView from "./CalendarStatusView";
+import { normalizeDate } from "@/utils/day";
 
 type Props = {
     habitId: string;
@@ -26,9 +25,10 @@ const HabitDetail = ({ habitId }: Props) => {
     const { replace } = useRouter();
     const [openRemoveDialog, setOpenRemoveDialog] = useState(false);
     const [openEditDialog, setOpenEditDialog] = useState(false);
-    const [selectedDays, setSelectedDays] = useState(7);
 
     const habit = habits.find((item) => item.id === habitId);
+
+    const today = normalizeDate(new Date());
 
     const handleRemove = async () => {
         removeHabit(userId, habitId);
@@ -79,47 +79,12 @@ const HabitDetail = ({ habitId }: Props) => {
                 </div>
             </div>
             {habit.description && <p className="mb-5">{habit.description}</p>}
-            <RadioGroup value={selectedDays} onChange={setSelectedDays}>
-                <RadioGroup.Label className="mb-3 block text-sm text-slate-500">
-                    Period
-                </RadioGroup.Label>
-                <div className="mb-5 inline-flex overflow-hidden rounded-md focus-within:ring-2 focus-within:ring-violet-200 focus-within:ring-offset-2">
-                    <RadioGroup.Option
-                        value={7}
-                        className="focus-visible: focus:outline-none"
-                    >
-                        {({ checked }) => (
-                            <StatusPeriodOption checked={checked}>
-                                7 days
-                            </StatusPeriodOption>
-                        )}
-                    </RadioGroup.Option>
-                    <RadioGroup.Option
-                        value={30}
-                        className="focus:outline-none"
-                    >
-                        {({ checked }) => (
-                            <StatusPeriodOption checked={checked}>
-                                30 days
-                            </StatusPeriodOption>
-                        )}
-                    </RadioGroup.Option>
-                    <RadioGroup.Option
-                        value={100}
-                        className="focus:outline-none"
-                    >
-                        {({ checked }) => (
-                            <StatusPeriodOption checked={checked}>
-                                100 days
-                            </StatusPeriodOption>
-                        )}
-                    </RadioGroup.Option>
-                </div>
-            </RadioGroup>
-            <StatusesProvider selectedDays={selectedDays} habitId={habitId}>
-                <div className="flex flex-wrap">
-                    <StatusList daysInPast={selectedDays} habit={habit} />
-                </div>
+            <StatusesProvider startDate={habit.dateCreated} habitId={habitId}>
+                <CalendarStatusView
+                    habitId={habitId}
+                    startDate={habit.dateCreated}
+                    endDate={today}
+                />
             </StatusesProvider>
             <Dialog
                 open={openRemoveDialog}
